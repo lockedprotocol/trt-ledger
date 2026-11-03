@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -27,7 +28,7 @@
       <a href="#find">Find clinics</a>
       <a href="#overpaying">Am I overpaying?</a>
       <a href="#labs">Lab tests</a>
-      <a href="trt/">By state</a>
+      <a href="trt/">Browse by state</a>
       <a href="#alerts">Price alerts</a>
     </nav>
     <button type="button" class="icon-btn" id="themeBtn" aria-label="Switch color theme">
@@ -41,9 +42,9 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="kicker">Independent · No paid rankings · Every price sourced</p>
         <h1>See what TRT really costs — and where you can get it.</h1>
         <p class="lede">We add up memberships, intake fees, labs and medication for online clinics, and map in-person clinics across the U.S. Every number links to where we found it.</p>
+        <p class="kicker">Independent · No paid rankings · Every price sourced</p>
         <form class="search" id="zipForm" novalidate>
           <label for="zip" class="sr">Your ZIP code</label>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
@@ -68,7 +69,6 @@
   <section id="find" class="section">
     <div class="wrap">
       <div class="section-head">
-        <p class="step">1 · Your options</p>
         <h2>TRT clinics that can treat you</h2>
         <p class="sub">Online clinics that serve your state, and in-person clinics near your ZIP code.</p>
       </div>
@@ -111,7 +111,19 @@
             <div class="field"><label for="labsPerYear">Lab draws per year</label><input type="number" id="labsPerYear" value="4" min="0" max="12"></div>
           </div>
         </details>
+        <details class="assume terms">
+          <summary>What the terms mean</summary>
+          <dl>
+            <dt>Testosterone only</dt><dd>Hides clinics that only offer enclomiphene, which isn't testosterone.</dd>
+            <dt>Enclomiphene</dt><dd>An oral medication some clinics prescribe instead of testosterone.</dd>
+            <dt>Estrogen blocker</dt><dd>A medication some clinicians prescribe alongside TRT to manage estrogen. Whether it's in the price varies by clinic.</dd>
+            <dt>hCG</dt><dd>A hormone some clinics prescribe alongside testosterone. Most charge extra for it.</dd>
+            <dt>Check your state</dt><dd>The clinic doesn't publish which states it serves. Ask before you sign up.</dd>
+          </dl>
+        </details>
+        <p class="note filter-msg" id="filterMsg" role="status"></p>
         <div class="results" id="results"></div>
+        <button type="button" class="btn-secondary showall" id="showAll" hidden></button>
         <div class="callout">
           <h3>Clinics that don't publish prices</h3>
           <p class="note">You have to talk to their sales team to find out what they cost.</p>
@@ -143,7 +155,6 @@
   <section id="overpaying" class="section band">
     <div class="wrap">
       <div class="section-head">
-        <p class="step">2 · Check your price</p>
         <h2>Am I overpaying for TRT?</h2>
         <p class="sub">Enter what you pay now. We compare it with the online clinics we track that serve — or may serve — your state, including their startup fees.</p>
       </div>
@@ -160,6 +171,7 @@
             <select id="opMed"><option value="">Any / not sure</option><option value="injection">Injection</option><option value="cream">Cream</option><option value="oral">Oral</option></select></div>
           <label class="toggle"><input type="checkbox" id="opNoContract"> Only clinics with no contract</label>
           <p class="note">Your state: <b id="opState">not set</b> · <a href="#top" data-focus="zip">change</a></p>
+          <button type="button" class="see-result" id="seeResult" hidden>See my result ↓</button>
         </form>
         <div class="panel opresult" id="opResult"></div>
         <p class="sr" role="status" id="opStatus"></p>
@@ -170,7 +182,6 @@
   <section id="labs" class="section">
     <div class="wrap">
       <div class="section-head">
-        <p class="step">3 · Bloodwork</p>
         <h2>Order your own lab tests</h2>
         <p class="sub">No doctor visit needed. Not available in NY, NJ or RI.</p>
       </div>
@@ -181,7 +192,6 @@
   <section id="states" class="section">
     <div class="wrap">
       <div class="section-head">
-        <p class="step">4 · Local guides</p>
         <h2>TRT clinics by state</h2>
         <p class="sub">Online options and in-person clinics for every state, with a page for each city.</p>
       </div>
@@ -250,7 +260,7 @@
           <h2>Get an email when TRT gets cheaper</h2>
           <p>We check every clinic's prices each week and only email you when something changes.</p>
         </div>
-        <form class="alert" id="alertForm">
+        <form class="alert" id="alertForm" novalidate>
           <label for="alertEmail" class="sr">Email</label>
           <input type="email" name="email" id="alertEmail" placeholder="you@email.com" required>
           <button type="submit">Notify me</button>
