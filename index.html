@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRT Ledger — what TRT really costs, and where to get it</title>
+<meta name="description" content="Compare online TRT clinics on true first-year cost, find in-person clinics near your ZIP code, and check if you're overpaying. Every price links to its source.">
+<script>
+  // Apply a saved light/dark choice before first paint
+  try { const t = localStorage.getItem('trtTheme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#zip">Skip to ZIP code search</a>
+
+<header class="top">
+  <div class="wrap topbar">
+    <a class="logo" href="#top" aria-label="TRT Ledger home">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/><path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span>TRT<em>Ledger</em></span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#find">Find clinics</a>
+      <a href="#overpaying">Am I overpaying?</a>
+      <a href="#labs">Lab tests</a>
+      <a href="#alerts">Price alerts</a>
+    </nav>
+    <button type="button" class="icon-btn" id="themeBtn" aria-label="Switch color theme">
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">Independent · No paid rankings · Every price sourced</p>
+        <h1>See what TRT really costs — and where you can get it.</h1>
+        <p class="lede">We add up memberships, intake fees, labs and medication for online clinics, and map in-person clinics across the U.S. Every number links to where we found it.</p>
+        <form class="search" id="zipForm" novalidate>
+          <label for="zip" class="sr">Your ZIP code</label>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP code" autocomplete="postal-code" aria-describedby="zipMsg">
+          <button type="submit">Find clinics</button>
+        </form>
+        <div class="search-alt">
+          <p class="note" id="zipMsg" role="status">Your ZIP stays in your browser.</p>
+          <label for="stateTop" class="sr">Or choose your state</label>
+          <select id="stateTop"><option value="">Or choose a state…</option></select>
+        </div>
+      </div>
+      <aside class="hero-stats" aria-label="What we track">
+        <div class="hstat"><b id="statOnline">—</b><span>online clinics compared on first-year cost</span></div>
+        <div class="hstat"><b id="statInPerson">—</b><span>in-person clinics and specialists mapped</span></div>
+        <div class="hstat"><b>Weekly</b><span>price checks against each clinic's own site</span></div>
+        <p class="note">Prices last checked <span id="updated"></span></p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="find" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="step">1 · Your options</p>
+        <h2>TRT clinics that can treat you</h2>
+        <p class="sub">Online clinics that serve your state, and in-person clinics near your ZIP code.</p>
+      </div>
+      <div class="summary" id="summary"></div>
+
+      <div class="seg" role="tablist" aria-label="Kind of clinic">
+        <button role="tab" id="tabOnline" aria-selected="true" aria-controls="compare" data-tab="online">Online clinics <span class="count" id="countOnline"></span></button>
+        <button role="tab" id="tabInperson" aria-selected="false" tabindex="-1" aria-controls="inpersonPane" data-tab="inperson">In person near you <span class="count" id="countInperson"></span></button>
+      </div>
+
+      <div id="compare" role="tabpanel" aria-labelledby="tabOnline">
+        <div class="toolbar">
+          <div class="field"><label for="state">State</label>
+            <select id="state"><option value="">Any state</option></select></div>
+          <div class="field"><label for="form">Medication</label>
+            <select id="form">
+              <option value="">Any</option>
+              <option value="injection">Injection</option>
+              <option value="cream">Cream</option>
+              <option value="oral">Oral</option>
+              <option value="enclomiphene">Enclomiphene</option>
+            </select></div>
+          <div class="field"><label for="sort">Sort by</label>
+            <select id="sort">
+              <option value="y1">First-year cost</option>
+              <option value="upfront">Cost to start</option>
+              <option value="name">Name</option>
+            </select></div>
+          <div class="toggles" role="group" aria-label="Filters">
+            <label class="toggle"><input type="checkbox" id="trtOnly" checked> Testosterone only</label>
+            <label class="toggle"><input type="checkbox" id="labsInc"> Labs included</label>
+            <label class="toggle"><input type="checkbox" id="noContract"> No contract</label>
+          </div>
+        </div>
+        <details class="assume" id="assume">
+          <summary>Cost assumptions <span class="note">— used where a clinic doesn't publish a cost</span></summary>
+          <div class="calc">
+            <div class="field"><label for="medCost">Your medication, $/month</label><input type="number" id="medCost" value="40" min="0"></div>
+            <div class="field"><label for="labCost">Outside lab panel, $</label><input type="number" id="labCost" value="150" min="0"></div>
+            <div class="field"><label for="labsPerYear">Lab draws per year</label><input type="number" id="labsPerYear" value="4" min="0" max="12"></div>
+          </div>
+        </details>
+        <div class="results" id="results"></div>
+        <div class="callout">
+          <h3>Clinics that don't publish prices</h3>
+          <p class="note">You have to talk to their sales team to find out what they cost.</p>
+          <ul id="noPricing"></ul>
+        </div>
+      </div>
+
+      <div id="inpersonPane" role="tabpanel" aria-labelledby="tabInperson" hidden>
+        <div class="panel" id="nearPanel">
+          <div class="nearhead">
+            <h3 id="nearTitle">Clinics near you</h3>
+            <div class="nearctl">
+              <label>Within <select id="nearRadius"><option value="10">10 mi</option><option value="25" selected>25 mi</option><option value="50">50 mi</option><option value="100">100 mi</option></select></label>
+              <label>Sort <select id="nearSort"><option value="type">TRT clinics first</option><option value="dist">Nearest first</option></select></label>
+            </div>
+          </div>
+          <div class="chips" id="nearChips" role="group" aria-label="Clinic types"></div>
+          <ol class="nearlist" id="nearList"></ol>
+          <p class="sr" role="status" id="nearStatus"></p>
+          <button type="button" class="btn-secondary" id="nearMore" hidden>Show more</button>
+          <p class="note" id="nearNote"></p>
+        </div>
+        <h3 class="subhead">Clinic chains with published details</h3>
+        <div class="results chains" id="ipResults"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="overpaying" class="section band">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="step">2 · Check your price</p>
+        <h2>Am I overpaying for TRT?</h2>
+        <p class="sub">Enter what you pay now. We compare it with the online clinics we track that serve — or may serve — your state, including their startup fees.</p>
+      </div>
+      <div class="opwrap">
+        <form class="panel opform" id="opForm" novalidate>
+          <div class="field"><label for="opClinic">Where do you get TRT now?</label>
+            <select id="opClinic"><option value="">Local clinic, my own doctor, or other</option></select></div>
+          <div class="field"><label for="opMonthly">What you pay each month for TRT ($)</label>
+            <input type="number" id="opMonthly" min="0" step="1" inputmode="decimal" placeholder="e.g. 199" aria-describedby="opHint"></div>
+          <p class="hint" id="opHint">Include the membership, medication and supplies. Leave out one-time fees you've already paid.</p>
+          <div class="field"><label for="opLabs">Lab costs per year not in that price ($)</label>
+            <input type="number" id="opLabs" min="0" step="1" inputmode="decimal" placeholder="0" aria-describedby="opHint"></div>
+          <div class="field"><label for="opMed">Medication you use</label>
+            <select id="opMed"><option value="">Any / not sure</option><option value="injection">Injection</option><option value="cream">Cream</option><option value="oral">Oral</option></select></div>
+          <label class="toggle"><input type="checkbox" id="opNoContract"> Only clinics with no contract</label>
+          <p class="note">Your state: <b id="opState">not set</b> · <a href="#top" data-focus="zip">change</a></p>
+        </form>
+        <div class="panel opresult" id="opResult"></div>
+        <p class="sr" role="status" id="opStatus"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="labs" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="step">3 · Bloodwork</p>
+        <h2>Order your own lab tests</h2>
+        <p class="sub">No doctor visit needed. Not available in NY, NJ or RI.</p>
+      </div>
+      <div class="labgrid" id="labRows"></div>
+    </div>
+  </section>
+
+  <section id="alerts" class="section">
+    <div class="wrap">
+      <div class="alert-band">
+        <div>
+          <h2>Get an email when TRT gets cheaper</h2>
+          <p>We check every clinic's prices each week and only email you when something changes.</p>
+        </div>
+        <form class="alert" id="alertForm">
+          <label for="alertEmail" class="sr">Email</label>
+          <input type="email" name="email" id="alertEmail" placeholder="you@email.com" required>
+          <button type="submit">Notify me</button>
+          <p class="note" id="alertMsg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="logo" href="#top"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/><path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg><span>TRT<em>Ledger</em></span></a>
+      <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
+    </div>
+    <div>
+      <h3>How we get our data</h3>
+      <ul>
+        <li>Online clinic prices are read from each clinic's own website every week.</li>
+        <li>In-person clinics come from the federal <a href="https://npiregistry.cms.hhs.gov/" target="_blank" rel="noopener">NPI registry</a> and clinic chains' own location lists, refreshed monthly.</li>
+        <li>ZIP code locations come from the U.S. Census Bureau.</li>
+      </ul>
+      <p class="note" id="freshness"></p>
+    </div>
+    <div>
+      <h3>Important</h3>
+      <p>TRT Ledger is not medical advice and is not a pharmacy or clinic. Prices change; confirm with the provider before you pay. Testosterone is a prescription medication — talk to a licensed clinician.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

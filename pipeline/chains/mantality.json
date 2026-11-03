@@ -1,0 +1,82 @@
+[
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Des Moines, IA",
+    "address": "230 S 68th St Suite 1201",
+    "city": "West Des Moines",
+    "state": "IA",
+    "zip": "50266",
+    "phone": "(515) 644-6544",
+    "url": "https://mantalityhealth.com/locations/des-moines-ia/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Grand Rapids, MI",
+    "address": "1971 E Beltline Ave NE Suite 212",
+    "city": "Grand Rapids",
+    "state": "MI",
+    "zip": "49525",
+    "phone": "(616) 333-0954",
+    "url": "https://mantalityhealth.com/locations/grand-rapids-mi/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Chesterfield, MO",
+    "address": "124 Chesterfield Towne Center",
+    "city": "Chesterfield",
+    "state": "MO",
+    "zip": "63005",
+    "phone": "(314) 887-4571",
+    "url": "https://mantalityhealth.com/locations/chesterfield-mo/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health St. Louis, MO",
+    "address": "4167 Crescent Dr Suite 100",
+    "city": "St. Louis",
+    "state": "MO",
+    "zip": "63129",
+    "phone": "(314) 897-5258",
+    "url": "https://mantalityhealth.com/locations/st-louis-mo/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Omaha, NE",
+    "address": "11704 W Center Rd",
+    "city": "Omaha",
+    "state": "NE",
+    "zip": "68144",
+    "phone": "(402) 403-1551",
+    "url": "https://mantalityhealth.com/locations/omaha-ne/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Cleveland, OH",
+    "address": "1440 Rockside Rd Suite 109",
+    "city": "Parma",
+    "state": "OH",
+    "zip": "44134",
+    "phone": "(216) 377-3933",
+    "url": "https://mantalityhealth.com/locations/cleveland-oh/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Green Bay, WI",
+    "address": "W5361 County Hwy KK",
+    "city": "Appleton",
+    "state": "WI",
+    "zip": "54915",
+    "phone": "(414) 748-8900",
+    "url": "https://mantalityhealth.com/locations/green-bay-wi/"
+  },
+  {
+    "chain": "mantality",
+    "name": "Mantality Health Milwaukee, WI",
+    "address": "2323 N Mayfair Rd",
+    "city": "Wauwatosa",
+    "state": "WI",
+    "zip": "53226",
+    "phone": "(414) 255-2250",
+    "url": "https://mantalityhealth.com/locations/milwaukee-wi/"
+  }
+]

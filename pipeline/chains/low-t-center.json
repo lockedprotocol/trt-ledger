@@ -1,0 +1,592 @@
+[
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Hot Springs",
+    "address": "147 Section Line Rd., Suite G",
+    "city": "Hot Springs",
+    "state": "AR",
+    "zip": "71913",
+    "phone": "501-547-8303",
+    "url": "https://lowtcenter.com/locations/hot-springs/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Little Rock",
+    "address": "10700 N Rodney Parham Road, Suite C11",
+    "city": "Little Rock",
+    "state": "AR",
+    "zip": "72212",
+    "phone": "501-414-0438",
+    "url": "https://lowtcenter.com/locations/little-rock/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Colorado Springs",
+    "address": "5134 N Nevada Avenue, Suite 100",
+    "city": "Colorado Springs",
+    "state": "CO",
+    "zip": "80918",
+    "phone": "719-598-5698",
+    "url": "https://lowtcenter.com/locations/colorado-springs/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Greenwood Village",
+    "address": "5425 Landmark Place, Building D, Suite 105",
+    "city": "Greenwood Village",
+    "state": "CO",
+    "zip": "80111",
+    "phone": "720-445-5698",
+    "url": "https://lowtcenter.com/locations/greenwood-village/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Westminster",
+    "address": "12213 N Pecos St, Suite 700",
+    "city": "Westminster",
+    "state": "CO",
+    "zip": "80234",
+    "phone": "303-451-5698",
+    "url": "https://lowtcenter.com/locations/westminster/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Burr Ridge",
+    "address": "11S250 South Jackson Street Suite 102",
+    "city": "Burr Ridge",
+    "state": "IL",
+    "zip": "60527",
+    "phone": "630-451-9503",
+    "url": "https://lowtcenter.com/locations/synergenx-burr-ridge-2/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Hoffman Estates",
+    "address": "2736 N. Sutton Road",
+    "city": "Hoffman Estates",
+    "state": "IL",
+    "zip": "60192",
+    "phone": "630-560-6329",
+    "url": "https://lowtcenter.com/locations/synergenx-hoffman-estates/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Westmont",
+    "address": "6319 Fairview Ave, Suite 101",
+    "city": "Westmont",
+    "state": "IL",
+    "zip": "60559",
+    "phone": "630-451-9352",
+    "url": "https://lowtcenter.com/locations/westmont/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Indianapolis",
+    "address": "650 W. Carmel Dr., Suite 110",
+    "city": "Carmel",
+    "state": "IN",
+    "zip": "46032",
+    "phone": "317-300-9674",
+    "url": "https://lowtcenter.com/locations/indy/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Greenwood",
+    "address": "549 East County Line Road, Building 4, Suite D",
+    "city": "Greenwood",
+    "state": "IN",
+    "zip": "46143",
+    "phone": "317-300-9674",
+    "url": "https://lowtcenter.com/locations/greenwood/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Independence",
+    "address": "19045 East Valley View Parkway, Suite G",
+    "city": "Independence",
+    "state": "MO",
+    "zip": "64055",
+    "phone": "816-398-7171",
+    "url": "https://lowtcenter.com/locations/independence/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Pineville",
+    "address": "10430 Park Rd, #100A",
+    "city": "Charlotte",
+    "state": "NC",
+    "zip": "28210",
+    "phone": "704-259-7673",
+    "url": "https://lowtcenter.com/locations/pineville/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Gahanna",
+    "address": "1050 Beecher Crossing, Suite E",
+    "city": "Columbus",
+    "state": "OH",
+    "zip": "43230",
+    "phone": "614-656-8141",
+    "url": "https://lowtcenter.com/locations/gahanna/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Dublin",
+    "address": "6275 Emerald Parkway",
+    "city": "Dublin",
+    "state": "OH",
+    "zip": "43016",
+    "phone": "614-792-5698",
+    "url": "https://lowtcenter.com/locations/dublin/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Mason",
+    "address": "5240 Socialville Foster Road",
+    "city": "Mason",
+    "state": "OH",
+    "zip": "45040",
+    "phone": "513-231-5698",
+    "url": "https://lowtcenter.com/locations/mason/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Edmond",
+    "address": "14101 North Eastern Ave, Suite B",
+    "city": "Edmond",
+    "state": "OK",
+    "zip": "73013",
+    "phone": "405-237-5698",
+    "url": "https://lowtcenter.com/locations/edmond/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Tulsa",
+    "address": "10462 South 82nd E Avenue, Suite 107",
+    "city": "Tulsa",
+    "state": "OK",
+    "zip": "74133",
+    "phone": "918-364-5698",
+    "url": "https://lowtcenter.com/locations/tulsa/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Chattanooga",
+    "address": "7480 Ziegler Road, Suite 150",
+    "city": "Chattanooga",
+    "state": "TN",
+    "zip": "37421",
+    "phone": "423-933-2001",
+    "url": "https://lowtcenter.com/locations/chattanooga/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Franklin",
+    "address": "2235 E McEwen Drive",
+    "city": "Franklin",
+    "state": "TN",
+    "zip": "37067",
+    "phone": "615-661-5698",
+    "url": "https://lowtcenter.com/locations/franklin/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Hendersonville",
+    "address": "1531 Hunt Club Blvd, Suite 320",
+    "city": "Gallatin",
+    "state": "TN",
+    "zip": "37066",
+    "phone": "615-452-8989",
+    "url": "https://lowtcenter.com/locations/hendersonville/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Johnson City",
+    "address": "2320 Knob Creek, Suite 404",
+    "city": "Johnson City",
+    "state": "TN",
+    "zip": "37604",
+    "phone": "423-661-7445",
+    "url": "https://lowtcenter.com/locations/johnson-city/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Knoxville, TN",
+    "address": "11039 Parkside Dr",
+    "city": "Knoxville",
+    "state": "TN",
+    "zip": "37934",
+    "phone": "865-392-1388",
+    "url": "https://lowtcenter.com/locations/knoxville/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Murfreesboro",
+    "address": "2855 Medical Center Parkway, Ste B",
+    "city": "Murfreesboro",
+    "state": "TN",
+    "zip": "37129",
+    "phone": "615-603-3542",
+    "url": "https://lowtcenter.com/locations/murfreesboro/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Arlington",
+    "address": "2701 Matlock Road, Suite 109",
+    "city": "Arlington",
+    "state": "TX",
+    "zip": "76015",
+    "phone": "817-717-9002",
+    "url": "https://lowtcenter.com/locations/arlington/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center South Austin",
+    "address": "2500 W William Cannon Dr., Suite 301",
+    "city": "Austin",
+    "state": "TX",
+    "zip": "78745",
+    "phone": "512-373-8475",
+    "url": "https://lowtcenter.com/locations/south-austin/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Cypress",
+    "address": "27002 Northwest Freeway Suite 130",
+    "city": "Cypress",
+    "state": "TX",
+    "zip": "77433",
+    "phone": "832-262-4434",
+    "url": "https://lowtcenter.com/locations/synergenx-cypress/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Walnut Hill",
+    "address": "9820 N. Central Expressway Suite 514",
+    "city": "Dallas",
+    "state": "TX",
+    "zip": "75231",
+    "phone": "469-214-7649",
+    "url": "https://lowtcenter.com/locations/synergenx-walnut-hill/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Alliance",
+    "address": "9427 N Beach St",
+    "city": "Fort Worth",
+    "state": "TX",
+    "zip": "76244",
+    "phone": "817-562-5698",
+    "url": "https://lowtcenter.com/locations/alliance/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Fort Worth",
+    "address": "7033 Bryant Irvin, Suite 200",
+    "city": "Fort Worth",
+    "state": "TX",
+    "zip": "76132",
+    "phone": "817-423-5698",
+    "url": "https://lowtcenter.com/locations/fort-worth/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Friendswood",
+    "address": "121 East Edgewood",
+    "city": "Friendswood",
+    "state": "TX",
+    "zip": "77546",
+    "phone": "281-407-5698",
+    "url": "https://lowtcenter.com/locations/friendswood/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Frisco",
+    "address": "11330 Legacy Dr, Suite 302",
+    "city": "Frisco",
+    "state": "TX",
+    "zip": "75033",
+    "phone": "214-436-4112",
+    "url": "https://lowtcenter.com/locations/frisco/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Prosper",
+    "address": "12025 University Drive Suite 250",
+    "city": "Frisco",
+    "state": "TX",
+    "zip": "75035",
+    "phone": "214-281-4533",
+    "url": "https://lowtcenter.com/locations/synergenx-prosper/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center West Houston Katy",
+    "address": "2222 Greenhouse Rd, Suite 1100",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77084",
+    "phone": "832-391-5303",
+    "url": "https://lowtcenter.com/locations/west-houston/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Houston Galleria",
+    "address": "3845 Southwest Freeway",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77027",
+    "phone": "832-899-5613",
+    "url": "https://lowtcenter.com/locations/synergenx-galleria/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Vintage Park",
+    "address": "130 Vintage Park Blvd Bldg C, Suite H",
+    "city": "Houston",
+    "state": "TX",
+    "zip": "77070",
+    "phone": "832-899-5621",
+    "url": "https://lowtcenter.com/locations/synergenx-vintage-park/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Atascocita",
+    "address": "18321 W. Lake Houston Pkwy Ste 420",
+    "city": "Humble",
+    "state": "TX",
+    "zip": "77346",
+    "phone": "281-531-2000",
+    "url": "https://lowtcenter.com/locations/synergenx-atascocita/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Katy",
+    "address": "24124 Cinco Village Center Blvd #100",
+    "city": "Katy",
+    "state": "TX",
+    "zip": "77494",
+    "phone": "281-764-9494",
+    "url": "https://lowtcenter.com/locations/synergenx-katy/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Kingwood",
+    "address": "2665 Royal Forest Drive Suite B-150",
+    "city": "Kingwood",
+    "state": "TX",
+    "zip": "77339",
+    "phone": "832-899-5618",
+    "url": "https://lowtcenter.com/locations/synergenx-kingwood/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Mansfield",
+    "address": "1601 E Debbie Lane, Suite 1103",
+    "city": "Mansfield",
+    "state": "TX",
+    "zip": "76063",
+    "phone": "817-405-2782",
+    "url": "https://lowtcenter.com/locations/mansfield/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX McKinney",
+    "address": "2251 El Dorado Parkway Suite 200",
+    "city": "McKinney",
+    "state": "TX",
+    "zip": "75070",
+    "phone": "972-597-4469",
+    "url": "https://lowtcenter.com/locations/synergenx-mckinney/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX New Braunfels",
+    "address": "717 North Business IH-35 Suite 130",
+    "city": "New Braunfels",
+    "state": "TX",
+    "zip": "78130",
+    "phone": "830-225-1823",
+    "url": "https://lowtcenter.com/locations/synergenx-new-braunfels/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Pasadena",
+    "address": "3514 Burke Road, Suite 200",
+    "city": "Pasadena",
+    "state": "TX",
+    "zip": "77504",
+    "phone": "832-834-3948",
+    "url": "https://lowtcenter.com/locations/pasadena/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Pflugerville",
+    "address": "1509 Town Center Dr.",
+    "city": "Pflugerville",
+    "state": "TX",
+    "zip": "78660",
+    "phone": "512-250-9202",
+    "url": "https://lowtcenter.com/locations/pflugerville/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Plano",
+    "address": "5953 Dallas Parkway, Suite 200B",
+    "city": "Plano",
+    "state": "TX",
+    "zip": "75093",
+    "phone": "972-378-5698",
+    "url": "https://lowtcenter.com/locations/plano/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Richardson",
+    "address": "3421 Spectrum Blvd, Suite 100",
+    "city": "Richardson",
+    "state": "TX",
+    "zip": "75082",
+    "phone": "972-234-5698",
+    "url": "https://lowtcenter.com/locations/richardson/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Rockwall",
+    "address": "930 W Ralph Hall Parkway, Suite 108",
+    "city": "Rockwall",
+    "state": "TX",
+    "zip": "75032",
+    "phone": "972-961-0300",
+    "url": "https://lowtcenter.com/locations/rockwall/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Alamo Ranch",
+    "address": "7010 W. Loop 1604 N. Suite 207",
+    "city": "San Antonio",
+    "state": "TX",
+    "zip": "78254",
+    "phone": "210-998-6346",
+    "url": "https://lowtcenter.com/locations/synergenx-alamo-ranch/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Northwest SA",
+    "address": "11163 W. Loop 1604 N Suite 203",
+    "city": "San Antonio",
+    "state": "TX",
+    "zip": "78254",
+    "phone": "210-963-7398",
+    "url": "https://lowtcenter.com/locations/synergenx-northwest-san-antonio/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Sonterra",
+    "address": "1202 East Sonterra Blvd Suite 701",
+    "city": "San Antonio",
+    "state": "TX",
+    "zip": "78258",
+    "phone": "210-963-7393",
+    "url": "https://lowtcenter.com/locations/synergenx-sonterra/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Southwest San Antonio",
+    "address": "2113 W Loop 1604 S Access Rd., Suite 204",
+    "city": "San Antonio",
+    "state": "TX",
+    "zip": "78245",
+    "phone": "210-963-7283",
+    "url": "https://lowtcenter.com/locations/sw-san-antonio/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Cibolo",
+    "address": "18238 I-35 North Suite 163",
+    "city": "Schertz",
+    "state": "TX",
+    "zip": "78154",
+    "phone": "210-801-8722",
+    "url": "https://lowtcenter.com/locations/synergenx-cibolo/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Woodlands",
+    "address": "19073 I-45 South Suite 145",
+    "city": "Shenandoah",
+    "state": "TX",
+    "zip": "77385",
+    "phone": "281-362-5580",
+    "url": "https://lowtcenter.com/locations/synergenx-the-woodlands/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center Southlake",
+    "address": "1920 E State Hwy 114",
+    "city": "Southlake",
+    "state": "TX",
+    "zip": "76092",
+    "phone": "817-442-5698",
+    "url": "https://lowtcenter.com/locations/southlake/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "Low T Center The Woodlands",
+    "address": "6886 Woodlands Parkway, Suite D",
+    "city": "Spring",
+    "state": "TX",
+    "zip": "77382",
+    "phone": "281-419-5698",
+    "url": "https://lowtcenter.com/locations/the-woodlands/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Spring",
+    "address": "7202 N. Grand Parkway Suite 400",
+    "city": "Spring",
+    "state": "TX",
+    "zip": "77379",
+    "phone": "281-377-5767",
+    "url": "https://lowtcenter.com/locations/synergenx-spring/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Sugar Land",
+    "address": "15281-B Southwest Freeway",
+    "city": "Sugar Land",
+    "state": "TX",
+    "zip": "77478",
+    "phone": "281-764-8211",
+    "url": "https://lowtcenter.com/locations/synergenx-sugar-land/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Tyler",
+    "address": "419 W Southwest Loop 323, Suite 100",
+    "city": "Tyler",
+    "state": "TX",
+    "zip": "75701",
+    "phone": "903-944-7989",
+    "url": "https://lowtcenter.com/locations/tyler/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Northeast San Antonio",
+    "address": "3150 Pat Booker Road Suite 100",
+    "city": "Universal City",
+    "state": "TX",
+    "zip": "78148",
+    "phone": "210-817-6020",
+    "url": "https://lowtcenter.com/locations/synergenx-northeast-san-antonio/"
+  },
+  {
+    "chain": "low-t-center",
+    "name": "SynergenX Webster",
+    "address": "19325 Gulf Freeway Suite 120",
+    "city": "Webster",
+    "state": "TX",
+    "zip": "77598",
+    "phone": "832-285-9530",
+    "url": "https://lowtcenter.com/locations/synergenx-webster/"
+  }
+]

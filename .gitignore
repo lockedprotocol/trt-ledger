@@ -1,0 +1,6 @@
+# Raw NPI registry pulls are rebuilt each run (60+ MB)
+pipeline/raw/
+pipeline/raw-fetch.log
+__pycache__/
+.DS_Store
+pipeline/chains/fresh.txt

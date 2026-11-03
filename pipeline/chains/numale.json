@@ -1,0 +1,52 @@
+[
+  {
+    "chain": "numale",
+    "name": "VidaVital Medical Coral Gables",
+    "address": "2030 Douglas Rd Ste 201",
+    "city": "Coral Gables",
+    "state": "FL",
+    "zip": "33134",
+    "phone": "(305) 564-6926",
+    "url": "https://www.vidavitalmedical.com/coral-gables/"
+  },
+  {
+    "chain": "numale",
+    "name": "VidaVital Medical Omaha",
+    "address": "444 Regency Pkwy Dr Ste 204",
+    "city": "Omaha",
+    "state": "NE",
+    "zip": "68114",
+    "phone": "(402) 267-9519",
+    "url": "https://www.vidavitalmedical.com/omaha/"
+  },
+  {
+    "chain": "numale",
+    "name": "VidaVital Medical Albuquerque",
+    "address": "7920 Wyoming Blvd NE Ste B-2",
+    "city": "Albuquerque",
+    "state": "NM",
+    "zip": "87109",
+    "phone": "(505) 537-8484",
+    "url": "https://www.vidavitalmedical.com/albuquerque/"
+  },
+  {
+    "chain": "numale",
+    "name": "VidaVital Medical Las Vegas",
+    "address": "6590 S Rainbow Blvd Ste 250",
+    "city": "Las Vegas",
+    "state": "NV",
+    "zip": "89118",
+    "phone": "(702) 602-8629",
+    "url": "https://www.vidavitalmedical.com/las-vegas/"
+  },
+  {
+    "chain": "numale",
+    "name": "VidaVital Medical Brookfield",
+    "address": "17100 W North Ave Ste 200",
+    "city": "Brookfield",
+    "state": "WI",
+    "zip": "53005",
+    "phone": "(414) 404-8012",
+    "url": "https://www.vidavitalmedical.com/brookfield/"
+  }
+]

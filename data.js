@@ -1,0 +1,663 @@
+// Generated from data.json by checker/check_prices.py — edit data.json, not this file.
+window.TRT_DATA = {
+  "buttondownUsername": null,
+  "updated": "2026-11-02",
+  "clinics": [
+    {
+      "id": "henry-meds",
+      "name": "Henry Meds",
+      "url": "https://henrymeds.com",
+      "sourceUrl": "https://henrymeds.com/terms-of-service/programs",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Flat monthly",
+      "monthly": 129,
+      "intakeFee": 0,
+      "labsIncluded": true,
+      "labFee": 0,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection",
+        "cream",
+        "oral",
+        "enclomiphene"
+      ],
+      "aiIncluded": true,
+      "hcg": "Not listed",
+      "commitment": "No commitment listed",
+      "states": "Not listed on pricing page",
+      "highlights": [
+        "Up to 1,000 mg test cypionate per 28 days + injection kit",
+        "Anastrozole (AI) included",
+        "Oral Kyzatrex option at $179/mo (not in CA)",
+        "Compounded pharmacy fulfillment"
+      ],
+      "watchOuts": [
+        "States served not on pricing page"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "Testosterone Replacement Therapy.{0,400}?\\$(\\d+(?:\\.\\d\\d)?) per month"
+        }
+      ],
+      "priceByForm": {
+        "oral": 179
+      }
+    },
+    {
+      "id": "trt-nation",
+      "name": "TRT Nation",
+      "url": "https://trtnation.com",
+      "sourceUrl": "https://trtnation.com",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Flat monthly",
+      "monthly": 99,
+      "intakeFee": 0,
+      "labsIncluded": false,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection"
+      ],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "Cancellation policy linked, terms not shown",
+      "states": "All except AL, AK, AR, MO, ND, HI",
+      "highlights": [
+        "Meds, supplies and FedEx shipping included",
+        "Bring your own labs (up to 6 months old)",
+        "10% off first treatment"
+      ],
+      "watchOuts": [
+        "Labs extra or bring your own; lab price not published",
+        "Must be 24+",
+        "Some testimonials on the site look unreliable"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "Testosterone Replacement Therapy \\$(\\d+)/mo"
+        }
+      ]
+    },
+    {
+      "id": "defy-medical",
+      "name": "Defy Medical",
+      "url": "https://www.defymedical.com",
+      "sourceUrl": "https://www.defymedical.com/faq/how-much-does-trt-cost-with-defy-medical/",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Pay per service",
+      "monthly": null,
+      "monthlyLabel": "~$175 avg",
+      "intakeFee": null,
+      "labsIncluded": true,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": 2100,
+      "forms": [],
+      "aiIncluded": true,
+      "hcg": "Not listed",
+      "commitment": "No subscription or contract",
+      "states": "Not listed on pricing page",
+      "highlights": [
+        "No monthly membership fee",
+        "Clinic's own average: under $175/mo year 1, ~$125/mo after",
+        "Average includes testosterone, weekly AI, labs and consults"
+      ],
+      "watchOuts": [
+        "Averages are illustrative; your cost depends on protocol"
+      ],
+      "watch": [
+        {
+          "field": "clinicYear1Estimate",
+          "pattern": "under \\$(\\d+) per month for the first year",
+          "multiply": 12
+        },
+        {
+          "field": "ongoingMonthly",
+          "pattern": "around \\$(\\d+) per month"
+        }
+      ],
+      "ongoingMonthly": 125
+    },
+    {
+      "id": "fountain-trt",
+      "name": "Fountain TRT",
+      "url": "https://www.fountaintrt.com",
+      "sourceUrl": "https://www.fountaintrt.com",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Flat monthly",
+      "monthly": 199,
+      "intakeFee": 0,
+      "labsIncluded": null,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection"
+      ],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "Cancel anytime",
+      "states": "AL, AZ, CA, CO, CT, FL, GA, IL, IN, MI, NJ, NY, NC, OH, PA, TN, TX, VA, WA, WI",
+      "highlights": [
+        "\"As low as $199/mo, all inclusive\"",
+        "Medication, video visits, ongoing support",
+        "Follow-ups every 3–6 months"
+      ],
+      "watchOuts": [
+        "Unclear whether partner-lab fees are covered",
+        "Only 20 states"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "as low as \\$(\\d+) per month"
+        }
+      ]
+    },
+    {
+      "id": "hone-health",
+      "name": "Hone Health",
+      "url": "https://honehealth.com",
+      "sourceUrl": "https://honehealth.com",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Membership + meds",
+      "monthly": 155,
+      "intakeFee": 65,
+      "labsIncluded": true,
+      "labFee": 0,
+      "medsIncluded": false,
+      "clinicYear1Estimate": null,
+      "forms": [],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "No commitment, cancel anytime",
+      "states": "Not listed",
+      "highlights": [
+        "$65 start: 50+ biomarker labs + physician consult",
+        "Premium $155/mo: retests and follow-ups every 90 days",
+        "Basic $25/mo tier (labs every 6 months, no protocol)"
+      ],
+      "watchOuts": [
+        "Medication billed on top of membership; price not published"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "\\$(\\d+) ?/month plus cost of medication",
+          "pick": "max"
+        },
+        {
+          "field": "intakeFee",
+          "pattern": "For just \\$(\\d+), you"
+        }
+      ]
+    },
+    {
+      "id": "marek-health",
+      "name": "Marek Health",
+      "url": "https://marekhealth.com",
+      "sourceUrl": "https://marekhealth.com",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Pay as you go",
+      "monthly": null,
+      "monthlyLabel": "$80–200 treatment",
+      "intakeFee": 299,
+      "labsIncluded": false,
+      "labFee": 450,
+      "medsIncluded": false,
+      "clinicYear1Estimate": 1599,
+      "forms": [],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "No subscription",
+      "states": "Not listed",
+      "highlights": [
+        "45-min health coach session + provider exam in intake",
+        "Deep lab panels (from $450)",
+        "HSA/FSA commonly used"
+      ],
+      "watchOuts": [
+        "Highest upfront cost ($299 + $450 labs)",
+        "Doesn't bill insurance"
+      ],
+      "watch": [
+        {
+          "field": "intakeFee",
+          "pattern": "\\$(\\d+) to get started"
+        },
+        {
+          "field": "clinicYear1Estimate",
+          "pattern": "Year 1 avg\\. spend\\*? ~\\$\\d+ ?/mo ~\\$([\\d,]+) annual"
+        },
+        {
+          "field": "ongoingMonthly",
+          "pattern": "Year 2\\+ avg\\. spend\\*? ~\\$(\\d+) ?/mo"
+        }
+      ],
+      "ongoingMonthly": 70
+    },
+    {
+      "id": "hims",
+      "name": "Hims",
+      "url": "https://www.hims.com",
+      "sourceUrl": "https://www.hims.com/blog/how-much-does-testosterone-cost",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Prepaid plan",
+      "monthly": 99,
+      "intakeFee": 0,
+      "labsIncluded": null,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "enclomiphene"
+      ],
+      "aiIncluded": false,
+      "hcg": "No",
+      "commitment": "$99/mo requires 10-month plan",
+      "states": "Not listed",
+      "highlights": [
+        "Enclomiphene (boosts your own T) — not testosterone"
+      ],
+      "watchOuts": [
+        "Not TRT",
+        "Headline price needs a 10-month commitment"
+      ]
+    },
+    {
+      "id": "peter-md",
+      "name": "PeterMD",
+      "url": "https://www.getpetermd.com",
+      "sourceUrl": "https://www.getpetermd.com/mens-trt/",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Prepaid plan",
+      "monthly": 79,
+      "prepaid": 948,
+      "intakeFee": 0,
+      "labsIncluded": null,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection",
+        "enclomiphene"
+      ],
+      "aiIncluded": null,
+      "hcg": "Add-on, $301 per 10,000 IU vial",
+      "commitment": "$79/mo needs 12-month prepay ($948); $109/mo on 6 months; $139/mo month-to-month",
+      "states": "All except AL, ID",
+      "highlights": [
+        "Medications and free shipping included",
+        "Unlimited provider access, 90-day check-in",
+        "Labs at Quest, or use recent bloodwork",
+        "HSA/FSA eligible; 20% price-match offer"
+      ],
+      "watchOuts": [
+        "Cheapest price is paid upfront for 12 months",
+        "Prepaid plans roll into monthly billing — read the auto-bill policy",
+        "Unclear whether lab fees are included"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "\\$(\\d+)/ ?Month 12-Month Plan"
+        },
+        {
+          "field": "prepaid",
+          "pattern": "12-Month Plan[^$]{0,40}\\$\\d+ Yearly Savings \\$([\\d,]+) total"
+        }
+      ]
+    },
+    {
+      "id": "fridays",
+      "name": "Fridays",
+      "url": "https://www.joinfridays.com",
+      "sourceUrl": "https://www.joinfridays.com/testosterone",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Flat monthly",
+      "monthly": 129,
+      "intakeFee": 0,
+      "labsIncluded": null,
+      "labFee": null,
+      "medsIncluded": null,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection",
+        "oral",
+        "enclomiphene"
+      ],
+      "aiIncluded": true,
+      "hcg": "Not listed",
+      "commitment": "No commitments, cancel anytime",
+      "states": "Not listed",
+      "highlights": [
+        "Injectable or oral testosterone from $129/mo",
+        "Free baseline labs at Quest or Labcorp",
+        "Anastrozole included when clinically appropriate",
+        "Free shipping"
+      ],
+      "watchOuts": [
+        "Follow-up labs at 1 and 3 months, then quarterly — cost not stated",
+        "Outside lab results not accepted",
+        "\"From\" price; unclear if meds are included"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "From \\$(\\d+) ?/mo",
+          "pick": "min"
+        }
+      ]
+    },
+    {
+      "id": "joi-blokes",
+      "name": "Joi + Blokes",
+      "url": "https://joiandblokes.com",
+      "sourceUrl": "https://joiandblokes.com",
+      "checked": "2026-11-02",
+      "verified": true,
+      "model": "Flat monthly",
+      "monthly": 99,
+      "intakeFee": 0,
+      "labsIncluded": false,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "No term stated",
+      "states": "Not listed",
+      "highlights": [
+        "$0 membership, $0 consults",
+        "TRT or enclomiphene, both $99/mo",
+        "Hormone panel $149 (56 biomarkers), advanced $399",
+        "At-home blood draws where available; health coach"
+      ],
+      "watchOuts": [
+        "Labs paid separately",
+        "At-home blood draw fee not shown until checkout"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "Prescription-based testosterone therapy\\. \\$(\\d+)/mo"
+        }
+      ]
+    },
+    {
+      "id": "maximus",
+      "name": "Maximus",
+      "url": "https://www.maximustribe.com",
+      "sourceUrl": "https://www.telehealthally.com/reviews/maximus-trt-review",
+      "checked": "2026-11-02",
+      "verified": false,
+      "model": "Tiered by plan length",
+      "monthly": 199.99,
+      "intakeFee": 0,
+      "labsIncluded": null,
+      "labFee": null,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "cream",
+        "oral",
+        "enclomiphene"
+      ],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "Month-to-month price shown; cheaper on 3–12 month plans",
+      "states": "Not listed",
+      "highlights": [
+        "Cream as low as $99.99/mo on 12-month plan (third-party report)",
+        "Enclomiphene-first, fertility-friendly approach",
+        "Coaching included (third-party report)"
+      ],
+      "watchOuts": [
+        "Prices from review sites; official pricing page didn't load"
+      ]
+    }
+  ],
+  "inPerson": [
+    {
+      "id": "ageless",
+      "name": "Ageless Men's Health",
+      "url": "https://www.agelessmenshealth.com",
+      "locatorUrl": "https://www.agelessmenshealth.com/locations/",
+      "checked": "2026-11-02",
+      "pricing": "Not published",
+      "locations": {
+        "AZ": 9,
+        "CA": 10,
+        "CO": 3,
+        "FL": 3,
+        "GA": 3,
+        "ID": 2,
+        "IL": 5,
+        "IN": 3,
+        "IA": 1,
+        "MS": 4,
+        "NE": 2,
+        "NV": 4,
+        "NJ": 2,
+        "NY": 4,
+        "OH": 2,
+        "PA": 4,
+        "TN": 6,
+        "TX": 8,
+        "UT": 6,
+        "VA": 2,
+        "WA": 2
+      },
+      "statesReported": [],
+      "everywhere": false,
+      "notes": "85 clinics in 21 states (counted by hand; their site blocks automated checks)"
+    },
+    {
+      "id": "low-t-center",
+      "name": "Low T Center",
+      "url": "https://lowtcenter.com",
+      "locatorUrl": "https://lowtcenter.com/locations/",
+      "checked": "2026-11-02",
+      "pricing": "$25 first test · $135 confirmation + first shot · ~$105.50/mo injections · $135 follow-ups",
+      "pricingSource": "https://lowtcenter.com/cost-of-treatment/",
+      "locations": {
+        "AR": 2,
+        "CO": 3,
+        "IL": 3,
+        "IN": 2,
+        "MO": 1,
+        "NC": 1,
+        "OH": 3,
+        "OK": 2,
+        "TN": 6,
+        "TX": 36
+      },
+      "statesReported": [],
+      "everywhere": false,
+      "notes": "59 U.S. clinics in 10 states"
+    },
+    {
+      "id": "gameday",
+      "name": "Gameday Men's Health",
+      "url": "https://gamedaymenshealth.com",
+      "locatorUrl": "https://gamedaymenshealth.com/location-finder",
+      "checked": "2026-11-02",
+      "pricing": "Not published · free consult and free T test",
+      "locations": {
+        "AK": 1,
+        "AL": 9,
+        "AR": 2,
+        "AZ": 16,
+        "CA": 70,
+        "CO": 11,
+        "CT": 9,
+        "DE": 1,
+        "FL": 30,
+        "GA": 16,
+        "HI": 1,
+        "IA": 3,
+        "ID": 5,
+        "IL": 11,
+        "IN": 8,
+        "KS": 4,
+        "KY": 5,
+        "LA": 4,
+        "MA": 12,
+        "MD": 6,
+        "ME": 1,
+        "MI": 10,
+        "MN": 4,
+        "MO": 6,
+        "MT": 4,
+        "NC": 14,
+        "NE": 1,
+        "NH": 3,
+        "NJ": 13,
+        "NM": 3,
+        "NV": 3,
+        "NY": 7,
+        "OH": 12,
+        "OK": 3,
+        "OR": 3,
+        "PA": 14,
+        "RI": 2,
+        "SC": 9,
+        "SD": 3,
+        "TN": 6,
+        "TX": 43,
+        "UT": 8,
+        "VA": 14,
+        "WA": 1,
+        "WI": 8,
+        "WV": 1
+      },
+      "statesReported": [],
+      "everywhere": false,
+      "notes": "420 U.S. clinics in 46 states"
+    },
+    {
+      "id": "numale",
+      "name": "VidaVital Medical (formerly NuMale)",
+      "url": "https://www.vidavitalmedical.com",
+      "locatorUrl": "https://www.vidavitalmedical.com/locations/",
+      "checked": "2026-11-02",
+      "pricing": "Not published",
+      "locations": {
+        "FL": 1,
+        "NE": 1,
+        "NM": 1,
+        "NV": 1,
+        "WI": 1
+      },
+      "statesReported": [],
+      "everywhere": false,
+      "notes": "5 U.S. clinics in 5 states"
+    },
+    {
+      "id": "mantality",
+      "name": "Mantality Health",
+      "url": "https://mantalityhealth.com",
+      "locatorUrl": "https://mantalityhealth.com/locations/",
+      "checked": "2026-11-02",
+      "pricing": "Not published",
+      "locations": {
+        "IA": 1,
+        "MI": 1,
+        "MO": 2,
+        "NE": 1,
+        "OH": 1,
+        "WI": 2
+      },
+      "statesReported": [],
+      "everywhere": false,
+      "notes": "8 U.S. clinics in 6 states"
+    }
+  ],
+  "noPricing": [
+    {
+      "name": "Evolve Telemed",
+      "url": "https://evolvetelemed.com",
+      "note": "Free consult; pricing only after you talk to an intake coordinator",
+      "checked": "2026-11-02"
+    },
+    {
+      "name": "Ways2Well",
+      "url": "https://ways2well.com",
+      "note": "Care-plan tiers include labs; no prices on site. Not in MO, NJ, NY, RI",
+      "checked": "2026-11-02"
+    }
+  ],
+  "labs": [
+    {
+      "test": "Total testosterone",
+      "vendor": "Ulta Lab Tests",
+      "lab": "Quest",
+      "price": 29.95,
+      "fees": 12.95,
+      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-total-males-adult-ia-quest-result-code-55036300",
+      "checked": "2026-11-02",
+      "verified": false,
+      "watch": [
+        {
+          "field": "total",
+          "pattern": "\\$([\\d.]+) Order Ulta Lab Tests"
+        }
+      ]
+    },
+    {
+      "test": "Total testosterone",
+      "vendor": "Walk-In Lab",
+      "lab": "Quest",
+      "price": 59.0,
+      "fees": 0,
+      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-blood-test-quest-873",
+      "checked": "2026-11-02",
+      "verified": false
+    },
+    {
+      "test": "Bioavailable + total testosterone",
+      "vendor": "Walk-In Lab",
+      "lab": "Quest",
+      "price": 139.0,
+      "fees": 0,
+      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-free-bioavailable-and-total-ms-quest-14966",
+      "checked": "2026-11-02",
+      "verified": false
+    },
+    {
+      "test": "Free & weakly bound testosterone",
+      "vendor": "Walk-In Lab",
+      "lab": "LabCorp",
+      "price": 139.0,
+      "fees": 0,
+      "sourceUrl": "https://www.findlabtest.com/lab-test/general-wellness/testosterone-free-and-weakly-bound-labcorp-143255",
+      "checked": "2026-11-02",
+      "verified": false
+    },
+    {
+      "test": "Male hormone panel",
+      "vendor": "Ulta Lab Tests",
+      "lab": "Quest",
+      "price": 299.95,
+      "fees": 12.95,
+      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-blood-test-quest-873",
+      "checked": "2026-11-02",
+      "verified": false
+    }
+  ],
+  "recentChanges": []
+};
