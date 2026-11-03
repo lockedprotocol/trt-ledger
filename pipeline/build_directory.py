@@ -24,9 +24,12 @@ GEO = ROOT / "geo"
 OUT = ROOT / "clinics"
 
 URO, ENDO = "208800000X", "207RE0101X"
-TRT_RE = re.compile(r"\b(testosterone|low[- ]?t|trt|andrology|gameday|ageless men|nu ?male|mantality)\b"
+TRT_RE = re.compile(r"\b(testosterone|low[- ]?t|trt|andrology|gameday men|ageless men|nu ?male|mantality)\b"
                     r"|\bmen'?s (health|clinic|wellness|medical|vitality|center)"
                     r"|\bmale (medical|clinic|health|vitality|wellness)", re.I)
+# Businesses whose names happen to contain "TRT" or "hormone" but aren't clinics
+NOT_CLINIC_RE = re.compile(r"\b(logistics|sober|home health|home care|training|academy|transport\w*|trucking|freight|"
+                           r"staffing|construction|consulting|insurance|sports medicine academy)\b", re.I)
 HORMONE_RE = re.compile(r"\b(hormones?|bhrt)\b", re.I)
 WOMEN_RE = re.compile(r"\b(women|woman|womens|her|she|ladies|female|feminine|menopaus\w*|fertility|ob ?gyn|obstetric\w*|gyn\w*|midwi\w*|pediatric\w*)\b", re.I)
 # Name matches whose main taxonomy isn't a place you'd go for treatment
@@ -54,10 +57,16 @@ def tidy(s):
     return re.sub(r"\bMen'S\b", "Men's", re.sub(r"\bMens\b", "Men's", out))
 
 
+STREET_WORDS = {"STREET": "ST", "AVENUE": "AVE", "AV": "AVE", "DRIVE": "DR", "ROAD": "RD", "BOULEVARD": "BLVD",
+                "PARKWAY": "PKWY", "HIGHWAY": "HWY", "LANE": "LN", "COURT": "CT", "PLACE": "PL", "CIRCLE": "CIR",
+                "SQUARE": "SQ", "TERRACE": "TER", "NORTH": "N", "SOUTH": "S", "EAST": "E", "WEST": "W",
+                "NORTHWEST": "NW", "NORTHEAST": "NE", "SOUTHWEST": "SW", "SOUTHEAST": "SE"}
+
+
 def street_key(line, zip5):
     s = re.sub(r"[^A-Z0-9 ]", " ", (line or "").upper())
     s = re.split(r"\b(STE|SUITE|UNIT|BLDG|BUILDING|FL|FLOOR|RM|ROOM|APT)\b", s)[0]
-    s = re.sub(r"\s+", " ", s).strip()
+    s = " ".join(STREET_WORDS.get(w, w) for w in s.split())   # "College Drive" == "College Dr"
     return f"{s}|{zip5}"
 
 
@@ -85,7 +94,7 @@ def registry_entries():
                 cats.add("urology")
             if code == ENDO or (is_org and ENDO in codes and re.search(r"endocrin", name, re.I)):
                 cats.add("endocrinology")
-        if is_org and not code.startswith(NON_CLINICAL):
+        if is_org and not code.startswith(NON_CLINICAL) and not NOT_CLINIC_RE.search(name):
             if TRT_RE.search(name):
                 cats.add("trt")
             elif HORMONE_RE.search(name) and not WOMEN_RE.search(name):
@@ -175,6 +184,33 @@ def main():
             del places[other]
             merged += 1
 
+    # Different addresses in one ZIP that share a phone number are one practice listed twice
+    # (e.g. a group's two buildings); show them once so counts mean practices, not records.
+    by_phone, phone_merged = {}, 0
+    for key in sorted(places, key=lambda k: (not places[k].get("chain"), not places[k]["orgs"])):
+        p = places[key]
+        digits = re.sub(r"\D", "", p.get("phone") or "")[-10:]
+        if len(digits) < 10:
+            continue
+        pk = (key.split("|")[1], digits)
+        if pk not in by_phone:
+            by_phone[pk] = key
+            continue
+        q = places[by_phone[pk]]
+        q["orgs"] += p["orgs"]; q["docs"] += p["docs"]; q["npis"] += p["npis"]; q["cats"] |= p["cats"]
+        del places[key]
+        phone_merged += 1
+
+    # A ZIP code from another state means the record's address is wrong; leave it out
+    zip3_state = {z: st for st, zs in json.loads((ROOT / "pipeline" / "zip3_states.json").read_text()).items() for z in zs}
+    wrong_state = 0
+    for key in list(places):
+        p = places[key]
+        zst = zip3_state.get((p.get("zip") or "")[:3])
+        if zst and p.get("st") and zst != p["st"]:
+            del places[key]
+            wrong_state += 1
+
     shards, missing_geo, counts = defaultdict(list), 0, Counter()
     for p in places.values():
         z = (p.get("zip") or "")[:5]
@@ -227,7 +263,8 @@ def main():
     (OUT / "index.json").write_text(json.dumps({
         "updated": dt.date.today().isoformat(), "total": total, "counts": counts, "shards": index}, separators=(",", ":")))
     update_chain_counts()
-    print(f"{total} locations in {len(index)} shards ({chain_rows} chain rows, {merged} duplicates folded into chains); "
+    print(f"{total} locations in {len(index)} shards ({chain_rows} chain rows, {merged} duplicates folded into chains, "
+          f"{phone_merged} same-phone duplicates merged, {wrong_state} wrong-state records dropped); "
           f"by category: {dict(counts)}; "
           f"dropped {missing_geo} with no ZIP location")
 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trtledger.com/sitemap.xml

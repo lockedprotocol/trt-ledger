@@ -1,7 +1,7 @@
 const D = window.TRT_DATA;
 const $ = id => document.getElementById(id);
 const usd = n => '$' + Math.round(n).toLocaleString();
-const STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+const STATES = ["AL","AK","AZ","AR","CA","CO","CT","DC","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 
 // Respect the system's Reduce Motion setting for scripted scrolling too
 const SCROLL = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
@@ -118,16 +118,13 @@ $('noPricing').innerHTML = (D.noPricing||[]).map(c=>`<li><a href="${c.url}" targ
 function usd2(n){ return '$'+n.toFixed(2); }
 
 // ---------- Price alerts ----------
-$('alertForm').addEventListener('submit', async e=>{
-  e.preventDefault();
+$('alertForm').addEventListener('submit', e=>{
   const msg=$('alertMsg'), user=D.buttondownUsername;
-  if(!user){ msg.textContent='Alerts aren\u2019t live yet \u2014 this form is a preview.'; return; }
-  const body=new FormData(e.target);
-  if($('state').value) body.append('tag', $('state').value);   // lets us send state-specific alerts later
-  try {
-    await fetch(`https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(user)}`, {method:'POST', body, mode:'no-cors'});
-    msg.textContent='Almost done \u2014 check your inbox to confirm your email.'; e.target.reset();
-  } catch(err){ msg.textContent='Something went wrong. Please try again.'; }
+  if(!user){ e.preventDefault(); msg.textContent='Alerts aren\u2019t live yet \u2014 this form is a preview.'; return; }
+  // Post the form to Buttondown itself (new tab) so the visitor sees its confirmation or error page
+  e.target.action = `https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(user)}`;
+  e.target.method = 'post'; e.target.target = '_blank';
+  msg.textContent = 'Almost done \u2014 confirm in the new tab, then check your inbox (and spam folder).';
 });
 
 // ---------- Am I overpaying? ----------
@@ -351,9 +348,9 @@ $('opResult').addEventListener('click', async e=>{
 if ($('opClinic').value) opPrefill();
 
 // ---------- State finder ----------
-const NAMES={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+const NAMES={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DC:"District of Columbia",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
 // First 3 digits of a ZIP -> state (USPS prefix ranges; territories and military omitted)
-const ZIP3=[[5,5,"NY"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,54,"VT"],[55,55,"MA"],[56,59,"VT"],[60,69,"CT"],[70,89,"NJ"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[201,201,"VA"],[206,219,"MD"],[220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,339,"FL"],[341,349,"FL"],[350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,459,"OH"],[460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[570,577,"SD"],[580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],[700,714,"LA"],[716,729,"AR"],[730,732,"OK"],[733,733,"TX"],[734,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],[832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[885,885,"TX"],[889,898,"NV"],[900,961,"CA"],[967,968,"HI"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"]];
+const ZIP3=[[5,5,"NY"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,54,"VT"],[55,55,"MA"],[56,59,"VT"],[60,69,"CT"],[70,89,"NJ"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[200,200,"DC"],[201,201,"VA"],[202,205,"DC"],[206,219,"MD"],[220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,339,"FL"],[341,349,"FL"],[350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,459,"OH"],[460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[569,569,"DC"],[570,577,"SD"],[580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],[700,714,"LA"],[716,729,"AR"],[730,732,"OK"],[733,733,"TX"],[734,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],[832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[885,885,"TX"],[889,898,"NV"],[900,961,"CA"],[967,968,"HI"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"]];
 function zipToState(zip){
   if(!/^\d{5}$/.test(zip)) return null;
   const n=+zip.slice(0,3), hit=ZIP3.find(([lo,hi])=>n>=lo&&n<=hi);
@@ -552,8 +549,9 @@ document.addEventListener('click', e=>{
 });
 
 const startHash = location.hash;
-let initial = (startHash.match(/state=([A-Z]{2})/)||[])[1];
+let initial = (startHash.match(/state=([A-Z]{2})/)||[])[1] || new URLSearchParams(location.search).get('state');
 if(!initial){ try { initial = localStorage.getItem('trtState'); } catch(e){} }
 try { const z=localStorage.getItem('trtZip'); if(z && zipToState(z)===initial){ currentZip=z; $('zip').value=z; } } catch(e){}
 setState(NAMES[initial] ? initial : '');
-if (startHash && !/^#state=/.test(startHash)) document.getElementById(startHash.slice(1))?.scrollIntoView();
+// Landing on a section from a link (e.g. a state guide's ?state=TX#find): jump there without animating
+if (startHash && !/^#state=/.test(startHash)) setTimeout(() => document.getElementById(startHash.slice(1))?.scrollIntoView({behavior:'instant'}), 0);

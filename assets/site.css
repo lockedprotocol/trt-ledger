@@ -275,6 +275,41 @@ button:hover{background:var(--accent-hover)}
 :root[data-theme="dark"] .alert-band :focus-visible{outline-color:#06120f}
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .alert-band, :root:not([data-theme="light"]) .alert .note{color:#06120f} :root:not([data-theme="light"]) .alert-band :focus-visible{outline-color:#06120f} }
 
+/* ---------- Tables ---------- */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+thead th{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-weight:700}
+.tablewrap{overflow-x:auto}
+.tablewrap table{min-width:640px}
+
+/* ---------- State and city pages ---------- */
+.dir-page{padding:24px 0 64px}
+.crumbs{font-size:13px;color:var(--muted);margin:0 0 20px;display:flex;gap:6px;flex-wrap:wrap}
+.crumbs a{color:var(--muted)}
+.dir-head{max-width:760px;margin-bottom:12px}
+.dir-head h1{font-size:clamp(30px,4.6vw,46px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0 0 12px}
+.dir-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.cta-btn{display:inline-block;padding:10px 16px;border-radius:var(--radius-sm);background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:14px;text-decoration:none}
+.cta-btn:hover{background:var(--accent-hover);color:var(--accent-ink)}
+.dir-section{margin-top:44px}
+.dir-section h2{font-size:clamp(22px,2.8vw,28px);font-weight:800;margin:0 0 8px}
+.dir-section .sub{margin-bottom:14px}
+.dir-table th[scope=row]{font-weight:600}
+.dir-table th[scope=row] .tag{margin-left:4px}
+.dir-table td,.dir-table th{vertical-align:top}
+.nearlist.panel{padding:4px 18px}
+.citylist{list-style:none;margin:0;padding:0;display:grid;gap:6px 24px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.citylist li{padding:6px 0;border-bottom:1px solid var(--line)}
+.citylist a{font-weight:600;text-decoration:none}
+.citylist a:hover{text-decoration:underline}
+.chainlist{margin:0;padding-left:18px}
+.chainlist li{margin-bottom:8px}
+.faq{border-bottom:1px solid var(--line);padding:12px 0}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{margin:8px 0 0;color:var(--muted)}
+
 /* ---------- Footer ---------- */
 .foot{border-top:1px solid var(--line);padding:48px 0 56px;font-size:14px;color:var(--muted)}
 .foot-grid{display:grid;grid-template-columns:1fr 1.3fr 1.3fr;gap:32px}

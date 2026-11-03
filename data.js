@@ -471,7 +471,7 @@ window.TRT_DATA = {
       "name": "Low T Center",
       "url": "https://lowtcenter.com",
       "locatorUrl": "https://lowtcenter.com/locations/",
-      "checked": "2026-11-03",
+      "checked": "2026-11-02",
       "pricing": "$25 first test · $135 confirmation + first shot · ~$105.50/mo injections · $135 follow-ups",
       "pricingSource": "https://lowtcenter.com/cost-of-treatment/",
       "locations": {
@@ -495,7 +495,7 @@ window.TRT_DATA = {
       "name": "Gameday Men's Health",
       "url": "https://gamedaymenshealth.com",
       "locatorUrl": "https://gamedaymenshealth.com/location-finder",
-      "checked": "2026-11-03",
+      "checked": "2026-11-02",
       "pricing": "Not published · free consult and free T test",
       "locations": {
         "AK": 1,
@@ -554,7 +554,7 @@ window.TRT_DATA = {
       "name": "VidaVital Medical (formerly NuMale)",
       "url": "https://www.vidavitalmedical.com",
       "locatorUrl": "https://www.vidavitalmedical.com/locations/",
-      "checked": "2026-11-03",
+      "checked": "2026-11-02",
       "pricing": "Not published",
       "locations": {
         "FL": 1,
@@ -572,7 +572,7 @@ window.TRT_DATA = {
       "name": "Mantality Health",
       "url": "https://mantalityhealth.com",
       "locatorUrl": "https://mantalityhealth.com/locations/",
-      "checked": "2026-11-03",
+      "checked": "2026-11-02",
       "pricing": "Not published",
       "locations": {
         "IA": 1,
