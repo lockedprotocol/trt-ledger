@@ -1,0 +1,47 @@
+name: Weekly price check
+
+on:
+  schedule:
+    - cron: "0 13 * * 1"   # Mondays 13:00 UTC (8–9am US Eastern)
+  workflow_dispatch:         # "Run workflow" button for a manual check
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writes
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Used only to repair a price rule when a clinic redesigns its page (checker/self_heal.py)
+      - name: Install Anthropic SDK
+        continue-on-error: true   # optional: without it, broken rules are just reported
+        run: pip install anthropic
+
+      - name: Check prices and send alerts
+        id: check
+        env:
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://trtledger.com' }}
+        run: python3 checker/check_prices.py
+
+      # Save price updates even when a page couldn't be read; the failed step still marks the run red
+      - name: Commit updated prices
+        if: always()
+        run: |
+          git config user.name "trt-ledger-bot"
+          git config user.email "trt-ledger-bot@users.noreply.github.com"
+          git add data.json data.js checker/last-report.md
+          git diff --cached --quiet || git commit -m "Weekly price check $(date -u +%F)"
+          git pull --rebase --autostash
+          git push

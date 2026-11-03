@@ -1,0 +1,59 @@
+name: Monthly clinic directory refresh
+
+on:
+  schedule:
+    - cron: "0 14 2 * *"   # 2nd of each month, 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writes
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull providers from the NPI registry
+        run: python3 pipeline/fetch_registry.py --fresh
+
+      # A broken chain scraper keeps last month's locations instead of failing the whole refresh
+      # A scraper that fails, or suddenly returns under half its usual locations (the chain changed
+      # its site), keeps last month's list instead of wiping that chain off the map
+      - name: Refresh chain locations
+        run: |
+          count() { python3 -c "import json,sys; print(len(json.load(open(sys.argv[1]))))" "$1" 2>/dev/null || echo 0; }
+          : > pipeline/chains/fresh.txt
+          for s in pipeline/chains/*.py; do
+            j="${s%.py}.json"; before=$(count "$j")
+            if ! python3 "$s"; then
+              echo "::warning::$s failed; keeping last month's locations"; git checkout -- "$j"; continue
+            fi
+            after=$(count "$j")
+            if [ "$after" -lt $(( before / 2 )) ]; then
+              echo "::warning::$s returned $after locations (was $before); keeping last month's list"; git checkout -- "$j"
+            else
+              basename "$s" .py >> pipeline/chains/fresh.txt
+            fi
+          done
+
+      # Refuses to publish if the directory shrank by more than 20% (a source probably broke)
+      - name: Build directory
+        run: python3 pipeline/build_directory.py
+
+      - name: Commit
+        run: |
+          git config user.name "trt-ledger-bot"
+          git config user.email "trt-ledger-bot@users.noreply.github.com"
+          git add clinics pipeline/chains/*.json data.json data.js
+          git diff --cached --quiet || git commit -m "Monthly clinic directory refresh $(date -u +%F)"
+          git pull --rebase --autostash
+          git push
