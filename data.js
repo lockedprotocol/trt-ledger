@@ -1,6 +1,6 @@
 // Generated from data.json by checker/check_prices.py — edit data.json, not this file.
 window.TRT_DATA = {
-  "buttondownUsername": null,
+  "buttondownUsername": "trtledger",
   "updated": "2026-11-03",
   "clinics": [
     {
