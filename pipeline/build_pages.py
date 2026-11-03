@@ -127,6 +127,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{root}assets/site.css">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 </head>
@@ -138,6 +139,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
     <nav class="nav" aria-label="Sections">
       <a href="{root}#find">Find clinics</a>
       <a href="{root}#overpaying">Am I overpaying?</a>
+      <a href="{root}#labs">Lab tests</a>
       <a href="{root}trt/">Browse by state</a>
       <a href="{root}#alerts">Price alerts</a>
     </nav>
@@ -475,7 +477,6 @@ def main():
                 + " Addresses, phone numbers and sourced prices.")
         body = f"""
     <header class="dir-head">
-      <p class="step">{e(NAMES[st])}</p>
       <h1>TRT clinics and doctors in {e(name)}, {st}</h1>
       <p class="lede">{e(summary)}{e(focus)}</p>
       <div class="dir-cta"><a class="cta-btn" href="{compare_link(root, st, 'overpaying')}">Am I overpaying?</a><a class="btn-secondary" href="{compare_link(root, st)}">Compare online clinics</a></div>
@@ -540,7 +541,6 @@ def main():
                 + f", and {plural(len(rs), 'in-person TRT, hormone, urology and endocrinology listing')} by city. Sourced prices.")
         body = f"""
     <header class="dir-head">
-      <p class="step">Browse by state</p>
       <h1>TRT in {e(NAMES[st])}</h1>
       <p class="lede">{e(summary)}</p>
       <div class="dir-cta"><a class="cta-btn" href="{compare_link(root, st)}">Find clinics near my ZIP</a><a class="btn-secondary" href="{compare_link(root, st, 'overpaying')}">Am I overpaying?</a></div>

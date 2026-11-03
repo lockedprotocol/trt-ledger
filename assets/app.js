@@ -10,7 +10,8 @@ const fmtDate = iso => new Date(iso + 'T12:00').toLocaleDateString(undefined, {m
 const STALE_DAYS = 21;
 const staleTag = iso => iso && (Date.now() - Date.parse(iso + 'T12:00')) / 864e5 > STALE_DAYS
   ? `<span class="tag warn">Not re-checked since ${fmtDate(iso)}</span>` : '';
-$('statOnline').textContent = D.clinics.length;
+// Count the clinics the comparison shows by default (enclomiphene-only clinics sit behind the "Testosterone only" filter)
+$('statOnline').textContent = D.clinics.filter(c => !(c.forms.length===1 && c.forms[0]==='enclomiphene')).length;
 $('updated').textContent = fmtDate(D.updated);
 fetch('clinics/index.json').then(r => r.json()).then(idx => {
   $('statInPerson').textContent = idx.total.toLocaleString();
@@ -62,17 +63,29 @@ function render(){
     .filter(r => !$('noContract').checked || NO_CONTRACT.test(r.c.commitment));
   const key=$('sort').value;
   list.sort((p,q)=> key==='name'?p.c.name.localeCompare(q.c.name): key==='upfront'?(p.y.upfront??1e9)-(q.y.upfront??1e9) : p.y.total-q.y.total);
-  const cheapest = list.length ? Math.min(...list.map(r=>r.y.total)) : 0;
+  // With a state chosen, clinics confirmed for it come first; ones that don't publish their states follow
+  const conf = list.filter(r => r.serves === true), unsure = list.filter(r => r.serves !== true);
+  if (st) list = conf.concat(unsure);
+  // "Lowest first-year cost" only goes to a clinic confirmed for the state
+  const cheapest = conf.length ? Math.min(...conf.map(r=>r.y.total)) : null;
 
   const openIds = [...document.querySelectorAll('#results details[open]')].map(d => d.closest('.card').id);
   $('countOnline').textContent = list.length;
   const incl = (label, v, yes, no) => `<li class="${v===true?'ok':v===false?'no':'unk'}"><i aria-hidden="true">${v===true?'✓':v===false?'✕':'?'}</i>${
     v===true ? yes : v===false ? no : label + ': not stated'}</li>`;
+  const CAP = 5;
+  const head = (i, html) => {
+    const cls = i >= CAP ? ' extra' : '';
+    if (st && i === 0 && conf.length) return `<h3 class="group-head${cls}">Confirmed for ${NAMES[st]} <span class="count">${conf.length}</span></h3>`;
+    if (st && i === conf.length && unsure.length) return `<h3 class="group-head${cls}">Check your state <span class="count">${unsure.length}</span><span class="note">These clinics don't publish which states they serve. Ask before you sign up.</span></h3>`;
+    return '';
+  };
   $('results').innerHTML = list.length ? list.map(({c,y,serves}, i) => {
-    const best = y.total===cheapest && key==='y1';
-    return `<article class="card ${best?'best':''}" id="clinic-${c.id}">
+    const best = cheapest !== null && serves === true && y.total===cheapest && key==='y1';
+    const rank = st && i >= conf.length ? i - conf.length + 1 : i + 1;
+    return `${head(i)}<article class="card ${best?'best':''}${i>=CAP?' extra':''}" id="clinic-${c.id}">
       <div class="card-top">
-        <div class="rank" aria-hidden="true">${i+1}</div>
+        <div class="rank" aria-hidden="true">${rank}</div>
         <div class="who">
           <h3>${c.name}</h3>
           <div class="tags">${best?'<span class="tag best">Lowest first-year cost</span>':''}<span class="tag model">${c.model}</span>${
@@ -102,6 +115,11 @@ function render(){
       </div>
     </article>`;
   }).join('') : '<div class="panel empty">No clinics match. Try removing a filter.</div>';
+  // Phones show the first few clinics; the rest are one tap away
+  const capped = !resultsExpanded && list.length > CAP;
+  $('results').classList.toggle('capped', capped);
+  $('showAll').hidden = !capped;
+  $('showAll').textContent = `Show all ${list.length} online clinics`;
   openIds.forEach(id => { const d = document.querySelector(`#${id} details`); if (d) d.open = true; });
 
   const labs=[...D.labs].sort((p,q)=>(p.price+p.fees)-(q.price+q.fees));   // cheapest first
@@ -114,12 +132,23 @@ function render(){
   </article>`).join('');
   calcOverpay();
 }
-$('noPricing').innerHTML = (D.noPricing||[]).map(c=>`<li><a href="${c.url}" target="_blank" rel="noopener nofollow">${c.name}</a> — ${c.note} <span class="note">(checked ${c.checked})</span></li>`).join('');
+$('noPricing').innerHTML = (D.noPricing||[]).map(c=>`<li><a href="${c.url}" target="_blank" rel="noopener nofollow">${c.name}</a> — ${c.note} <span class="note">(checked ${fmtDate(c.checked)})</span></li>`).join('');
 function usd2(n){ return '$'+n.toFixed(2); }
+let resultsExpanded = false;
+$('showAll').addEventListener('click', () => {
+  resultsExpanded = true; render();
+  document.querySelector('#results .card:nth-of-type(6)')?.querySelector('a')?.focus({preventScroll:true});
+});
 
 // ---------- Price alerts ----------
 $('alertForm').addEventListener('submit', e=>{
-  const msg=$('alertMsg'), user=D.buttondownUsername;
+  const msg=$('alertMsg'), user=D.buttondownUsername, email=$('alertEmail');
+  if (!email.checkValidity()) {
+    e.preventDefault();
+    msg.textContent = email.value ? 'That email address doesn\u2019t look right. Check it and try again.' : 'Enter your email address to get price alerts.';
+    msg.className = 'note err'; email.setAttribute('aria-invalid','true'); email.focus(); return;
+  }
+  email.removeAttribute('aria-invalid'); msg.className = 'note';
   if(!user){ e.preventDefault(); msg.textContent='Alerts aren\u2019t live yet \u2014 this form is a preview.'; return; }
   // Post the form to Buttondown itself (new tab) so the visitor sees its confirmation or error page
   e.target.action = `https://buttondown.com/api/emails/embed-subscribe/${encodeURIComponent(user)}`;
@@ -203,17 +232,33 @@ function calcOverpay(){
   $('opState').textContent = st ? NAMES[st] : 'not set';
   if (opPrefilled || opLabsPrefilled) opPrefill();   // keep prefilled numbers in step with the assumptions
   opSave();
-  const monthly=Math.max(0,+$('opMonthly').value||0), labs=Math.max(0,+$('opLabs').value||0);
+  const rawM = $('opMonthly').value, rawL = $('opLabs').value;
+  const monthly=Math.max(0,+rawM||0), labs=Math.max(0,+rawL||0);
   const show = html => {
     if (html === opLastHtml) return;                   // nothing changed: don't rebuild (keeps <details> state)
-    const open = el.querySelector('details')?.open;
+    const prev = el.querySelector('details'), was = prev ? prev.open : null;
     el.innerHTML = opLastHtml = html;
-    if (open && el.querySelector('details')) el.querySelector('details').open = true;
+    if (was !== null && el.querySelector('details')) el.querySelector('details').open = was;
   };
+  // Negative amounts are a typo, not a price: say so instead of ignoring them
+  const bad = [[$('opMonthly'), +rawM < 0], [$('opLabs'), +rawL < 0]];
+  bad.forEach(([f, isBad]) => isBad ? f.setAttribute('aria-invalid','true') : f.removeAttribute('aria-invalid'));
+  $('opHint').classList.toggle('err', bad.some(b => b[1]));
+  if (bad.some(b => b[1])) {
+    $('opHint').textContent = 'Amounts can\u2019t be negative. Enter what you pay, or 0.';
+    $('seeResult').hidden = true;
+    show(`<h3>Check your numbers</h3><p class="note">Amounts can\u2019t be negative. Enter what you pay, or 0.</p>`);
+    announce('Amounts can\u2019t be negative.'); return;
+  }
+  if ($('opHint').textContent.startsWith('Amounts can')) opPrefill();
+  $('seeResult').hidden = !monthly;
   if (!monthly) {
     show(`<h3>See how your price compares</h3><p class="note">Enter what you pay each month. Your numbers stay in your browser.</p>`);
     announce(''); return;
   }
+  // Very low or very high numbers are usually a weekly or yearly amount typed into the monthly box
+  const check = monthly < 30 ? `<p class="check">${usd(monthly)} a month is less than any clinic we track charges. If that\u2019s a weekly cost, multiply it by about 4.3. The comparison below uses ${usd(monthly)} a month.</p>`
+    : monthly > 1500 ? `<p class="check">${usd(monthly)} a month is more than most clinics charge for a whole year. If that\u2019s your yearly cost, divide it by 12. The comparison below uses ${usd(monthly)} a month.</p>` : '';
   const a=assumptions(), mine=Math.round(monthly*12+labs), cur=$('opClinic').value;
   const all = D.clinics.filter(c=>!onlyEnclo(c) && c.id!==cur)
     .map(c=>{ const y=yearOne(c,a,med); return {c, y, cost:Math.round(y.total), serves: st?servesState(c,st):null}; })
@@ -244,8 +289,8 @@ function calcOverpay(){
     eyebrow = 'We can’t confirm a match'; big = usd(mine);
     line = `a year. None of the clinics we track ${st ? `confirm they serve ${NAMES[st]}` : 'list'}${med ? ` and offer ${med} treatment` : ''}. The ones below might — check with them.`;
   } else if (save >= 120) {
-    eyebrow = 'You could save up to'; big = usd(save);
-    line = `a year by switching to <b>${best.c.name}</b> — about ${usd(best.cost)} in the first year vs. the ${usd(mine)} you pay now. ${tags(best)}`;
+    eyebrow = 'You could save about'; big = usd(save);
+    line = `a year by switching to <b>${best.c.name}</b>, the cheapest clinic ${where} — about ${usd(best.cost)} in the first year vs. the ${usd(mine)} you pay now. ${tags(best)}`;
   } else if (save > 0) {
     eyebrow = 'You’re paying about the going rate'; big = usd(mine);
     line = `a year. The cheapest clinic ${where}, <b>${best.c.name}</b>, would save you only about ${usd(save)} a year. ${tags(best)}`;
@@ -270,7 +315,7 @@ function calcOverpay(){
   const bars = items.map(i=>{
     const diff = i.you ? 'What you pay now, per year' :
       `${usd(i.v)} est. first year · ${i.v<mine ? usd(mine-i.v)+' less than you' : i.v>mine ? usd(i.v-mine)+' more than you' : 'same as you'}${sure(i.r) ? '' : ' · not confirmed for your filters'}`;
-    return `<li class="barrow ${i.you?'you':''}">
+    return `<li class="barrow ${i.you?'you':!sure(i.r)?'unsure':''}">
       <span class="nm">${i.name}${!i.you && !sure(i.r) ? ' <small>(unconfirmed)</small>' : ''}</span>
       <span class="track"><span class="bar" style="--r:${(i.v/max).toFixed(4)}"></span><span class="val">${usd(i.v)}</span></span>
       <span class="sr">${diff}</span><span class="tip" aria-hidden="true">${diff}</span></li>`;
@@ -285,17 +330,18 @@ function calcOverpay(){
     </div>`).join('');
 
   const shareText = save >= 120 ? `I could save ${usd(save)} a year on TRT. See what clinics really cost:` : `I checked my TRT costs against the online clinics. See what they really cost:`;
-  show(`
+  show(`${check}
     <div class="eyebrow">${eyebrow}</div>
     <div class="hero-num">${big}</div>
     <p>${line}</p>
     ${maybeLine}
     <p class="note">${rank}</p>
+    ${unsure.length ? '<p class="bars-key" aria-hidden="true"><span><i></i>Confirmed for your filters</span><span><i class="unsure"></i>Not confirmed</span></p>' : ''}
     <ul class="bars" aria-label="Yearly cost: you vs. each clinic">${bars}</ul>
     ${picks ? `<div class="picks">${picks}</div>` : ''}
     <p class="note" style="margin-top:12px">Clinic figures are first-year estimates that include startup fees.
       Where a clinic doesn't publish a cost we use your assumptions (meds ${usd(a.medCost)}/mo, labs ${usd(a.labCost)} × ${a.labsPerYear} a year) — <a href="#compare" data-goto="assumptions">change them</a>. Add-ons like hCG aren't compared.</p>
-    <details><summary>Before you switch</summary><ul>
+    <details open><summary>Before you switch</summary><ul>
       <li>Check whether you'd lose money left on a prepaid plan.</li>
       <li>Ask whether the new clinic will continue your current dose and medication.</li>
       <li>Most clinics need recent labs — ask whether yours are accepted.</li>
@@ -312,6 +358,10 @@ $('opMonthly').addEventListener('input', ()=>{ opPrefilled=false; });
 $('opLabs').addEventListener('input', ()=>{ opLabsPrefilled=false; });
 $('opClinic').addEventListener('input', ()=>opPrefill(true));
 $('opForm').addEventListener('submit', e=>e.preventDefault());
+$('seeResult').addEventListener('click', () => {
+  $('opResult').scrollIntoView({behavior:SCROLL, block:'start'});
+  $('opResult').setAttribute('tabindex','-1'); $('opResult').focus({preventScroll:true});
+});
 $('opResult').addEventListener('click', async e=>{
   const go = e.target.closest('[data-goto]');
   if (go) {
@@ -324,9 +374,11 @@ $('opResult').addEventListener('click', async e=>{
       return;
     }
     let card = $('clinic-'+go.dataset.goto);
-    if (!card) {   // hidden by the Compare filters: clear the ones that can hide it
-      $('labsInc').checked = false; $('noContract').checked = false; $('form').value = '';
+    if (!card || card.matches('.capped .extra')) {   // hidden by the Compare filters or the phone list cap
+      const cleared = [$('labsInc').checked && 'Labs included', $('noContract').checked && 'No contract', $('form').value && 'Medication'].filter(Boolean);
+      $('labsInc').checked = false; $('noContract').checked = false; $('form').value = ''; resultsExpanded = true;
       render(); card = $('clinic-'+go.dataset.goto);
+      $('filterMsg').textContent = cleared.length ? `Cleared the ${cleared.join(', ')} filter${cleared.length>1?'s':''} to show this clinic.` : '';
     }
     if (!card) { $('compare').scrollIntoView({behavior:SCROLL}); return; }
     card.setAttribute('tabindex','-1');
@@ -425,6 +477,14 @@ async function searchNear(){
   }
   if (tok !== near.token) return;
 
+  if (!rows.length) {
+    const wider = [25, 50, 100].filter(r => r > R);
+    done(`<li class="near-empty"><p>No TRT clinics, hormone clinics, urologists or endocrinologists within ${R} miles of ${currentZip}.</p>
+      <div class="acts">${wider.map(r => `<button type="button" class="btn-secondary" data-radius="${r}">Search within ${r} miles</button>`).join('')}
+      <button type="button" class="btn-secondary" data-online>See online clinics that serve ${NAMES[zipToState(currentZip)] || 'your state'}</button></div></li>`);
+    $('countInperson').textContent = '0';
+    return;
+  }
   $('countInperson').textContent = rows.length.toLocaleString();
   $('nearStatus').textContent = `${rows.length.toLocaleString()} clinics within ${R} miles of ${currentZip}.`;
   const nc = $('nearCount'); if (nc) { nc.textContent = rows.length.toLocaleString(); $('nearCountLbl').textContent = `in-person clinics within ${R} mi`; }
@@ -455,13 +515,18 @@ async function searchNear(){
   }
   $('nearNote').innerHTML = `Distances are approximate (ZIP to ZIP). Urologists, endocrinologists and hormone clinics come from the federal
     <a href="https://npiregistry.cms.hhs.gov/" target="_blank" rel="noopener">NPI registry</a> — not all of them offer TRT, so call and ask.
-    TRT clinics are matched by name or from each chain's own location list. Directory updated ${idx.updated}.`;
+    TRT clinics are matched by name or from each chain's own location list. Directory updated ${fmtDate(idx.updated)}.`;
 }
 $('nearChips').addEventListener('change', e => {
   if (e.target.checked) near.cats.add(e.target.value); else near.cats.delete(e.target.value);
   near.limit = 20; searchNear();
 });
 $('nearRadius').addEventListener('change', () => { near.limit = 20; searchNear(); });
+$('nearList').addEventListener('click', e => {
+  const r = e.target.closest('[data-radius]');
+  if (r) { $('nearRadius').value = r.dataset.radius; near.limit = 20; searchNear(); return; }
+  if (e.target.closest('[data-online]')) { $('tabOnline').click(); $('compare').scrollIntoView({behavior:SCROLL, block:'start'}); $('tabOnline').focus({preventScroll:true}); }
+});
 $('nearSort').addEventListener('change', () => { near.limit = 20; searchNear(); });
 $('nearMore').addEventListener('click', () => { near.limit += 20; searchNear(); });
 
