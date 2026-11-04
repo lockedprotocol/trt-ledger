@@ -195,6 +195,7 @@ def main():
             print(text)
             return
         today = dt.datetime.now(ET).date()
+        (ROOT / "ops/briefings").mkdir(exist_ok=True)
         (ROOT / f"ops/briefings/{today}.md").write_text(text)   # archive; the daily commit also keeps cron alive
         when = dt.datetime.combine(today, dt.time(8, 0), ET)   # 8:00 AM Eastern (EST now, EDT in summer)
         if os.environ.get("RESEND_API_KEY") and os.environ.get("BRIEFING_TO"):
