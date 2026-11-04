@@ -70,3 +70,13 @@ broken or a price jumped more than 50%. Each run writes `checker/last-report.md`
 
 GitHub pauses scheduled jobs in repositories with no activity for 60 days. The weekly job
 commits its report every week, which keeps them running.
+
+## Morning briefing (8:00 AM Eastern, daily)
+`ops/briefing.py` runs from `.github/workflows/morning-briefing.yml` at 11:15 UTC and schedules the email for 8:00 AM Eastern through Resend. Every briefing is archived in `ops/briefings/`.
+
+Repo → Settings → Secrets and variables → Actions:
+- Secrets: `RESEND_API_KEY`, `BRIEFING_TO` (your inbox), `HC_PING_URL` (healthchecks.io), `CF_API_TOKEN` (Cloudflare, Account Analytics: Read)
+- Variables: `CF_ACCOUNT_ID`, `CF_SITE_TAG`
+
+Anything not set shows as "not connected" in the briefing; nothing fails.
+Test locally: `python3 ops/briefing.py --dry-run`

@@ -1,0 +1,46 @@
+name: Morning briefing
+
+on:
+  schedule:
+    - cron: "15 11 * * *"   # 6:15 EST / 7:15 EDT — always before 8:00 ET; Resend holds it until 8:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pages: read
+
+concurrency:
+  group: data-writes
+  cancel-in-progress: false
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build and schedule the briefing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          BRIEFING_TO: ${{ secrets.BRIEFING_TO }}
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          HC_PING_URL: ${{ secrets.HC_PING_URL }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CF_ACCOUNT_ID }}
+          CF_SITE_TAG: ${{ vars.CF_SITE_TAG }}
+        run: python3 ops/briefing.py
+      # Archive the briefing. The daily commit also stops GitHub from disabling
+      # scheduled workflows after 60 days without repo activity.
+      - name: Commit briefing
+        run: |
+          git config user.name "trt-ledger-bot"
+          git config user.email "trt-ledger-bot@users.noreply.github.com"
+          git add ops/briefings
+          git diff --cached --quiet || git commit -m "Briefing $(date -u +%F)"
+          git pull --rebase --autostash
+          git push
