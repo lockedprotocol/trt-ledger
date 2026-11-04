@@ -58,7 +58,7 @@ jobs:
         run: |
           git config user.name "trt-ledger-bot"
           git config user.email "trt-ledger-bot@users.noreply.github.com"
-          git add clinics pipeline/chains/*.json data.json data.js trt sitemap.xml robots.txt index.html
+          git add clinics pipeline/chains/*.json data.json data.js trt for-clinics pipeline/lastmod.json sitemap.xml robots.txt index.html
           git diff --cached --quiet || git commit -m "Monthly clinic directory refresh $(date -u +%F)"
           git pull --rebase --autostash
           git push

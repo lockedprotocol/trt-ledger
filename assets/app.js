@@ -52,6 +52,7 @@ function yearOne(c, a, form){
   const formPrice = form && c.priceByForm && c.priceByForm[form];
   add((formPrice || c.monthly || 0)*12, formPrice ? `membership (${form})` : 'membership');
   add(c.intakeFee, 'intake');
+  if (c.intakeFee == null) { estimated=true; parts.push('intake fee not published; excluded from total'); }
   if (!c.medsIncluded) add(a.medCost*12, 'meds', true);
   if (c.labsIncluded === false) add(c.labFee ? c.labFee : a.labCost*a.labsPerYear, 'labs', !c.labFee);
   if (c.labsIncluded === null) add(a.labCost*a.labsPerYear, 'labs (unclear if included)', true);
@@ -135,6 +136,7 @@ function render(){
     <h3>${l.test}</h3>
     <span class="by">${l.vendor} · ${l.lab} lab</span>
     <span class="total">${usd2(l.price+l.fees)}</span>
+    ${!l.verified?'<span class="tag warn">Unverified price</span>':''}
     <span class="fees">${l.fees ? `${usd2(l.price)} test + ${usd2(l.fees)} order fee` : 'No order fee'}</span>
     <div class="lab-foot"><span class="note" style="margin:0">Checked ${fmtDate(l.checked)}</span><a href="${l.sourceUrl}" target="_blank" rel="noopener">${l.verified?'Seller':'Source'}${ICON.ext}</a></div>
   </article>`).join('');
@@ -351,7 +353,7 @@ function calcOverpay(){
     ${unsure.length ? '<p class="bars-key" aria-hidden="true"><span><i></i>Confirmed for your filters</span><span><i class="unsure"></i>Not confirmed</span></p>' : ''}
     <ul class="bars" aria-label="Yearly cost: you vs. each clinic">${bars}</ul>
     ${picks ? `<div class="picks">${picks}</div>` : ''}
-    <p class="note" style="margin-top:12px">Clinic figures are first-year estimates that include startup fees.
+    <p class="note" style="margin-top:12px">Clinic figures are first-year estimates that include published startup fees; unpublished intake fees are excluded.
       Where a clinic doesn't publish a cost we use your assumptions (meds ${usd(a.medCost)}/mo, labs ${usd(a.labCost)} × ${a.labsPerYear} a year) — <a href="#compare" data-goto="assumptions">change them</a>. Add-ons like hCG aren't compared.</p>
     <details open><summary>Before you switch</summary><ul>
       <li>Check whether you'd lose money left on a prepaid plan.</li>

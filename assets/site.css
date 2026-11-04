@@ -457,3 +457,11 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
   .seg button{flex:1 1 0;min-width:0;min-height:44px;padding:9px 8px;font-size:14px;white-space:normal;line-height:1.25;border-radius:14px}
 }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{transition:none !important;animation:none !important} }
+
+/* About and contact share the existing theme and panel styles. */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:start}
+.about-grid h2{font-size:clamp(28px,3vw,36px);line-height:1.1;font-weight:850;font-variation-settings:"wdth" 80;margin-top:0}
+.about-grid p{max-width:65ch}
+#faq .faq p{max-width:80ch;padding-bottom:10px}
+#contact a{overflow-wrap:anywhere}
+@media(max-width:720px){.about-grid{grid-template-columns:1fr;gap:24px}}

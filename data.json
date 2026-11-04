@@ -11,7 +11,7 @@
       "verified": true,
       "model": "Flat monthly",
       "monthly": 129,
-      "intakeFee": 0,
+      "intakeFee": null,
       "labsIncluded": true,
       "labFee": 0,
       "medsIncluded": true,
@@ -33,7 +33,8 @@
         "Compounded pharmacy fulfillment"
       ],
       "watchOuts": [
-        "States served not on pricing page"
+        "States served not on pricing page",
+        "Intake fee not confirmed; no intake amount is included in this estimate"
       ],
       "watch": [
         {
@@ -133,7 +134,7 @@
       "verified": true,
       "model": "Flat monthly",
       "monthly": 199,
-      "intakeFee": 0,
+      "intakeFee": null,
       "labsIncluded": null,
       "labFee": null,
       "medsIncluded": true,
@@ -152,7 +153,8 @@
       ],
       "watchOuts": [
         "Unclear whether partner-lab fees are covered",
-        "Only 20 states"
+        "Only 20 states",
+        "Intake fee not confirmed; no intake amount is included in this estimate"
       ],
       "watch": [
         {
@@ -166,11 +168,11 @@
       "name": "Hone Health",
       "url": "https://honehealth.com",
       "sourceUrl": "https://honehealth.com",
-      "checked": "2026-11-03",
+      "checked": "2026-11-04",
       "verified": true,
       "model": "Membership + meds",
       "monthly": 155,
-      "intakeFee": 65,
+      "intakeFee": 90,
       "labsIncluded": true,
       "labFee": 0,
       "medsIncluded": false,
@@ -181,23 +183,23 @@
       "commitment": "No commitment, cancel anytime",
       "states": "Not listed",
       "highlights": [
-        "$65 start: 50+ biomarker labs + physician consult",
-        "Premium $155/mo: retests and follow-ups every 90 days",
-        "Basic $25/mo tier (labs every 6 months, no protocol)"
+        "Premium membership $155/month, medication extra",
+        "$65 initial panel plus $25 confirmatory panel when TRT is considered",
+        "Repeat labs included with Premium membership"
       ],
       "watchOuts": [
-        "Medication billed on top of membership; price not published"
+        "Medication price is not published; the calculator uses your medication assumption",
+        "Startup cost includes both the initial and TRT confirmatory panels"
       ],
       "watch": [
         {
           "field": "monthly",
           "pattern": "\\$(\\d+) ?/month plus cost of medication",
           "pick": "max"
-        },
-        {
-          "field": "intakeFee",
-          "pattern": "For just \\$(\\d+), you"
         }
+      ],
+      "additionalSourceUrls": [
+        "https://help.honehealth.com/hc/en-us/articles/40162286881431-Men-s-Lab-Schedule-on-the-Premium-Plan"
       ]
     },
     {
@@ -244,35 +246,6 @@
         }
       ],
       "ongoingMonthly": 70
-    },
-    {
-      "id": "hims",
-      "name": "Hims",
-      "url": "https://www.hims.com",
-      "sourceUrl": "https://www.hims.com/blog/how-much-does-testosterone-cost",
-      "checked": "2026-11-02",
-      "verified": true,
-      "model": "Prepaid plan",
-      "monthly": 99,
-      "intakeFee": 0,
-      "labsIncluded": null,
-      "labFee": null,
-      "medsIncluded": true,
-      "clinicYear1Estimate": null,
-      "forms": [
-        "enclomiphene"
-      ],
-      "aiIncluded": false,
-      "hcg": "No",
-      "commitment": "$99/mo requires 10-month plan",
-      "states": "Not listed",
-      "highlights": [
-        "Enclomiphene (boosts your own T) — not testosterone"
-      ],
-      "watchOuts": [
-        "Not TRT",
-        "Headline price needs a 10-month commitment"
-      ]
     },
     {
       "id": "peter-md",
@@ -328,7 +301,7 @@
       "verified": true,
       "model": "Flat monthly",
       "monthly": 129,
-      "intakeFee": 0,
+      "intakeFee": null,
       "labsIncluded": null,
       "labFee": null,
       "medsIncluded": null,
@@ -351,7 +324,8 @@
       "watchOuts": [
         "Follow-up labs at 1 and 3 months, then quarterly — cost not stated",
         "Outside lab results not accepted",
-        "\"From\" price; unclear if meds are included"
+        "\"From\" price; unclear if meds are included",
+        "Intake fee not confirmed; no intake amount is included in this estimate"
       ],
       "watch": [
         {
@@ -359,74 +333,6 @@
           "pattern": "From \\$(\\d+) ?/mo",
           "pick": "min"
         }
-      ]
-    },
-    {
-      "id": "joi-blokes",
-      "name": "Joi + Blokes",
-      "url": "https://joiandblokes.com",
-      "sourceUrl": "https://joiandblokes.com",
-      "checked": "2026-11-03",
-      "verified": true,
-      "model": "Flat monthly",
-      "monthly": 99,
-      "intakeFee": 0,
-      "labsIncluded": false,
-      "labFee": null,
-      "medsIncluded": true,
-      "clinicYear1Estimate": null,
-      "forms": [],
-      "aiIncluded": null,
-      "hcg": "Not listed",
-      "commitment": "No term stated",
-      "states": "Not listed",
-      "highlights": [
-        "$0 membership, $0 consults",
-        "TRT or enclomiphene, both $99/mo",
-        "Hormone panel $149 (56 biomarkers), advanced $399",
-        "At-home blood draws where available; health coach"
-      ],
-      "watchOuts": [
-        "Labs paid separately",
-        "At-home blood draw fee not shown until checkout"
-      ],
-      "watch": [
-        {
-          "field": "monthly",
-          "pattern": "Prescription-based testosterone therapy\\. \\$(\\d+)/mo"
-        }
-      ]
-    },
-    {
-      "id": "maximus",
-      "name": "Maximus",
-      "url": "https://www.maximustribe.com",
-      "sourceUrl": "https://www.telehealthally.com/reviews/maximus-trt-review",
-      "checked": "2026-11-02",
-      "verified": false,
-      "model": "Tiered by plan length",
-      "monthly": 199.99,
-      "intakeFee": 0,
-      "labsIncluded": null,
-      "labFee": null,
-      "medsIncluded": true,
-      "clinicYear1Estimate": null,
-      "forms": [
-        "cream",
-        "oral",
-        "enclomiphene"
-      ],
-      "aiIncluded": null,
-      "hcg": "Not listed",
-      "commitment": "Month-to-month price shown; cheaper on 3–12 month plans",
-      "states": "Not listed",
-      "highlights": [
-        "Cream as low as $99.99/mo on 12-month plan (third-party report)",
-        "Enclomiphene-first, fertility-friendly approach",
-        "Coaching included (third-party report)"
-      ],
-      "watchOuts": [
-        "Prices from review sites; official pricing page didn't load"
       ]
     },
     {
@@ -615,7 +521,7 @@
       "verified": true,
       "model": "Flat monthly",
       "monthly": 100,
-      "intakeFee": 0,
+      "intakeFee": null,
       "labsIncluded": null,
       "labFee": null,
       "medsIncluded": null,
@@ -639,7 +545,8 @@
         "Price is a range: most patients pay $100–150/month depending on labs and protocol",
         "Only a range ($100-$150/mo) is published, not a fixed plan price; $100 used as the low end",
         "Pricing page does not say what is included (labs, meds, consults, AI) or list lab/intake fees",
-        "$25 missed-appointment fee"
+        "$25 missed-appointment fee",
+        "Intake fee not confirmed; no intake amount is included in this estimate"
       ],
       "monthlyLabel": "$100–150/mo",
       "watch": [
@@ -696,7 +603,7 @@
       "verified": true,
       "model": "Flat monthly",
       "monthly": 199,
-      "intakeFee": 0,
+      "intakeFee": null,
       "labsIncluded": null,
       "labFee": null,
       "medsIncluded": null,
@@ -720,7 +627,8 @@
         "Telehealth page disclaimer: 'Prices and services may vary per location and are subject to change without warning.'",
         "The site says medical services are provided by independently owned and operated clinics (a franchise model).",
         "No intake, lab, or what's-included details are published.",
-        "join.gamedaymenshealth.com/start-trt-treatment returned 404."
+        "join.gamedaymenshealth.com/start-trt-treatment returned 404.",
+        "Intake fee not confirmed; no intake amount is included in this estimate"
       ],
       "watch": [
         {
@@ -997,6 +905,30 @@
       "url": "https://www.talonwellness.com",
       "note": "No membership or subscription; serves all 50 states. Testosterone price not published online (its shop lists enclomiphene from $73.50, $15 shipping)",
       "checked": "2026-11-04"
+    },
+    {
+      "name": "Hims",
+      "url": "https://www.hims.com/testosterone",
+      "note": "Injectable TRT medication starts at $79/month; oral TRT at $179/month. A separate membership is required, but its price is not shown on the public page. A complete first-year cost cannot be verified.",
+      "checked": "2026-11-04"
+    },
+    {
+      "name": "Joi + Blokes",
+      "url": "https://joiandblokes.com/shop/men/hormone-health/testosterone-replacement-therapy/",
+      "note": "The current TRT page describes clinician visits, medication delivery and quarterly labs, but does not display a price. The previous $99/month figure could not be reconfirmed.",
+      "checked": "2026-11-04"
+    },
+    {
+      "name": "Maximus",
+      "url": "https://www.maximustribe.com/testosterone/Testosterone-Cream",
+      "note": "Offers testosterone cream and other treatment options. The current official cream page does not publish plan prices; previous third-party pricing is not used for ranking.",
+      "checked": "2026-11-04"
+    },
+    {
+      "name": "H4M Wellness (HormonesForMe)",
+      "url": "https://goh4m.com/",
+      "note": "Custom wellness plans start at $235 per 3 months, with free consult and onboarding; labs are separate. The page does not establish a complete testosterone-specific cost, so this is not ranked.",
+      "checked": "2026-11-04"
     }
   ],
   "labs": [
@@ -1043,16 +975,6 @@
       "price": 139.0,
       "fees": 0,
       "sourceUrl": "https://www.findlabtest.com/lab-test/general-wellness/testosterone-free-and-weakly-bound-labcorp-143255",
-      "checked": "2026-11-02",
-      "verified": false
-    },
-    {
-      "test": "Male hormone panel",
-      "vendor": "Ulta Lab Tests",
-      "lab": "Quest",
-      "price": 299.95,
-      "fees": 12.95,
-      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-blood-test-quest-873",
       "checked": "2026-11-02",
       "verified": false
     }

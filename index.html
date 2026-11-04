@@ -128,8 +128,8 @@
         <div class="results" id="results"></div>
         <button type="button" class="btn-secondary showall" id="showAll" hidden></button>
         <div class="callout">
-          <h3>Clinics that don't publish prices</h3>
-          <p class="note">You have to talk to their sales team to find out what they cost.</p>
+          <h3>Clinics with incomplete pricing</h3>
+          <p class="note">These clinics publish no price or leave out costs needed for a reliable comparison. Ask for a complete quote.</p>
           <ul id="noPricing"></ul>
         </div>
       </div>
@@ -186,7 +186,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2>Order your own lab tests</h2>
-        <p class="sub">No doctor visit needed. Not available in NY, NJ or RI.</p>
+        <p class="sub">Compare listed lab prices. Ordering requirements and state availability vary by provider; confirm them before paying.</p>
       </div>
       <div class="labgrid" id="labRows"></div>
     </div>
@@ -272,6 +272,24 @@
       </div>
     </div>
   </section>
+  <section id="faq" class="section band" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head"><h2 id="faq-title">Frequently asked questions</h2><p class="sub">How to read the prices, check the details, and use the guide.</p></div>
+      <details class="faq"><summary>How do you calculate the first-year cost?</summary><p>We add 12 months of the listed plan price, published startup fees, medication, and labs. Missing medication and lab costs use the assumptions shown above the results. Unpublished intake fees are excluded and flagged, so the actual total may be higher. Open a clinic’s cost breakdown to see the math and check any prepayment terms.</p></details>
+      <details class="faq"><summary>Are these prices a quote from the clinic?</summary><p>No. These are comparisons based on published prices, with estimates where details are missing. Your prescription, tests, shipping, and plan terms may change the amount you pay. Confirm the full price directly before signing up.</p></details>
+      <details class="faq"><summary>What does “Check your state” mean?</summary><p>We haven’t confirmed that the clinic serves your state. Those clinics are shown separately from confirmed options. Ask the clinic before paying; appearing in the guide does not confirm eligibility.</p></details>
+      <details class="faq"><summary>Why isn’t every clinic ranked?</summary><p>Some clinics do not publish enough pricing information to calculate a comparable total. We keep those in a separate list instead of inventing a price. In-person directory entries are locations, not endorsements or confirmation that every provider offers TRT.</p></details>
+      <details class="faq"><summary>Can a clinic pay for a higher ranking?</summary><p>No. Payment does not change the comparison order, cost calculations, or lowest-cost labels. There are currently no affiliate links on TRT Ledger.</p></details>
+      <details class="faq"><summary>Do you store my ZIP code or calculator answers?</summary><p>Your calculator answers are saved in your browser so you can return to them. ZIP searches and comparisons run in your browser. The site uses Cloudflare Web Analytics; signing up for price alerts sends your email to our email service.</p></details>
+      <details class="faq"><summary>How can I suggest a clinic or correct a price?</summary><p>Email <a href="mailto:teamtrtledger@gmail.com">teamtrtledger@gmail.com</a> with the clinic name and a link to its published pricing. Please don’t send medical records, lab results, or other private health information.</p></details>
+    </div>
+  </section>
+  <section id="about" class="section" aria-labelledby="about-title">
+    <div class="wrap about-grid">
+      <div><h2 id="about-title">About TRT Ledger</h2><p>TRT Ledger is an independent price guide built by a TRT patient who wanted a clearer way to compare costs. A monthly headline rarely tells the whole story, so this guide brings startup fees, labs, medication, and plan terms together.</p><p>We link to sources and label missing information. We compare costs, not the quality of care, and we are not a clinic or a substitute for a licensed clinician.</p></div>
+      <div class="panel" id="contact"><h2>Contact</h2><p>Found an outdated price, a missing clinic, or a problem with the site? Send the details and a public source link.</p><p><a class="btn-secondary" href="mailto:teamtrtledger@gmail.com">Email TRT Ledger</a></p><p class="note"><a href="mailto:teamtrtledger@gmail.com">teamtrtledger@gmail.com</a><br>For listing corrections and general questions. Please keep private health information out of your message.</p><p><a href="/for-clinics/">Information for clinics</a></p></div>
+    </div>
+  </section>
 </main>
 
 <footer class="foot">
@@ -279,7 +297,7 @@
     <div>
       <a class="logo" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>TRT<em>Ledger</em></span></a>
       <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
-      <p class="note"><a href="for-clinics/">For clinics</a></p>
+      <p class="note"><a href="#faq">FAQ</a> · <a href="#about">About</a> · <a href="#contact">Contact</a> · <a href="for-clinics/">For clinics</a></p>
     </div>
     <div>
       <h3>How we get our data</h3>
