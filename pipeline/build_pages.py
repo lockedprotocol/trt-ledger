@@ -177,6 +177,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
   </div>
 </footer>
 {THEME_BTN_JS}
+<!-- Cloudflare Web Analytics (cookieless) --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "7bbc9c353324479fba8c959db812bccd"}}'></script>
 </body>
 </html>
 """
