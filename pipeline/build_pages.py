@@ -12,6 +12,7 @@ first-year cost formula and default assumptions, so the pages and the site alway
 Usage: python3 pipeline/build_pages.py        (SITE_URL env sets canonical URLs)
 """
 import datetime as dt
+import hashlib
 import html
 import json
 import math
@@ -77,7 +78,7 @@ def serves(c, st):
 def year_one(c):
     if c.get("clinicYear1Estimate"):
         return c["clinicYear1Estimate"], False
-    total, est = (c.get("monthly") or 0) * 12 + (c.get("intakeFee") or 0), False
+    total, est = (c.get("monthly") or 0) * 12 + (c.get("intakeFee") or 0), c.get("intakeFee") is None
     if not c.get("medsIncluded"):
         total, est = total + ASSUME["medCost"] * 12, True
     if c.get("labsIncluded") is False:
@@ -164,7 +165,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
     <div>
       <a class="logo" href="{root}">{LOGO}</a>
       <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
-      <p class="note"><a href="{root}for-clinics/">For clinics</a></p>
+      <p class="note"><a href="{root}#faq">FAQ</a> · <a href="{root}#about">About</a> · <a href="{root}#contact">Contact</a> · <a href="{root}for-clinics/">For clinics</a></p>
     </div>
     <div>
       <h3>How we get our data</h3>
@@ -530,6 +531,13 @@ def main():
             city_html += (f'<p class="note">{"Also " if with_page else ""}{plural(len(others), "other town")} with fewer listings'
                           f'{" (" + ", ".join(e(c["name"]) for c in names_[:60]) + ("…" if len(names_) > 60 else "") + ")"}. '
                           f'<a href="{compare_link(root, st)}">Search by ZIP code</a> to see them.</p>')
+        other_html = ""
+        if others:
+            other_html = '<section class="dir-section" aria-labelledby="other-towns"><h2 id="other-towns">Clinics in other towns</h2><p class="sub">Listings in towns without a separate city guide. Call to confirm services and availability.</p>'
+            for town in sorted(others, key=lambda c: c["name"]):
+                other_html += (f'<details class="faq"><summary>{e(town["name"])} — {plural(len(town["rows"]), "listing")}</summary>'
+                               + grouped_clinics(town["rows"], chains) + '</details>')
+            other_html += '</section>'
         trt_rows = sorted((r for r in rs if r["cats"][0] in ("trt", "hormone")), key=lambda r: (r.get("city", ""), r["name"]))
         trt_html = (f'<ol class="nearlist panel">{"".join(clinic_li(r, chains) for r in trt_rows)}</ol>' if trt_rows
                     else f'<p class="note">No dedicated TRT or hormone clinics are listed in {NAMES[st]} yet. Check online clinic coverage above, '
@@ -574,6 +582,7 @@ def main():
       <h2 id="dedicated">TRT and hormone clinics in {e(NAMES[st])}</h2>
       {trt_html}
     </section>
+    {other_html}
     {faq}"""
         write(path, page(path, title, desc, [("TRT Ledger", ""), ("Browse by state", "trt/"), (NAMES[st], None)],
                          body, today, [faq_ld]))
@@ -594,7 +603,7 @@ def main():
                                  [("TRT Ledger", ""), ("Browse by state", None)], body, today, []))
 
     # ---- for clinics (how clinics work with us; money never buys rank) ----
-    mail = "hello@trtledger.com"
+    mail = "teamtrtledger@gmail.com"
     def offer(title, text, subject):
         return (f'<li><h3>{title}</h3><p>{text}</p>'
                 f'<a class="btn-sm" href="mailto:{mail}?subject={urllib.parse.quote(subject)}">Email us</a></li>')
@@ -615,10 +624,8 @@ def main():
       <ul class="offer-list">
         {offer("“Claimed by clinic” badge", "Your clinic confirms its own pricing with us directly, and we show a badge next to "
                "your name. Rankings still sort by true first-year cost only.", "Claimed badge")}
-        {offer("Sponsor the price-alert email", "One clearly labeled sponsor line in our weekly email to readers tracking TRT "
-               "prices. Never mixed into the price data.", "Newsletter sponsorship")}
-        {offer("Market pricing report", "Quarterly benchmarks of what online and in-person TRT clinics charge, by state, "
-               "built from the same weekly data that powers the site.", "Pricing report")}
+        {offer("Market pricing report", "A pricing report is in preparation using the published prices tracked by this site. "
+               "Email us to ask about availability and scope.", "Pricing report")}
       </ul>
     </section>
     <section class="dir-section" aria-labelledby="never">
@@ -628,17 +635,15 @@ def main():
         <li>Hiding a fee, or removing or burying a competitor.</li>
         <li>Changing how we calculate first-year cost.</li>
       </ul>
-      <p class="note">Paid relationships are disclosed next to the clinic or sponsor they apply to.</p>
+      <p class="note">Paid relationships are disclosed next to the clinic they apply to.</p>
     </section>"""
     write("for-clinics/index.html", page(
         "for-clinics/index.html", "For clinics — TRT Ledger",
-        "How TRT clinics can correct a listing, claim pricing, sponsor price alerts or license pricing data. Money never buys rank.",
+        "How TRT clinics can correct a listing, ask about a claimed badge or pricing report. Money never buys rank.",
         [("TRT Ledger", ""), ("For clinics", None)], body, today, []))
     sitemap.append(f"{SITE}/for-clinics/")
 
-    # ---- sitemap, robots, homepage links ----
-    write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-          + "".join(f"  <url><loc>{e(u)}</loc><lastmod>{today}</lastmod></url>\n" for u in sitemap) + "</urlset>\n")
+    # ---- robots, homepage links ----
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
     index = (ROOT / "index.html").read_text()
     block = ("<!-- states:start -->\n" + "".join(
@@ -646,6 +651,21 @@ def main():
         + "          <!-- states:end -->")
     index = re.sub(r"<!-- states:start -->.*?<!-- states:end -->", lambda m: block, index, flags=re.S)
     (ROOT / "index.html").write_text(index)
+    # Content hashes keep unchanged pages from acquiring a fresh sitemap date.
+    history_path = ROOT / "pipeline/lastmod.json"
+    history = json.loads(history_path.read_text()) if history_path.exists() else {}
+    current = {}
+    build_date = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    for url in sitemap:
+        relative = url.removeprefix(SITE).strip("/")
+        file = ROOT / relative / "index.html"
+        digest = hashlib.sha256(file.read_bytes()).hexdigest()
+        previous = history.get(url, {})
+        modified = previous.get("lastmod", build_date) if previous.get("sha256") == digest else build_date
+        current[url] = {"sha256": digest, "lastmod": modified}
+    history_path.write_text(json.dumps(current, indent=2, sort_keys=True) + "\n")
+    write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+          + "".join(f"  <url><loc>{e(u)}</loc><lastmod>{current[u]['lastmod']}</lastmod></url>\n" for u in sitemap) + "</urlset>\n")
     print(f"Wrote {len(city_pages)} city pages, {len(NAMES)} state pages, sitemap with {len(sitemap)} URLs")
 
 
