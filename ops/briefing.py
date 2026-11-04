@@ -43,7 +43,7 @@ def probe(url):
 
 
 def github(path):
-    token, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY", "lockedprotocol/trt-ledger")
+    token, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY", "trtledger/trt-ledger")
     if not token:
         return None
     return http(f"https://api.github.com/repos/{repo}{path}",
