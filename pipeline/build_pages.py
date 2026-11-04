@@ -18,6 +18,7 @@ import math
 import os
 import re
 import shutil
+import warnings
 import urllib.parse
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -101,6 +102,10 @@ LOGO = ('<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62
 
 
 def page(path, title, desc, crumbs, body, updated, jsonld):
+    if len(title) > 60:
+        warnings.warn(f"{path}: title is {len(title)} characters")
+    if len(desc) > 155:
+        warnings.warn(f"{path}: description is {len(desc)} characters")
     depth = len(Path(path).parts) - 1
     root = "../" * depth
     url = f"{SITE}/{Path(path).parent.as_posix()}/".replace("/./", "/")
@@ -477,10 +482,17 @@ def main():
             ("Do I need blood work before starting TRT?", LABS_ANSWER),
         ])
         conf = [r for r in rows_online if r[0] == 0]
-        title = f"TRT Clinics & Doctors in {name}, {st}"
-        desc = (f"{plural(len(crs), 'TRT, hormone, urology and endocrinology listing')} in {name}, {NAMES[st]}"
-                + (f", plus online TRT from about {usd(conf[0][1])} for the first year." if conf else ".")
-                + " Addresses, phone numbers and sourced prices.")
+        display_name = "Washington" if st == "DC" and name.lower() in ("washington", "washington dc", "washington, dc") else name
+        title = f"TRT in {display_name}, {st}: {len(crs)} Clinics & Online Costs"
+        if len(title) > 60:
+            title = f"TRT in {display_name}, {st}: {len(crs)} Clinic Listings"
+        if len(title) > 60:
+            title = f"TRT in {display_name}, {st}"
+        estimate = " (est.)" if conf and (conf[0][4] or conf[0][2].get("clinicYear1Estimate")) else ""
+        price = f" Online TRT from {usd(conf[0][1])}/first year{estimate}." if conf else ""
+        desc = f"{len(crs)} clinic listings in {display_name}, {st}.{price} Compare sourced costs, addresses and phone numbers."
+        if len(desc) > 155:
+            desc = f"{len(crs)} clinic listings in {display_name}, {st}.{price} Compare sourced costs."
         body = f"""
     <header class="dir-head">
       <h1>TRT clinics and doctors in {e(name)}, {st}</h1>
@@ -520,7 +532,7 @@ def main():
                           f'<a href="{compare_link(root, st)}">Search by ZIP code</a> to see them.</p>')
         trt_rows = sorted((r for r in rs if r["cats"][0] in ("trt", "hormone")), key=lambda r: (r.get("city", ""), r["name"]))
         trt_html = (f'<ol class="nearlist panel">{"".join(clinic_li(r, chains) for r in trt_rows)}</ol>' if trt_rows
-                    else f'<p class="note">No dedicated TRT or hormone clinics are listed in {NAMES[st]} yet. Online clinics (above) serve the state, '
+                    else f'<p class="note">No dedicated TRT or hormone clinics are listed in {NAMES[st]} yet. Check online clinic coverage above, '
                          f'and some of the urologists and endocrinologists on the city pages prescribe testosterone — call and ask.</p>')
         chains_here = [ch for ch in chains.values() if ch["locations"].get(st)]
         chain_items = []
@@ -541,10 +553,11 @@ def main():
             ("Do I need blood work before starting TRT?", LABS_ANSWER),
         ])
         conf = [r for r in rows_online if r[0] == 0]
-        title = f"TRT Clinics in {NAMES[st]}: Online Prices & Local Clinics"
-        desc = (f"Online TRT clinics that serve {NAMES[st]}"
-                + (f" from about {usd(conf[0][1])} for the first year" if conf else "")
-                + f", and {plural(len(rs), 'in-person TRT, hormone, urology and endocrinology listing')} by city. Sourced prices.")
+        display_state = "Washington, DC" if st == "DC" else NAMES[st]
+        title = f"TRT in {display_state}: Online Costs & Clinic Listings"
+        estimate = " (est.)" if conf and (conf[0][4] or conf[0][2].get("clinicYear1Estimate")) else ""
+        price = f" Online TRT from {usd(conf[0][1])}/first year{estimate}." if conf else ""
+        desc = f"{len(rs)} in-person clinic listings in {display_state}.{price} Compare sourced prices and locations."
         body = f"""
     <header class="dir-head">
       <h1>TRT in {e(NAMES[st])}</h1>
