@@ -92,12 +92,11 @@ def is_trt(c):
 
 
 # ---- page shell ----
-THEME_HEAD = ("<script>try{const t=localStorage.getItem('trtTheme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>")
+THEME_HEAD = ("<script>try{document.documentElement.dataset.theme=localStorage.getItem('trtTheme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>")
 THEME_BTN_JS = ("<script>document.getElementById('themeBtn').addEventListener('click',()=>{const r=document.documentElement;"
                 "const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;"
                 "r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('trtTheme',r.dataset.theme)}catch(e){}});</script>")
-LOGO = ('<svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/>'
-        '<path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg>'
+LOGO = ('<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         '<span>TRT<em>Ledger</em></span>')
 
 
@@ -126,7 +125,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
 {THEME_HEAD}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{root}assets/site.css">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
@@ -137,7 +136,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
   <div class="wrap topbar">
     <a class="logo" href="{root}" aria-label="TRT Ledger home">{LOGO}</a>
     <nav class="nav" aria-label="Sections">
-      <a href="{root}#find">Find clinics</a>
+      <a href="{root}#find" class="nav-cta">Find clinics</a>
       <a href="{root}#overpaying">Am I overpaying?</a>
       <a href="{root}#labs">Lab tests</a>
       <a href="{root}trt/">Browse by state</a>
@@ -296,15 +295,20 @@ def online_table(st, data, root):
         return ""
     yn = lambda v, y, n: y if v is True else n if v is False else "Not stated"
     trs = []
-    for _, cost, c, s, est in rows:
+    n_conf = sum(1 for r in rows if r[0] == 0)
+    for i, (_, cost, c, s, est) in enumerate(rows):
+        if i == 0 and n_conf:
+            trs.append(f'<tr class="grp"><th colspan="6" scope="rowgroup">Confirmed for {e(NAMES[st])} <span class="count">{n_conf}</span></th></tr>')
+        if i == n_conf and len(rows) > n_conf:
+            trs.append(f'<tr class="grp"><th colspan="6" scope="rowgroup">Check your state <span class="count">{len(rows) - n_conf}</span><span class="note">These clinics don\'t publish which states they serve.</span></th></tr>')
         tags = "".join([
             "" if s else '<span class="tag warn">Check state</span>',
             "" if c.get("verified") else '<span class="tag warn">Unverified price</span>',
             '<span class="tag model">Estimate</span>' if est else ""])
         monthly = usd(c["monthly"]) + "/mo" if c.get("monthly") else e(c.get("monthlyLabel") or "—")
         trs.append(f"""<tr><th scope="row"><a href="{e(c['url'])}" target="_blank" rel="noopener nofollow">{e(c['name'])}</a> {tags}</th>
-        <td class="num">{usd(cost)}</td><td>{monthly}</td><td>{yn(c.get('labsIncluded'), 'Included', 'Extra')}</td>
-        <td>{yn(c.get('medsIncluded'), 'Included', 'Extra')}</td><td>{e(c['commitment'])}</td></tr>""")
+        <td class="num" data-label="First year">{usd(cost)}</td><td data-label="Price">{monthly}</td><td data-label="Labs">{yn(c.get('labsIncluded'), 'Included', 'Extra')}</td>
+        <td data-label="Medication">{yn(c.get('medsIncluded'), 'Included', 'Extra')}</td><td data-label="Contract">{e(c['commitment'])}</td></tr>""")
     return f"""
     <section class="dir-section" aria-labelledby="online">
       <h2 id="online">Online TRT clinics that serve {e(NAMES[st])}</h2>

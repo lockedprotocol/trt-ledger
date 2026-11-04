@@ -35,6 +35,8 @@ Every price links to its source and shows when it was last checked; prices are r
 ## Brand Commitments
 - Name: TRT Ledger. Voice: plain, direct, candid about uncertainty ("Check your state", "Unverified price", "Uses your assumptions").
 - Kept separate from the owner's Locked Protocol app: the site does not mention or link to it, so the guide stays clearly independent.
+- Visual direction (chosen 2026-11-04): the category standard, executed at full craft, not a themed or novelty look. Craft bar: Nuform, TRT Kingdom and Hims/Healthline for polish only; never their sales voice, health claims or imagery, since Nuform is a ranked clinic and the site must read as independent.
+- Must avoid: clinical/medical, fintech/startup, and playful looks. Dark mode stays.
 
 ## Evidence on Hand
 - Live price data for 18 online clinics (17 offering testosterone), in-person chains, and lab prices, each with source URL and checked date (`data.json`).

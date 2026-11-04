@@ -10,10 +10,10 @@
 <meta property="og:description" content="Find TRT clinics in every U.S. state: online clinics with sourced first-year costs and in-person clinics by city.">
 <meta property="og:url" content="https://trtledger.com/trt/">
 <meta property="og:type" content="website">
-<script>try{const t=localStorage.getItem('trtTheme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('trtTheme')||'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/site.css">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "TRT Ledger", "item": "https://trtledger.com/"}, {"@type": "ListItem", "position": 2, "name": "Browse by state", "item": "https://trtledger.com/trt/"}]}]</script>
@@ -22,9 +22,9 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="wrap topbar">
-    <a class="logo" href="../" aria-label="TRT Ledger home"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/><path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg><span>TRT<em>Ledger</em></span></a>
+    <a class="logo" href="../" aria-label="TRT Ledger home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>TRT<em>Ledger</em></span></a>
     <nav class="nav" aria-label="Sections">
-      <a href="../#find">Find clinics</a>
+      <a href="../#find" class="nav-cta">Find clinics</a>
       <a href="../#overpaying">Am I overpaying?</a>
       <a href="../#labs">Lab tests</a>
       <a href="../trt/">Browse by state</a>
@@ -51,7 +51,7 @@
 <footer class="foot">
   <div class="wrap foot-grid">
     <div>
-      <a class="logo" href="../"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/><path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg><span>TRT<em>Ledger</em></span></a>
+      <a class="logo" href="../"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>TRT<em>Ledger</em></span></a>
       <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
       <p class="note"><a href="../for-clinics/">For clinics</a></p>
     </div>
