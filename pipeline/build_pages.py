@@ -160,6 +160,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
     <div>
       <a class="logo" href="{root}">{LOGO}</a>
       <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
+      <p class="note"><a href="{root}for-clinics/">For clinics</a></p>
     </div>
     <div>
       <h3>How we get our data</h3>
@@ -573,6 +574,49 @@ def main():
     write("trt/index.html", page("trt/index.html", "TRT Clinics by State: Prices & Locations | TRT Ledger",
                                  "Find TRT clinics in every U.S. state: online clinics with sourced first-year costs and in-person clinics by city.",
                                  [("TRT Ledger", ""), ("Browse by state", None)], body, today, []))
+
+    # ---- for clinics (how clinics work with us; money never buys rank) ----
+    mail = "hello@trtledger.com"
+    def offer(title, text, subject):
+        return (f'<li><h3>{title}</h3><p>{text}</p>'
+                f'<a class="btn-sm" href="mailto:{mail}?subject={urllib.parse.quote(subject)}">Email us</a></li>')
+    body = f"""    <div class="dir-head">
+      <h1>For clinics</h1>
+      <p class="lede">TRT Ledger compares what patients really pay in year one. Clinics can work with us in the ways below, and
+      none of them changes where a clinic ranks.</p>
+    </div>
+    <section class="dir-section" aria-labelledby="free">
+      <h2 id="free">Free, always</h2>
+      <ul class="offer-list">
+        {offer("Fix or add your listing", "If a price is wrong, missing or out of date, send us the page where it's published. "
+               "We check it and update the site, usually within a week.", "Listing correction")}
+      </ul>
+    </section>
+    <section class="dir-section" aria-labelledby="paid">
+      <h2 id="paid">Paid options</h2>
+      <ul class="offer-list">
+        {offer("“Claimed by clinic” badge", "Your clinic confirms its own pricing with us directly, and we show a badge next to "
+               "your name. Rankings still sort by true first-year cost only.", "Claimed badge")}
+        {offer("Sponsor the price-alert email", "One clearly labeled sponsor line in our weekly email to readers tracking TRT "
+               "prices. Never mixed into the price data.", "Newsletter sponsorship")}
+        {offer("Market pricing report", "Quarterly benchmarks of what online and in-person TRT clinics charge, by state, "
+               "built from the same weekly data that powers the site.", "Pricing report")}
+      </ul>
+    </section>
+    <section class="dir-section" aria-labelledby="never">
+      <h2 id="never">What money never buys</h2>
+      <ul>
+        <li>A higher ranking or a “best” label.</li>
+        <li>Hiding a fee, or removing or burying a competitor.</li>
+        <li>Changing how we calculate first-year cost.</li>
+      </ul>
+      <p class="note">Paid relationships are disclosed next to the clinic or sponsor they apply to.</p>
+    </section>"""
+    write("for-clinics/index.html", page(
+        "for-clinics/index.html", "For clinics — TRT Ledger",
+        "How TRT clinics can correct a listing, claim pricing, sponsor price alerts or license pricing data. Money never buys rank.",
+        [("TRT Ledger", ""), ("For clinics", None)], body, today, []))
+    sitemap.append(f"{SITE}/for-clinics/")
 
     # ---- sitemap, robots, homepage links ----
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

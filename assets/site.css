@@ -404,3 +404,7 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
   .seg button{flex:1 1 0;min-width:0;padding:9px 8px;font-size:14px;white-space:normal;line-height:1.25}
 }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{transition:none !important} }
+.offer-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.offer-list li{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:18px}
+.offer-list h3{margin:0 0 6px;font-size:17px}
+.offer-list p{margin:0 0 12px;color:var(--muted)}

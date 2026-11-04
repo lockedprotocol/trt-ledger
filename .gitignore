@@ -4,3 +4,4 @@ pipeline/raw-fetch.log
 __pycache__/
 .DS_Store
 pipeline/chains/fresh.txt
+.claude/

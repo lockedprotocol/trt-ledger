@@ -183,7 +183,7 @@ def write_report(today, changes, held, failures, blocked, healed, unreachable, o
     return "\n".join(lines)
 
 
-def send_alert(changes, site_url):
+def send_alert(changes, site_url, sponsor=None):
     key = os.environ.get("BUTTONDOWN_API_KEY")
     if not key or not changes:
         return "skipped (no API key or no changes)"
@@ -195,7 +195,11 @@ def send_alert(changes, site_url):
         + [f"- **{c['name']}** {label(c['field'])}: ~~{money(c['old'])}~~ **{money(c['new'])}** "
            f"([source]({c['url']}))" for _, _, c in changes]
         + ["", f"[Compare every clinic's true first-year cost →]({site_url}#compare)", "",
-           "_Prices are read from each clinic's own site. Not medical advice._"])
+           "_Prices are read from each clinic's own site. Not medical advice._"]
+        # Optional paid sponsor line, set in data.json as {"sponsor": {"name": ..., "text": ..., "url": ...}}.
+        # Always labeled and kept apart from the price data.
+        + (["", "---", f"**Sponsor:** [{sponsor['name']}]({sponsor['url']}) — {sponsor['text']}",
+            "_Sponsors never affect prices or rankings on TRT Ledger._"] if sponsor and sponsor.get("url") else []))
     req = urllib.request.Request(
         "https://api.buttondown.com/v1/emails",
         data=json.dumps({"subject": subject, "body": body, "status": "about_to_send"}).encode(),
@@ -234,7 +238,7 @@ def main():
 
     print(write_report(today, changes, held, failures, blocked, healed, unreachable, ok, dry))
     if not dry:
-        print("Email alert:", send_alert(changes, os.environ.get("SITE_URL", "https://trtledger.com")))
+        print("Email alert:", send_alert(changes, os.environ.get("SITE_URL", "https://trtledger.com"), data.get("sponsor")))
     # A red run makes GitHub email the owner: broken rules and held price jumps need a person
     sys.exit(1 if failures or held else 0)
 
