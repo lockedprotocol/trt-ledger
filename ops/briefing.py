@@ -128,6 +128,7 @@ def cloudflare_visits(today):
     token, acct, tag = (os.environ.get(k) for k in ("CF_API_TOKEN", "CF_ACCOUNT_ID", "CF_SITE_TAG"))
     if not (token and acct and tag):
         return "not connected (Cloudflare Web Analytics)"
+    token = "".join(ch for ch in token if ch.isascii() and not ch.isspace())   # pasted tokens can carry invisible characters
     q = """query($a:String!,$t:String!,$from:Date!,$to:Date!){viewer{accounts(filter:{accountTag:$a}){
       rumPageloadEventsAdaptiveGroups(limit:1,filter:{siteTag:$t,date_geq:$from,date_leq:$to}){count sum{visits}}}}}"""
     v = {"a": acct, "t": tag, "from": str(today - dt.timedelta(days=7)), "to": str(today - dt.timedelta(days=1))}
@@ -139,6 +140,8 @@ def cloudflare_visits(today):
         if not groups:
             return "**0** visits"
         return f"**{groups[0]['sum']['visits']}** visits · {groups[0]['count']} page views"
+    except urllib.error.HTTPError as e:
+        return f"error (Cloudflare HTTP {e.code}: check CF_API_TOKEN has Account Analytics: Read)"
     except Exception as e:
         return f"unknown ({type(e).__name__})"
 
