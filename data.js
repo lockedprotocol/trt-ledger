@@ -729,6 +729,75 @@ window.TRT_DATA = {
           "pattern": "Testosterone Cypionate Injections \\$(\\d+)/mo"
         }
       ]
+    },
+    {
+      "id": "trt-kingdom",
+      "name": "TRT Kingdom",
+      "url": "https://trtkingdom.com",
+      "sourceUrl": "https://trtkingdom.com/products/hormone-therapy-testosterone-cypionate-therapy",
+      "checked": "2026-11-04",
+      "verified": true,
+      "model": "Tiered by plan length",
+      "monthly": 79,
+      "intakeFee": null,
+      "labsIncluded": null,
+      "labFee": null,
+      "medsIncluded": null,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection",
+        "oral",
+        "enclomiphene"
+      ],
+      "aiIncluded": null,
+      "hcg": "Offered; price not listed",
+      "commitment": "$79/mo on a 12-month plan; $89/mo on 6 months; $99/mo on a 2.5-month plan",
+      "states": "Not listed",
+      "highlights": [
+        "Lowest price needs a 12-month plan",
+        "Testosterone cypionate, oral testosterone and enclomiphene offered"
+      ],
+      "watchOuts": [
+        "Doesn't say whether labs or medication are included in the monthly price",
+        "States served not listed"
+      ],
+      "watch": [
+        {
+          "field": "monthly",
+          "pattern": "\\$\\s*(\\d+)\\s*/mo\\s*12-month plan"
+        }
+      ]
+    },
+    {
+      "id": "somira-health",
+      "name": "Somira Health",
+      "url": "https://somirahealth.com",
+      "sourceUrl": "https://somirahealth.com/mens-health/",
+      "checked": "2026-11-04",
+      "verified": true,
+      "model": "Pay per plan, no subscription",
+      "monthly": 100,
+      "intakeFee": 0,
+      "labsIncluded": false,
+      "labFee": 238,
+      "medsIncluded": true,
+      "clinicYear1Estimate": null,
+      "forms": [
+        "injection"
+      ],
+      "aiIncluded": null,
+      "hcg": "Offered (10,000 IU plan); price not listed here",
+      "commitment": "$299.99 for 3 months (about $100/mo) or $119.99 for 1 month; not a subscription, refill as needed",
+      "states": "Not listed",
+      "highlights": [
+        "Provider review and ongoing support included",
+        "Free shipping",
+        "Upload your own labs or buy them through Somira"
+      ],
+      "watchOuts": [
+        "Labs extra: $85 initial panel, $51 per follow-up panel (first year assumes 3 follow-ups = $238)",
+        "Prices load in the page's script, so the weekly check can't read them automatically"
+      ]
     }
   ],
   "inPerson": [
@@ -917,6 +986,18 @@ window.TRT_DATA = {
       "url": "https://huddlemenshealth.com",
       "note": "Prices not published; telehealth in CA and WA",
       "checked": "2026-11-03"
+    },
+    {
+      "name": "Cuda Health",
+      "url": "https://www.cudahealth.com",
+      "note": "Pay per vial, no membership (labs, then a consult); testosterone prices not published on its site",
+      "checked": "2026-11-04"
+    },
+    {
+      "name": "Talon Wellness",
+      "url": "https://www.talonwellness.com",
+      "note": "No membership or subscription; serves all 50 states. Testosterone price not published online (its shop lists enclomiphene from $73.50, $15 shipping)",
+      "checked": "2026-11-04"
     }
   ],
   "labs": [
