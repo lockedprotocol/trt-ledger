@@ -1,0 +1,948 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-04T06:04:29+00:00",
+  "title": "Design System: TRT Ledger",
+  "extensions": {
+    "colorMeta": {
+      "periwinkle": {
+        "role": "primary",
+        "displayName": "Periwinkle",
+        "canonical": "#9cbcff",
+        "oklch": "oklch(79.7% 0.102 264.5)",
+        "tonalRamp": [
+          "#030921",
+          "#102149",
+          "#263d72",
+          "#405b97",
+          "#607cb8",
+          "#849ed4",
+          "#b1c4ec",
+          "#e8effc"
+        ],
+        "theme": "dark",
+        "purpose": "Dark-theme (default) action fill, links, focus.",
+        "lightCounterpart": "navy"
+      },
+      "periwinkle-light": {
+        "role": "primary",
+        "displayName": "Periwinkle Light",
+        "canonical": "#bfd3ff",
+        "oklch": "oklch(86.7% 0.065 265.8)",
+        "tonalRamp": [
+          "#050a19",
+          "#18233c",
+          "#303f60",
+          "#4c5d83",
+          "#6c7da3",
+          "#8e9ec1",
+          "#b8c4de",
+          "#eaeef7"
+        ],
+        "theme": "dark",
+        "purpose": "Hover for periwinkle actions.",
+        "lightCounterpart": "navy-deep"
+      },
+      "navy": {
+        "role": "primary",
+        "displayName": "Ledger Navy",
+        "canonical": "#13284d",
+        "oklch": "oklch(28.2% 0.073 260.8)",
+        "tonalRamp": [
+          "#040b1b",
+          "#14233f",
+          "#2a3f64",
+          "#465e87",
+          "#657ea8",
+          "#899fc5",
+          "#b4c5e1",
+          "#e9eff8"
+        ],
+        "theme": "light",
+        "purpose": "Light-theme action fill, logo tile in light, alert band in light.",
+        "darkCounterpart": "night-band"
+      },
+      "navy-deep": {
+        "role": "primary",
+        "displayName": "Navy Deep",
+        "canonical": "#0a1a36",
+        "oklch": "oklch(22.2% 0.059 260.7)",
+        "tonalRamp": [
+          "#050b18",
+          "#17243a",
+          "#2f405d",
+          "#4b5e7f",
+          "#6a7ea0",
+          "#8d9fbe",
+          "#b8c5db",
+          "#eaeff6"
+        ],
+        "theme": "light",
+        "purpose": "Hover for navy actions.",
+        "darkCounterpart": "periwinkle-light"
+      },
+      "link-blue": {
+        "role": "primary",
+        "displayName": "Link Blue",
+        "canonical": "#1d4fae",
+        "oklch": "oklch(45.3% 0.161 261.6)",
+        "tonalRamp": [
+          "#00052d",
+          "#001b5e",
+          "#09378d",
+          "#2557b7",
+          "#4679d9",
+          "#6e9df2",
+          "#a2c5ff",
+          "#e3efff"
+        ],
+        "theme": "light",
+        "purpose": "Light-theme links and focus outlines."
+      },
+      "night-bg": {
+        "role": "neutral",
+        "displayName": "Night Bg",
+        "canonical": "#0a111e",
+        "oklch": "oklch(17.8% 0.029 262.2)",
+        "tonalRamp": [
+          "#080b12",
+          "#1e242f",
+          "#38404e",
+          "#555e6f",
+          "#747e8f",
+          "#969fae",
+          "#bec4d0",
+          "#eceef2"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "mist-bg"
+      },
+      "night-surface": {
+        "role": "neutral",
+        "displayName": "Night Surface",
+        "canonical": "#111a2b",
+        "oklch": "oklch(21.8% 0.036 262.5)",
+        "tonalRamp": [
+          "#070b13",
+          "#1d2432",
+          "#364052",
+          "#535e72",
+          "#727e93",
+          "#949fb2",
+          "#bdc4d2",
+          "#eceff3"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "paper"
+      },
+      "night-surface-raised": {
+        "role": "neutral",
+        "displayName": "Night Surface Raised",
+        "canonical": "#172238",
+        "oklch": "oklch(25.3% 0.045 263.3)",
+        "tonalRamp": [
+          "#060b15",
+          "#1b2435",
+          "#344056",
+          "#505e77",
+          "#707e98",
+          "#929fb7",
+          "#bbc4d6",
+          "#ebeff4"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "mist-surface-raised"
+      },
+      "night-tint": {
+        "role": "neutral",
+        "displayName": "Night Tint",
+        "canonical": "#121d33",
+        "oklch": "oklch(23.3% 0.046 263.1)",
+        "tonalRamp": [
+          "#060b15",
+          "#1b2435",
+          "#344057",
+          "#505e78",
+          "#707e98",
+          "#929fb7",
+          "#bbc4d6",
+          "#ebeff4"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "mist-tint"
+      },
+      "night-ink": {
+        "role": "neutral",
+        "displayName": "Night Ink",
+        "canonical": "#e9eef7",
+        "oklch": "oklch(94.8% 0.013 262.4)",
+        "tonalRamp": [
+          "#080b11",
+          "#21242b",
+          "#3c4047",
+          "#5a5e65",
+          "#797d85",
+          "#9a9fa7",
+          "#bfc4cd",
+          "#eaeff8"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "navy-ink"
+      },
+      "night-muted": {
+        "role": "neutral",
+        "displayName": "Night Muted",
+        "canonical": "#9ba7bd",
+        "oklch": "oklch(72.6% 0.035 262.6)",
+        "tonalRamp": [
+          "#070b13",
+          "#1d2431",
+          "#374051",
+          "#535e72",
+          "#737e92",
+          "#959fb1",
+          "#bdc4d2",
+          "#eceef3"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "slate-muted"
+      },
+      "night-line": {
+        "role": "neutral",
+        "displayName": "Night Line",
+        "canonical": "#233049",
+        "oklch": "oklch(31.0% 0.049 262.8)",
+        "tonalRamp": [
+          "#060b16",
+          "#1a2436",
+          "#334058",
+          "#4f5e7a",
+          "#6e7e9a",
+          "#919fb9",
+          "#bac5d7",
+          "#ebeff5"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "mist-line"
+      },
+      "night-control": {
+        "role": "neutral",
+        "displayName": "Night Control",
+        "canonical": "#5f6c85",
+        "oklch": "oklch(53.0% 0.043 263.4)",
+        "tonalRamp": [
+          "#070b14",
+          "#1c2434",
+          "#354055",
+          "#515e76",
+          "#717e96",
+          "#939fb5",
+          "#bcc4d5",
+          "#eceff4"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "slate-control"
+      },
+      "night-accent-soft": {
+        "role": "neutral",
+        "displayName": "Night Accent Soft",
+        "canonical": "#1b2a47",
+        "oklch": "oklch(28.7% 0.057 262.6)",
+        "tonalRamp": [
+          "#050b17",
+          "#182439",
+          "#30405c",
+          "#4c5e7e",
+          "#6c7e9f",
+          "#8f9fbd",
+          "#b9c5db",
+          "#ebeff6"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "mist-accent-soft"
+      },
+      "night-band": {
+        "role": "neutral",
+        "displayName": "Night Band",
+        "canonical": "#172a52",
+        "oklch": "oklch(29.3% 0.077 263.3)",
+        "tonalRamp": [
+          "#040a1c",
+          "#142341",
+          "#2b3f66",
+          "#475d89",
+          "#667daa",
+          "#8a9fc7",
+          "#b5c5e2",
+          "#e9eff9"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "navy"
+      },
+      "night-bar": {
+        "role": "neutral",
+        "displayName": "Night Bar",
+        "canonical": "#3a4761",
+        "oklch": "oklch(39.8% 0.047 263.8)",
+        "tonalRamp": [
+          "#060b15",
+          "#1b2436",
+          "#344057",
+          "#505e79",
+          "#6f7d99",
+          "#929fb8",
+          "#bbc4d7",
+          "#ebeff5"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "mist-bar"
+      },
+      "mist-bg": {
+        "role": "neutral",
+        "displayName": "Mist Bg",
+        "canonical": "#f5f7fb",
+        "oklch": "oklch(97.6% 0.006 264.5)",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#232427",
+          "#3e4043",
+          "#5c5e61",
+          "#7b7d81",
+          "#9d9ea2",
+          "#c2c4c8",
+          "#eceef2"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-bg"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ],
+        "theme": "light (also white text on the alert band in both themes)",
+        "darkCounterpart": "night-surface"
+      },
+      "mist-surface-raised": {
+        "role": "neutral",
+        "displayName": "Mist Surface Raised",
+        "canonical": "#eef2f8",
+        "oklch": "oklch(96.0% 0.009 258.3)",
+        "tonalRamp": [
+          "#090b0f",
+          "#212429",
+          "#3d4045",
+          "#5a5e63",
+          "#7a7d83",
+          "#9b9fa4",
+          "#c0c4ca",
+          "#ebeff5"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-surface-raised"
+      },
+      "mist-tint": {
+        "role": "neutral",
+        "displayName": "Mist Tint",
+        "canonical": "#e6eefa",
+        "oklch": "oklch(94.7% 0.018 258.4)",
+        "tonalRamp": [
+          "#070b13",
+          "#1f242d",
+          "#3a404a",
+          "#575e68",
+          "#777e88",
+          "#989faa",
+          "#bdc5d0",
+          "#e7effb"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-tint"
+      },
+      "navy-ink": {
+        "role": "neutral",
+        "displayName": "Navy Ink",
+        "canonical": "#0f1d36",
+        "oklch": "oklch(23.3% 0.052 261.2)",
+        "tonalRamp": [
+          "#050b16",
+          "#192438",
+          "#31405a",
+          "#4d5e7b",
+          "#6c7e9c",
+          "#8f9fba",
+          "#b9c5d9",
+          "#ebeff5"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-ink"
+      },
+      "slate-muted": {
+        "role": "neutral",
+        "displayName": "Slate Muted",
+        "canonical": "#55617a",
+        "oklch": "oklch(49.2% 0.043 264.8)",
+        "tonalRamp": [
+          "#070b14",
+          "#1c2434",
+          "#354055",
+          "#525e76",
+          "#717d97",
+          "#939fb6",
+          "#bcc4d5",
+          "#eceef4"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-muted"
+      },
+      "mist-line": {
+        "role": "neutral",
+        "displayName": "Mist Line",
+        "canonical": "#dde4ee",
+        "oklch": "oklch(91.6% 0.016 257.2)",
+        "tonalRamp": [
+          "#070b12",
+          "#1f242c",
+          "#3b4048",
+          "#585e67",
+          "#777e87",
+          "#989fa8",
+          "#bec5ce",
+          "#e8eff9"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-line"
+      },
+      "slate-control": {
+        "role": "neutral",
+        "displayName": "Slate Control",
+        "canonical": "#8c97ab",
+        "oklch": "oklch(67.4% 0.032 262.5)",
+        "tonalRamp": [
+          "#080b12",
+          "#1e2430",
+          "#374050",
+          "#545e70",
+          "#737e90",
+          "#959fb0",
+          "#bec4d1",
+          "#eceef3"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-control"
+      },
+      "mist-accent-soft": {
+        "role": "neutral",
+        "displayName": "Mist Accent Soft",
+        "canonical": "#e3eaf6",
+        "oklch": "oklch(93.5% 0.018 261.3)",
+        "tonalRamp": [
+          "#070b13",
+          "#1f242d",
+          "#3a4049",
+          "#585e68",
+          "#777e88",
+          "#989faa",
+          "#bec4d0",
+          "#e8effb"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-accent-soft"
+      },
+      "mist-bar": {
+        "role": "neutral",
+        "displayName": "Mist Bar",
+        "canonical": "#c2cbd9",
+        "oklch": "oklch(83.9% 0.022 259.2)",
+        "tonalRamp": [
+          "#080b10",
+          "#1f242c",
+          "#39404b",
+          "#565e6a",
+          "#767e8a",
+          "#989faa",
+          "#bfc4cd",
+          "#edeef1"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-bar"
+      },
+      "confirmed-green": {
+        "role": "secondary",
+        "displayName": "Confirmed Green",
+        "canonical": "#11734f",
+        "oklch": "oklch(49.3% 0.103 162.0)",
+        "tonalRamp": [
+          "#001105",
+          "#002f18",
+          "#004f2f",
+          "#086f4b",
+          "#3c906b",
+          "#6aaf8e",
+          "#a1d1b8",
+          "#e4f3ea"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-confirmed-green"
+      },
+      "confirmed-green-soft": {
+        "role": "secondary",
+        "displayName": "Confirmed Green Soft",
+        "canonical": "#dff3e9",
+        "oklch": "oklch(94.7% 0.025 164.4)",
+        "tonalRamp": [
+          "#070d0a",
+          "#1b2722",
+          "#35443d",
+          "#51625a",
+          "#718279",
+          "#93a39b",
+          "#bcc7c2",
+          "#ecefee"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-confirmed-green-soft"
+      },
+      "night-confirmed-green": {
+        "role": "secondary",
+        "displayName": "Night Confirmed Green",
+        "canonical": "#4fc98f",
+        "oklch": "oklch(75.2% 0.139 159.5)",
+        "tonalRamp": [
+          "#001302",
+          "#00320f",
+          "#005225",
+          "#007440",
+          "#029560",
+          "#54b485",
+          "#95d5b2",
+          "#e0f4e8"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "confirmed-green"
+      },
+      "night-confirmed-green-soft": {
+        "role": "secondary",
+        "displayName": "Night Confirmed Green Soft",
+        "canonical": "#12301f",
+        "oklch": "oklch(28.0% 0.048 156.5)",
+        "tonalRamp": [
+          "#030e07",
+          "#14291d",
+          "#2b4736",
+          "#476653",
+          "#678672",
+          "#8ba694",
+          "#b6cabd",
+          "#eaf0ec"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "confirmed-green-soft"
+      },
+      "check-amber": {
+        "role": "secondary",
+        "displayName": "Check Amber",
+        "canonical": "#865100",
+        "oklch": "oklch(48.5% 0.107 67.4)",
+        "tonalRamp": [
+          "#190500",
+          "#3d1900",
+          "#613200",
+          "#855000",
+          "#a67032",
+          "#c49460",
+          "#e0bd99",
+          "#f8ece0"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-check-amber"
+      },
+      "check-amber-soft": {
+        "role": "secondary",
+        "displayName": "Check Amber Soft",
+        "canonical": "#fdf0d6",
+        "oklch": "oklch(95.9% 0.037 84.6)",
+        "tonalRamp": [
+          "#0f0b04",
+          "#2a2314",
+          "#483e2b",
+          "#675c46",
+          "#877c65",
+          "#a79d89",
+          "#cbc3b5",
+          "#f1eee9"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-check-amber-soft"
+      },
+      "night-check-amber": {
+        "role": "secondary",
+        "displayName": "Night Check Amber",
+        "canonical": "#f0b357",
+        "oklch": "oklch(80.6% 0.129 75.2)",
+        "tonalRamp": [
+          "#1a0500",
+          "#3e1800",
+          "#633200",
+          "#865000",
+          "#a87100",
+          "#c6944b",
+          "#e1be8c",
+          "#f8eddd"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "check-amber"
+      },
+      "night-check-amber-soft": {
+        "role": "secondary",
+        "displayName": "Night Check Amber Soft",
+        "canonical": "#2e2412",
+        "oklch": "oklch(26.7% 0.033 81.2)",
+        "tonalRamp": [
+          "#0f0a04",
+          "#2a2315",
+          "#483e2d",
+          "#675c48",
+          "#877c68",
+          "#a79d8b",
+          "#cbc3b6",
+          "#f1eeea"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "check-amber-soft"
+      },
+      "error-red": {
+        "role": "secondary",
+        "displayName": "Error Red",
+        "canonical": "#b42318",
+        "oklch": "oklch(50.0% 0.182 29.5)",
+        "tonalRamp": [
+          "#270000",
+          "#550000",
+          "#830000",
+          "#ad1a10",
+          "#d14839",
+          "#ee7564",
+          "#ffa99b",
+          "#ffe6e1"
+        ],
+        "theme": "light",
+        "darkCounterpart": "night-error-red"
+      },
+      "night-error-red": {
+        "role": "secondary",
+        "displayName": "Night Error Red",
+        "canonical": "#f2847b",
+        "oklch": "oklch(73.2% 0.136 25.8)",
+        "tonalRamp": [
+          "#210000",
+          "#4b0105",
+          "#741818",
+          "#9c3733",
+          "#bf5a53",
+          "#dd8179",
+          "#f4b0a9",
+          "#ffe8e6"
+        ],
+        "theme": "dark",
+        "lightCounterpart": "error-red"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero headline and the overpaying result number; condensed wdth 72 at 850."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads and the alert band heading; wdth 75."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Clinic names (wdth 88), summary and group heads (wdth 85)."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Every first-year total, lab total and stat; tabular, condensed. 40px on the hero price card."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs and lists at regular width; ledes 17-18.5px muted."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels, notes, checked dates and source lines in muted ink."
+      },
+      "tag": {
+        "displayName": "Tag",
+        "purpose": "Pill tags and count badges."
+      }
+    },
+    "fontLoading": {
+      "family": "Archivo",
+      "source": "Google Fonts css2, wdth 62..125, wght 400..900, display=swap"
+    },
+    "themes": {
+      "default": "dark",
+      "mechanism": "Pre-paint script sets html[data-theme] from localStorage trtTheme, falling back to dark; header sun/moon switch toggles and stores the choice. A prefers-color-scheme dark block mirrors the dark set for no-JS visitors."
+    },
+    "shadows": [
+      {
+        "name": "rest-light",
+        "value": "0 1px 2px rgba(15,29,54,.06), 0 14px 32px -18px rgba(15,29,54,.22)",
+        "purpose": "Cards, panels, tiles, search pill, selected tab (light)."
+      },
+      {
+        "name": "lifted-light",
+        "value": "0 2px 4px rgba(15,29,54,.05), 0 24px 48px -24px rgba(15,29,54,.3)",
+        "purpose": "Hero price card only (light)."
+      },
+      {
+        "name": "rest-dark",
+        "value": "0 1px 2px rgba(0,0,0,.35)",
+        "purpose": "Same roles as rest, dark theme."
+      },
+      {
+        "name": "lifted-dark",
+        "value": "0 1px 2px rgba(0,0,0,.35), 0 24px 48px -24px rgba(0,0,0,.6)",
+        "purpose": "Hero price card only (dark)."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 3px var(--accent-soft)",
+        "purpose": "Field focus; the ZIP search pill uses 4px."
+      },
+      {
+        "name": "confirmed-ring",
+        "value": "0 0 0 1px var(--ok), var(--shadow)",
+        "purpose": "Clinic card that holds Lowest first-year cost for the visitor's state."
+      }
+    ],
+    "gradients": [
+      {
+        "name": "hero-glow-light",
+        "value": "radial-gradient(70% 90% at 100% 0%, #d4e3fb 0%, transparent 60%), radial-gradient(60% 80% at 0% 100%, #e3f1ea 0%, transparent 60%), #e6eefa",
+        "purpose": "Hero panel ground (light)."
+      },
+      {
+        "name": "hero-glow-dark",
+        "value": "radial-gradient(70% 90% at 100% 0%, #1a2c52 0%, transparent 60%), #121d33",
+        "purpose": "Hero panel ground (dark)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-transition",
+        "value": "0.15s ease",
+        "purpose": "Background, border, box-shadow and disclosure-chevron changes on controls."
+      },
+      {
+        "name": "press",
+        "value": "translateY(1px)",
+        "purpose": "Button active state."
+      },
+      {
+        "name": "settle",
+        "value": "0.7s cubic-bezier(.16,1,.3,1); from opacity .35, blur 3px, translateY 4px",
+        "purpose": "The one authored moment: the overpaying result number settles in on the first result."
+      },
+      {
+        "name": "grow",
+        "value": "0.8s cubic-bezier(.16,1,.3,1); from scaleX .55, opacity .5; 0.05s/0.1s stagger",
+        "purpose": "Overpaying chart bars on the first result."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce disables all transitions and animations and smooth scrolling",
+        "purpose": "Accessibility invariant."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "960px"
+      },
+      {
+        "name": "phone",
+        "value": "720px"
+      }
+    ],
+    "layout": {
+      "container": "1160px max, 24px gutters (16px under 720px)",
+      "header": "66px sticky, 86% page ground, 14px backdrop blur"
+    },
+    "logo": {
+      "status": "chosen 2026-11-04",
+      "name": "Price drop",
+      "description": "34px navy #13284d tile with three rounded columns stepping down (periwinkle 50%, periwinkle 85%, confirmed green lowest) and a white arrow following the fall; faint periwinkle hairline border. Fixed colors in both themes. Wordmark: TRT in ink, Ledger in link color, 800, wdth 88.",
+      "files": [
+        "assets/favicon.svg",
+        "pipeline/build_pages.py LOGO",
+        "index.html header and footer"
+      ]
+    },
+    "icons": {
+      "grid": "24px",
+      "stroke": "2px (1.8px on search pin and theme switch; 2.6px in inclusion marks)",
+      "caps": "round",
+      "fill": "none",
+      "set": [
+        "external arrow",
+        "right arrow",
+        "tick",
+        "cross",
+        "question",
+        "map pin",
+        "sun",
+        "moon"
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Pill primary action (periwinkle in dark, navy in light) for Find clinics and form submits.",
+      "html": "<button class=\"ds-btn\">Find clinics</button>",
+      "css": ".ds-btn{min-height:46px;padding:11px 22px;border-radius:999px;border:0;background:var(--accent,#9cbcff);color:var(--accent-ink,#0a111e);font:650 16px/1.6 Archivo,system-ui,sans-serif;font-variation-settings:\"wdth\" 100;cursor:pointer;transition:background .15s,transform .15s}.ds-btn:hover{background:var(--accent-hover,#bfd3ff)}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:2px solid var(--link,#9cbcff);outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Surface pill with hairline for map links and secondary actions.",
+      "html": "<a class=\"ds-btn2\" href=\"#\">Search Google Maps<svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 6h9v9M18 6 7 17\"/></svg></a>",
+      "css": ".ds-btn2{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 18px;border-radius:999px;border:1px solid var(--line,#233049);background:var(--surface,#111a2b);color:var(--ink,#e9eef7);font:650 14.5px Archivo,system-ui,sans-serif;text-decoration:none}.ds-btn2:hover{background:var(--surface-2,#172238)}.ds-btn2:focus-visible{outline:2px solid var(--link,#9cbcff);outline-offset:2px}.ds-ico{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}"
+    },
+    {
+      "name": "ZIP Search Pill",
+      "kind": "input",
+      "refersTo": "search-pill",
+      "description": "Large pill search with the map-pin stroke icon and an inset primary button.",
+      "html": "<form class=\"ds-search\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z\"/><circle cx=\"12\" cy=\"9.5\" r=\"2.5\"/></svg><input inputmode=\"numeric\" placeholder=\"ZIP code\" aria-label=\"ZIP code\"><button type=\"button\">Find clinics</button></form>",
+      "css": ".ds-search{display:flex;align-items:center;gap:8px;padding:7px 7px 7px 18px;max-width:540px;background:var(--surface,#111a2b);border:1px solid var(--control,#5f6c85);border-radius:999px;box-shadow:var(--shadow,0 1px 2px rgba(0,0,0,.35));font-family:Archivo,system-ui,sans-serif;transition:border-color .15s,box-shadow .15s}.ds-search:focus-within{border-color:var(--link,#9cbcff);box-shadow:0 0 0 4px var(--accent-soft,#1b2a47)}.ds-search svg{width:20px;height:20px;fill:none;stroke:var(--muted,#9ba7bd);stroke-width:1.8;flex:none}.ds-search input{flex:1;border:0;background:transparent;color:var(--ink,#e9eef7);font:18px Archivo,system-ui,sans-serif;letter-spacing:.02em;padding:10px 4px;outline:none}.ds-search button{min-height:46px;padding:13px 26px;border:0;border-radius:999px;background:var(--accent,#9cbcff);color:var(--accent-ink,#0a111e);font:650 16px Archivo,system-ui,sans-serif;cursor:pointer}.ds-search button:hover{background:var(--accent-hover,#bfd3ff)}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Form field: 12px radius, control border, link-colored focus with accent-soft halo.",
+      "html": "<label class=\"ds-label\">What you pay per month<input class=\"ds-input\" type=\"number\" placeholder=\"e.g. 199\"></label>",
+      "css": ".ds-label{display:block;font:550 13.5px Archivo,system-ui,sans-serif;color:var(--muted,#9ba7bd)}.ds-input{display:block;width:100%;margin-top:6px;min-height:46px;padding:10px 14px;border:1px solid var(--control,#5f6c85);border-radius:12px;background:var(--surface,#111a2b);color:var(--ink,#e9eef7);font:16px Archivo,system-ui,sans-serif;transition:border-color .15s,box-shadow .15s}.ds-input:hover{border-color:var(--ink,#e9eef7)}.ds-input:focus{outline:none;border-color:var(--link,#9cbcff);box-shadow:0 0 0 3px var(--accent-soft,#1b2a47)}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "description": "Sticky translucent header with pill links; the first link is the primary pill.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-cta\" href=\"#\">Find clinics</a><a href=\"#\">Am I overpaying?</a><a href=\"#\">Lab tests</a><a href=\"#\">Browse by state</a></nav>",
+      "css": ".ds-nav{display:flex;gap:2px;padding:12px;background:color-mix(in srgb,var(--bg,#0a111e) 86%,transparent);border-bottom:1px solid var(--line,#233049);font-family:Archivo,system-ui,sans-serif}.ds-nav a{color:var(--ink,#e9eef7);text-decoration:none;font-size:14.5px;font-weight:550;padding:9px 14px;border-radius:999px}.ds-nav a:hover{background:var(--surface-2,#172238)}.ds-nav a.ds-cta{background:var(--accent,#9cbcff);color:var(--accent-ink,#0a111e)}.ds-nav a.ds-cta:hover{background:var(--accent-hover,#bfd3ff)}.ds-nav a:focus-visible{outline:2px solid var(--link,#9cbcff);outline-offset:2px}"
+    },
+    {
+      "name": "Status Tags",
+      "kind": "chip",
+      "refersTo": "tag-lowest",
+      "description": "Pill tags with fixed meanings: solid green lowest-confirmed, amber check, muted model.",
+      "html": "<span class=\"ds-tag ds-best\">Lowest first-year cost</span> <span class=\"ds-tag ds-ok\">Confirmed for Texas</span> <span class=\"ds-tag ds-warn\">Check state</span> <span class=\"ds-tag ds-model\">Estimate</span>",
+      "css": ".ds-tag{display:inline-block;font:600 12.5px/1.5 Archivo,system-ui,sans-serif;padding:3px 10px;border-radius:999px;white-space:nowrap}.ds-best{background:var(--ok,#4fc98f);color:var(--accent-ink,#0a111e)}.ds-ok{background:var(--ok-soft,#12301f);color:var(--ok,#4fc98f)}.ds-warn{background:var(--warn-soft,#2e2412);color:var(--warn,#f0b357)}.ds-model{background:var(--surface-2,#172238);color:var(--muted,#9ba7bd)}"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-selected",
+      "description": "Checkbox pill; checked takes accent border and accent-soft fill.",
+      "html": "<label class=\"ds-chip\"><input type=\"checkbox\" checked> Testosterone only</label>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 14px;border:1px solid var(--line,#233049);border-radius:999px;background:var(--surface,#111a2b);color:var(--ink,#e9eef7);font:14px Archivo,system-ui,sans-serif;cursor:pointer}.ds-chip:has(input:checked){border-color:var(--accent,#9cbcff);background:var(--accent-soft,#1b2a47)}.ds-chip input{margin:0;accent-color:var(--accent,#9cbcff)}.ds-chip:has(input:focus-visible){outline:2px solid var(--link,#9cbcff);outline-offset:2px}"
+    },
+    {
+      "name": "Hero Price Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Signature live answer: clinic, condensed tabular total, green confirmed line, itemized lines, source, compare link.",
+      "html": "<aside class=\"ds-pc\"><div class=\"ds-pc-head\"><div><h2>PeterMD</h2><p class=\"ds-why\">Lowest first-year cost confirmed for Texas</p></div><span class=\"ds-total\">$1,548</span></div><ul class=\"ds-lines\"><li><span>Membership</span><b>$948</b></li><li><span>Labs (estimate)</span><b>$300</b></li><li><span>Startup fees</span><b>$300</b></li></ul><p class=\"ds-foot\">Checked Nov 3, 2026 · <a href=\"#\">Source</a></p><a class=\"ds-link\" href=\"#\">Compare all 4 confirmed for Texas<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h13M13 6l6 6-6 6\"/></svg></a></aside>",
+      "css": ".ds-pc{max-width:380px;background:var(--surface,#111a2b);color:var(--ink,#e9eef7);border:1px solid var(--line,#233049);border-radius:20px;padding:24px 24px 20px;box-shadow:var(--shadow-lg,0 1px 2px rgba(0,0,0,.35),0 24px 48px -24px rgba(0,0,0,.6));font:16px/1.6 Archivo,system-ui,sans-serif}.ds-pc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line,#233049)}.ds-pc h2{margin:0;font-size:26px;line-height:1.15;font-weight:850;font-variation-settings:\"wdth\" 80}.ds-why{margin:2px 0 0;font-size:13.5px;font-weight:600;color:var(--ok,#4fc98f)}.ds-total{font-size:40px;font-weight:850;font-variation-settings:\"wdth\" 75;font-variant-numeric:tabular-nums;letter-spacing:-.01em}.ds-lines{list-style:none;margin:10px 0 0;padding:0;font-size:14.5px}.ds-lines li{display:flex;justify-content:space-between;padding:6px 0;color:var(--muted,#9ba7bd)}.ds-lines b{color:var(--ink,#e9eef7);font-weight:600;font-variant-numeric:tabular-nums}.ds-foot{font-size:13px;color:var(--muted,#9ba7bd);margin:10px 0 14px}.ds-pc a{color:var(--link,#9cbcff)}.ds-link{display:inline-flex;align-items:center;gap:4px;min-height:44px;font-weight:650;text-decoration:none}.ds-link svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.ds-link:hover{color:var(--accent-hover,#bfd3ff)}"
+    },
+    {
+      "name": "Clinic Card (lowest confirmed)",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Comparison card with rank circle, tags, pinned cost block and inclusion pills; the confirmed-lowest variant gains a green ring.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-top\"><span class=\"ds-rank\">1</span><div><h3>PeterMD</h3><span class=\"ds-tag2\">Lowest first-year cost</span></div><div class=\"ds-cost\"><span class=\"ds-lbl\">First-year cost</span><b>$1,548</b><span class=\"ds-lbl\">$129/mo avg</span></div></div><ul class=\"ds-inc\"><li><i><svg viewBox=\"0 0 24 24\"><path d=\"m6 12.5 4 4 8-9\"/></svg></i>Medication included</li><li class=\"unk\"><i><svg viewBox=\"0 0 24 24\"><path d=\"M9.5 9.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.7-.8 1.2V14\"/><path d=\"M12 17.5v.01\"/></svg></i>Labs: not stated</li></ul></article>",
+      "css": ".ds-card{background:var(--surface,#111a2b);color:var(--ink,#e9eef7);border:1px solid var(--ok,#4fc98f);box-shadow:0 0 0 1px var(--ok,#4fc98f),var(--shadow,0 1px 2px rgba(0,0,0,.35));border-radius:20px;padding:18px 22px 14px;font:16px/1.6 Archivo,system-ui,sans-serif}.ds-top{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start}.ds-rank{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;background:var(--ok,#4fc98f);color:var(--accent-ink,#0a111e);font-weight:700;font-size:14px}.ds-card h3{margin:3px 0 8px;font-size:21px;line-height:1.15;font-weight:800;font-variation-settings:\"wdth\" 88}.ds-tag2{display:inline-block;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--ok,#4fc98f);color:var(--accent-ink,#0a111e)}.ds-cost{display:grid;justify-items:end}.ds-cost b{font-size:34px;line-height:1.1;font-weight:850;font-variation-settings:\"wdth\" 75;font-variant-numeric:tabular-nums}.ds-lbl{font-size:12.5px;color:var(--muted,#9ba7bd)}.ds-inc{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding:0 0 0 50px}.ds-inc li{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--surface-2,#172238);font-size:13.5px}.ds-inc i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--ok-soft,#12301f);color:var(--ok,#4fc98f)}.ds-inc li.unk i{background:var(--warn-soft,#2e2412);color:var(--warn,#f0b357)}.ds-inc svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Open Ledger",
+    "overview": "TRT Ledger is a price guide that shows its working. The system is the category standard for consumer health comparison, executed at full craft: large rounded panels, pill controls, one confident ink color, and condensed heavy numerals that make a first-year total the loudest thing on any surface it appears on. Every visual decision serves one act: reading a sourced number, seeing how sure the site is of it, and acting on it.\n\nThe default first visit is **dark**: a deep blue-black ground with periwinkle actions. A stored choice from the header sun/moon switch can flip the site to the light world of soft blue-gray grounds and navy ink; both themes are full peers built from the same custom properties, and every generated state, city and partner page applies the same pre-paint theme script. Density is moderate: comparison cards carry a lot of facts, so the system spends its contrast on totals and status, and keeps everything else quiet in muted ink.\n\nImagery is limited to one authored stroke-icon set and the logo mark. There are no photographs, stock people, or illustrations.",
+    "keyCharacteristics": [
+      "Dark by default; light is a stored opt-in with identical structure.",
+      "Archivo variable throughout: condensed extra-bold for display and figures, regular width for UI.",
+      "Tabular figures on every price.",
+      "Pills for every control and status tag; large-radius panels for every container.",
+      "Three status colors with fixed meanings: green confirmed/savings, amber check, red errors.",
+      "One authored motion moment; everything else is a short state transition."
+    ],
+    "rules": [
+      {
+        "name": "The Three Meanings Rule",
+        "body": "Green means confirmed for your state or money saved; amber means check this; red means something is wrong with input. No status color is ever decoration. The build currently also tints the \"not included\" cross in clinic inclusion lists red; that use is under review and is not a pattern to extend.",
+        "section": "colors"
+      },
+      {
+        "name": "The Confirmed-Only Green Rule",
+        "body": "\"Lowest first-year cost\" and its green treatment go only to a clinic confirmed to serve the visitor's state. A clinic that does not publish its states gets amber \"Check state\", never green.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Action Color Rule",
+        "body": "Periwinkle (dark) or navy (light) is the only action fill. Secondary actions are surface-colored pills with a hairline, not a second accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Width Axis Rule",
+        "body": "Hierarchy is carried by width and weight together: display and figures sit between wdth 72 and 85 at 800–850; UI text stays at wdth 100. Never set body copy condensed, and never set a total at regular width.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Price Rule",
+        "body": "Every price, count, distance and stat uses tabular figures so columns of totals align.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "No uppercase labels, tracked-out eyebrows or kickers above headings. A heading starts the section.",
+        "section": "typography"
+      },
+      {
+        "name": "The Quiet Lift Rule",
+        "body": "Shadows are ambient and the same at rest everywhere; there is no hover lift on cards. State is shown by color and border, not by elevation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** treat dark as the default first visit and design every new surface in both themes from the shared custom properties.",
+      "**Do** make the first-year total the largest, most condensed text on any card (850, wdth 75, tabular).",
+      "**Do** pair every price with its \"Checked [date]\" and a Source link with the outbound icon.",
+      "**Do** use amber \"Check state\" for any clinic that does not publish its states, and reserve \"Lowest first-year cost\" and its green for a clinic confirmed for the visitor's state.",
+      "**Do** keep every control a pill at 44px or taller on phones.",
+      "**Do** draw any new icon to the existing 24px, 2px round-cap stroke."
+    ],
+    "donts": [
+      "**Don't** add a second accent color or use green, amber or red decoratively.",
+      "**Don't** use photographs, stock people, clinic imagery or illustrations.",
+      "**Don't** add eyebrows, kickers or uppercase tracked labels above headings.",
+      "**Don't** use hard offset shadows or hover lifts on cards.",
+      "**Don't** add motion beyond the overpaying result's settle-in; state changes are 0.15s color transitions.",
+      "**Don't** use emoji or text glyphs as icons."
+    ]
+  }
+}

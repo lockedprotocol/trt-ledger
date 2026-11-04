@@ -6,12 +6,12 @@
 <title>TRT Ledger — what TRT really costs, and where to get it</title>
 <meta name="description" content="Compare online TRT clinics on true first-year cost, find in-person clinics near your ZIP code, and check if you're overpaying. Every price links to its source.">
 <script>
-  // Apply a saved light/dark choice before first paint
-  try { const t = localStorage.getItem('trtTheme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  // Dark by default; a saved light/dark choice wins. Applied before first paint
+  try { document.documentElement.dataset.theme = localStorage.getItem('trtTheme') || 'dark'; } catch (e) { document.documentElement.dataset.theme = 'dark'; }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -21,11 +21,11 @@
 <header class="top">
   <div class="wrap topbar">
     <a class="logo" href="#top" aria-label="TRT Ledger home">
-      <svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/><path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>TRT<em>Ledger</em></span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#find">Find clinics</a>
+      <a href="#find" class="nav-cta">Find clinics</a>
       <a href="#overpaying">Am I overpaying?</a>
       <a href="#labs">Lab tests</a>
       <a href="trt/">Browse by state</a>
@@ -40,29 +40,31 @@
 
 <main id="top">
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <h1>See what TRT really costs — and where you can get it.</h1>
-        <p class="lede">We add up memberships, intake fees, labs and medication for online clinics, and map in-person clinics across the U.S. Every number links to where we found it.</p>
-        <p class="kicker">Independent · No paid rankings · Every price sourced</p>
-        <form class="search" id="zipForm" novalidate>
-          <label for="zip" class="sr">Your ZIP code</label>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-          <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP code" autocomplete="postal-code" aria-describedby="zipMsg">
-          <button type="submit">Find clinics</button>
-        </form>
-        <div class="search-alt">
-          <p class="note" id="zipMsg" role="status">Your ZIP stays in your browser.</p>
-          <label for="stateTop" class="sr">Or choose your state</label>
-          <select id="stateTop"><option value="">Or choose a state…</option></select>
+    <div class="wrap">
+      <div class="hero-panel">
+        <div class="hero-copy">
+          <h1>See what TRT really costs — and where you can get it.</h1>
+          <p class="lede">We add up memberships, intake fees, labs and medication for online clinics, and map in-person clinics across the U.S. Every number links to where we found it.</p>
+          <form class="search" id="zipForm" novalidate>
+            <label for="zip" class="sr">Your ZIP code</label>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <input id="zip" inputmode="numeric" maxlength="5" placeholder="ZIP code" autocomplete="postal-code" aria-describedby="zipMsg">
+            <button type="submit">Find clinics</button>
+          </form>
+          <div class="search-alt">
+            <p class="note" id="zipMsg" role="status">Your ZIP stays in your browser.</p>
+            <label for="stateTop" class="sr">Or choose your state</label>
+            <select id="stateTop"><option value="">Or choose a state…</option></select>
+          </div>
         </div>
+        <aside class="price-card" id="heroCard" aria-live="polite" aria-label="Lowest first-year cost"></aside>
       </div>
-      <aside class="hero-stats" aria-label="What we track">
-        <div class="hstat"><b id="statOnline">—</b><span>online clinics compared on first-year cost</span></div>
-        <div class="hstat"><b id="statInPerson">—</b><span>in-person clinics and specialists mapped</span></div>
-        <div class="hstat"><b>Weekly</b><span>price checks against each clinic's own site</span></div>
-        <p class="note">Prices last checked <span id="updated"></span></p>
-      </aside>
+      <ul class="trust" aria-label="About our data">
+        <li><b id="statOnline">—</b> online clinics compared on first-year cost</li>
+        <li><b id="statInPerson">—</b> in-person clinics and specialists mapped</li>
+        <li><b>Weekly</b> price checks against each clinic's own site · last <span id="updated"></span></li>
+        <li><b>Independent</b> no clinic pays to be listed or ranked</li>
+      </ul>
     </div>
   </section>
 
@@ -171,7 +173,7 @@
             <select id="opMed"><option value="">Any / not sure</option><option value="injection">Injection</option><option value="cream">Cream</option><option value="oral">Oral</option></select></div>
           <label class="toggle"><input type="checkbox" id="opNoContract"> Only clinics with no contract</label>
           <p class="note">Your state: <b id="opState">not set</b> · <a href="#top" data-focus="zip">change</a></p>
-          <button type="button" class="see-result" id="seeResult" hidden>See my result ↓</button>
+          <button type="button" class="see-result" id="seeResult" hidden>See my result<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6 13l6 6 6-6"/></svg></button>
         </form>
         <div class="panel opresult" id="opResult"></div>
         <p class="sr" role="status" id="opStatus"></p>
@@ -274,7 +276,7 @@
 <footer class="foot">
   <div class="wrap foot-grid">
     <div>
-      <a class="logo" href="#top"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--accent)"/><path d="M8 9.5h12M8 14h12M8 18.5h7" stroke="var(--accent-ink)" stroke-width="2.2" stroke-linecap="round"/></svg><span>TRT<em>Ledger</em></span></a>
+      <a class="logo" href="#top"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>TRT<em>Ledger</em></span></a>
       <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
       <p class="note"><a href="for-clinics/">For clinics</a></p>
     </div>
