@@ -953,30 +953,30 @@
       "vendor": "Walk-In Lab",
       "lab": "Quest",
       "price": 59.0,
-      "fees": 0,
-      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-blood-test-quest-873",
-      "checked": "2026-11-02",
-      "verified": false
+      "fees": 6.0,
+      "sourceUrl": "https://www.walkinlab.com/products/view/testosterone-total-blood-test-male-only",
+      "checked": "2026-11-04",
+      "verified": true
     },
     {
       "test": "Bioavailable + total testosterone",
       "vendor": "Walk-In Lab",
       "lab": "Quest",
       "price": 139.0,
-      "fees": 0,
-      "sourceUrl": "https://www.findlabtest.com/lab-test/hormone-testing/testosterone-free-bioavailable-and-total-ms-quest-14966",
-      "checked": "2026-11-02",
-      "verified": false
+      "fees": 6.0,
+      "sourceUrl": "https://www.walkinlab.com/products/view/testosterone-free-bioavailable-total-blood-test-lc-ms-ms",
+      "checked": "2026-11-04",
+      "verified": true
     },
     {
       "test": "Free & weakly bound testosterone",
       "vendor": "Walk-In Lab",
       "lab": "LabCorp",
       "price": 139.0,
-      "fees": 0,
-      "sourceUrl": "https://www.findlabtest.com/lab-test/general-wellness/testosterone-free-and-weakly-bound-labcorp-143255",
-      "checked": "2026-11-02",
-      "verified": false
+      "fees": 6.0,
+      "sourceUrl": "https://www.walkinlab.com/products/view/testosterone-free-weakly-bound-blood-test",
+      "checked": "2026-11-04",
+      "verified": true
     }
   ],
   "recentChanges": []
