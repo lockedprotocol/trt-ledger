@@ -322,6 +322,8 @@ button:active{transform:translateY(1px)}
 .lab .fees{font-size:12.5px;color:var(--muted)}
 .lab-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13.5px}
 .lab-foot a{white-space:nowrap;font-weight:650}
+.labs-more{margin-top:16px}
+.labs-more a{font-weight:650}
 
 /* ---------- Alerts ---------- */
 .alert-band{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:center;padding:44px;border-radius:var(--radius-lg);background:var(--band);color:var(--band-ink)}
@@ -384,6 +386,7 @@ td.num{font-variant-numeric:tabular-nums;font-weight:700}
 .foot ul{margin:0;padding-left:18px}
 .foot li{margin-bottom:6px}
 .foot .logo{margin-bottom:10px}
+.foot .tip-line{margin-top:14px;line-height:1.5}
 
 /* ---------- Small screens ---------- */
 @media (max-width:960px){
