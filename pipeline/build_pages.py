@@ -98,6 +98,10 @@ THEME_HEAD = ("<script>try{document.documentElement.dataset.theme=localStorage.g
 THEME_BTN_JS = ("<script>document.getElementById('themeBtn').addEventListener('click',()=>{const r=document.documentElement;"
                 "const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;"
                 "r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('trtTheme',r.dataset.theme)}catch(e){}});</script>")
+TIP_URL = "https://buy.stripe.com/6oU28qgtxf9n6w48PI7IY02"
+TIP_LINE = (f'<p class="note tip-line">TRT Ledger is free and independent. Tips help keep it that way: '
+            f'<a href="{TIP_URL}" rel="noopener">Support TRT Ledger</a>.<br>Tips never affect any listing or ranking.</p>')
+EXT_ICON = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h9v9M18 6 7 17"/></svg>'
 LOGO = ('<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1" y="1" width="62" height="62" rx="18" fill="#13284d" stroke="#9cbcff" stroke-opacity=".3" stroke-width="2"/><rect x="11" y="16" width="11" height="36" rx="4" fill="#9cbcff" fill-opacity=".5"/><rect x="26.5" y="24" width="11" height="28" rx="4" fill="#9cbcff" fill-opacity=".85"/><rect x="42" y="34" width="11" height="18" rx="4" fill="#4fc98f"/><path d="M13 11c10 2 20 9 31 18" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M45.5 22.5 47 31l-8.6.6" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
         '<span>TRT<em>Ledger</em></span>')
 
@@ -144,7 +148,7 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
     <nav class="nav" aria-label="Sections">
       <a href="{root}#find" class="nav-cta">Find clinics</a>
       <a href="{root}#overpaying">Am I overpaying?</a>
-      <a href="{root}#labs">Lab tests</a>
+      <a href="{root}lab-tests/">Lab tests</a>
       <a href="{root}trt/">Browse by state</a>
       <a href="{root}#alerts">Price alerts</a>
     </nav>
@@ -165,7 +169,8 @@ def page(path, title, desc, crumbs, body, updated, jsonld):
     <div>
       <a class="logo" href="{root}">{LOGO}</a>
       <p>An independent price guide. Clinics can't pay to be listed or ranked.</p>
-      <p class="note"><a href="{root}#faq">FAQ</a> · <a href="{root}#about">About</a> · <a href="{root}#contact">Contact</a> · <a href="{root}for-clinics/">For clinics</a></p>
+      <p class="note"><a href="{root}#faq">FAQ</a> · <a href="{root}#about">About</a> · <a href="{root}#contact">Contact</a> · <a href="{root}lab-tests/">Lab test prices</a> · <a href="{root}for-clinics/">For clinics</a></p>
+      {TIP_LINE}
     </div>
     <div>
       <h3>How we get our data</h3>
@@ -642,6 +647,74 @@ def main():
         "How TRT clinics can correct a listing, ask about a claimed badge or pricing report. Money never buys rank.",
         [("TRT Ledger", ""), ("For clinics", None)], body, today, []))
     sitemap.append(f"{SITE}/for-clinics/")
+
+    # ---- lab test prices (only the lab rows in data.json, cheapest total first) ----
+    usd2 = lambda n: f"${n:,.2f}"
+    labs = sorted(data["labs"], key=lambda l: (l["price"] + (l.get("fees") or 0), l["vendor"], l["test"]))
+    trs = []
+    for l in labs:
+        fees = l.get("fees") or 0
+        src = e(l["sourceUrl"])
+        tag = "" if l.get("verified") else ' <span class="tag warn">Unverified price</span>'
+        trs.append(f"""<tr><th scope="row">{e(l['test'])}{tag}</th>
+          <td data-label="Seller">{e(l['vendor'])}</td><td data-label="Draw site">{e(l['lab'])}</td>
+          <td data-label="Test price"><a href="{src}" target="_blank" rel="noopener">{usd2(l['price'])}</a></td>
+          <td data-label="Order fee">{f'<a href="{src}" target="_blank" rel="noopener">{usd2(fees)}</a>' if fees else 'None listed'}</td>
+          <td class="num" data-label="Total"><a href="{src}" target="_blank" rel="noopener">{usd2(l['price'] + fees)}</a></td>
+          <td data-label="Checked"><span>{fmt_date(l['checked'])} · <a href="{src}" target="_blank" rel="noopener">Source{EXT_ICON}</a></span></td></tr>""")
+    n_unver = sum(1 for l in labs if not l.get("verified"))
+    unver_note = (f" {'One price is' if n_unver == 1 else ('All ' if n_unver == len(labs) else '') + plural(n_unver, 'price', 'prices') + ' are'} marked “Unverified price”: we read "
+                  f"{'it' if n_unver == 1 else 'them'} from a price-listing site, not the seller's own page, so confirm on the seller's site before you pay."
+                  if n_unver else "")
+    cheapest = labs[0] if labs else None
+    lead = (f"The lowest listed total right now is {usd2(cheapest['price'] + (cheapest.get('fees') or 0))} for a "
+            f"{e(cheapest['test'].lower())} test from {e(cheapest['vendor'])}." if cheapest else "")
+    body = f"""    <div class="dir-head">
+      <h1>Testosterone blood test prices</h1>
+      <p class="lede">You can order a testosterone blood test online, without a doctor's visit, and get blood drawn at a Quest or Labcorp
+      site. Here is what each test costs from sellers that publish their prices, with every fee added in. {lead}</p>
+    </div>
+    <section class="dir-section" aria-labelledby="prices">
+      <h2 id="prices">Prices, cheapest first</h2>
+      <p class="sub">Totals are the test price plus any order or physician fee the seller lists. Each price links to where we found it.</p>
+      <div class="panel tablewrap">
+        <table class="dir-table">
+          <thead><tr><th scope="col">Test</th><th scope="col">Seller</th><th scope="col">Draw site</th><th scope="col">Test price</th><th scope="col">Order fee</th><th scope="col">Total</th><th scope="col">Checked</th></tr></thead>
+          <tbody>{''.join(trs)}</tbody>
+        </table>
+      </div>
+      <p class="note">Prices exclude any doctor's visit or consultation, and sellers may add tax or change prices at any time.{unver_note}</p>
+    </section>
+    <section class="dir-section" aria-labelledby="kinds">
+      <h2 id="kinds">Total, free and bioavailable testosterone</h2>
+      <ul>
+        <li><strong>Total testosterone</strong> measures all the testosterone in the sample: the part bound to proteins in the blood and the small part that isn't.</li>
+        <li><strong>Free testosterone</strong> measures only the part that isn't bound to proteins.</li>
+        <li><strong>Bioavailable (free and weakly bound) testosterone</strong> measures the free part plus the part loosely bound to a protein called albumin.</li>
+      </ul>
+      <p class="note">These are definitions only. Which test to order and what a result means are questions for a licensed clinician.</p>
+    </section>
+    <section class="dir-section" aria-labelledby="how">
+      <h2 id="how">How ordering works</h2>
+      <ol>
+        <li>Choose the test on the seller's website and pay online. Some sellers add an order or physician fee; the totals above include it where the seller lists it.</li>
+        <li>The seller gives you a lab order, usually by email or in your account.</li>
+        <li>Go to the Quest or Labcorp patient service center the seller names. Some take walk-ins; others ask you to book a time.</li>
+        <li>The seller posts your results to your account.</li>
+      </ol>
+      <p class="note">Not every seller can sell tests in every state, and each has its own rules. Check the seller's site before you pay.
+        TRT Ledger doesn't sell tests, and no seller pays to be listed here.</p>
+    </section>
+    <section class="dir-section" aria-labelledby="more">
+      <h2 id="more">Comparing TRT clinics?</h2>
+      <p class="sub">Some online clinics include lab work in their price and others charge for it. <a href="../#find">Compare online clinics on first-year cost</a>,
+        which counts labs, or <a href="../trt/">browse clinics by state</a>.</p>
+    </section>"""
+    write("lab-tests/index.html", page(
+        "lab-tests/index.html", "Cheapest Testosterone Blood Test: No Doctor Visit Needed",
+        "Compare prices for total and free testosterone blood tests you can order online and take at Quest or Labcorp. Every fee added, every price sourced.",
+        [("TRT Ledger", ""), ("Lab test prices", None)], body, today, []))
+    sitemap.append(f"{SITE}/lab-tests/")
 
     # ---- robots, homepage links ----
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
