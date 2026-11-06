@@ -149,7 +149,7 @@ def label(field):
             "clinicYear1Estimate": "year-1 estimate", "total": "total price", "ongoingMonthly": "average after year one"}.get(field, field)
 
 
-def write_report(today, changes, held, failures, blocked, healed, unreachable, ok, dry):
+def write_report(today, changes, held, failures, blocked, healed, unreachable, ok, dry, extra=()):
     lines = [f"# Price check — {today}{' (dry run)' if dry else ''}", "",
              f"- Sources confirmed: {ok}", f"- Price changes: {len(changes)}",
              f"- Held for review (jump over {int(MAX_AUTO_CHANGE*100)}%): {len(held)}",
@@ -179,6 +179,7 @@ def write_report(today, changes, held, failures, blocked, healed, unreachable, o
         lines += ["## Check by hand — these sites block automated visits", ""] + [
             f"- **{b['name']}** — last confirmed {b['since']} ([page]({b['url']})). If the price changed, edit data.json, "
             "set `checked` to today, and run `python3 checker/check_prices.py --build`." for b in blocked] + [""]
+    lines += list(extra)
     REPORT.write_text("\n".join(lines))
     return "\n".join(lines)
 
@@ -212,7 +213,34 @@ def send_alert(changes, site_url, sponsor=None):
         return f"sent (HTTP {r.status})"
 
 
+def expire_estimates(data, today):
+    """Clinic-provided estimates (prices a clinic gave us in writing, not on its own site) count as
+    "doesn't publish prices" once their reconfirmBy date passes. data.json keeps the entry so it can be
+    re-confirmed; the site (data.js) and the state pages drop it. Same rule in app.js and build_pages.py."""
+    out = json.loads(json.dumps(data))
+    keep = []
+    for c in out["clinics"]:
+        if c.get("sourceType") == "clinic-provided" and c.get("reconfirmBy") and c["reconfirmBy"] < today:
+            out.setdefault("noPricing", []).append({"name": c["name"], "url": c["url"], "checked": c["checked"],
+                "note": f"Its {c['sourceDate']} price estimate wasn't re-confirmed by {c['reconfirmBy']}"})
+        else:
+            keep.append(c)
+    out["clinics"] = keep
+    return out
+
+
+def estimate_lines(data, today):
+    est = [c for c in data["clinics"] if c.get("sourceType") == "clinic-provided"]
+    if not est:
+        return []
+    return ["## Clinic-provided estimates — re-confirm in writing with the clinic before the date", ""] + [
+        f"- **{c['name']}** — estimate from {c['sourceDate']}, re-confirm by {c['reconfirmBy']}"
+        + (" — **EXPIRED: hidden from the site and listed under \"doesn't publish prices\"**" if c["reconfirmBy"] < today else "")
+        + f" ([source]({c['sourceUrl']}))" for c in est] + [""]
+
+
 def build_site_data(data):
+    data = expire_estimates(data, dt.date.today().isoformat())
     SITE_JS.write_text("// Generated from data.json by checker/check_prices.py — edit data.json, not this file.\n"
                        "window.TRT_DATA = " + json.dumps(data, indent=2, ensure_ascii=False) + ";\n")
 
@@ -236,7 +264,7 @@ def main():
         DATA.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
         build_site_data(data)
 
-    print(write_report(today, changes, held, failures, blocked, healed, unreachable, ok, dry))
+    print(write_report(today, changes, held, failures, blocked, healed, unreachable, ok, dry, estimate_lines(data, today)))
     if not dry:
         print("Email alert:", send_alert(changes, os.environ.get("SITE_URL", "https://trtledger.com"), data.get("sponsor")))
     # A red run makes GitHub email the owner: broken rules and held price jumps need a person
