@@ -361,8 +361,8 @@ def online_table(st, data, root):
             '<span class="tag model">Estimate</span>' if est else ""])
         monthly = usd(c["monthly"]) + "/mo" if c.get("monthly") else e(c.get("monthlyLabel") or "—")
         trs.append(f"""<tr><th scope="row"><a href="{e(c['url'])}" target="_blank" rel="noopener nofollow">{e(c['name'])}</a> {tags}{dose_note(c)}</th>
-        <td class="num" data-label="First year">{usd(cost)}</td><td data-label="Price">{monthly}</td><td data-label="Labs">{yn(c.get('labsIncluded'), 'Included', 'Extra')}</td>
-        <td data-label="Medication">{yn(c.get('medsIncluded'), 'Included', 'Extra')}</td><td data-label="Contract">{e(c['commitment'])}</td></tr>""")
+        <td class="num" data-label="First year">{usd(cost)}</td><td data-label="Price">{monthly}</td><td data-label="Labs">{yn(c.get('labsIncluded'), 'Included', 'Separate (in total)')}</td>
+        <td data-label="Medication">{yn(c.get('medsIncluded'), 'Included', 'Separate (in total)')}</td><td data-label="Contract">{e(c['commitment'])}</td></tr>""")
     return f"""
     <section class="dir-section" aria-labelledby="online">
       <h2 id="online">Online TRT clinics that serve {e(NAMES[st])}</h2>
