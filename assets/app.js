@@ -130,8 +130,8 @@ function render(){
           <span class="src">Checked ${fmtDate(c.checked)} · <a href="${c.sourceUrl}" target="_blank" rel="noopener">Source${ICON.ext}</a></span></div>
       </div>
       <ul class="inc" aria-label="What's included">
-        ${incl('Labs', c.labsIncluded, 'Labs included', 'Labs extra')}
-        ${incl('Medication', c.medsIncluded, 'Medication included', 'Medication extra')}
+        ${incl('Labs', c.labsIncluded, 'Labs included', 'Labs paid separately (counted in total)')}
+        ${incl('Medication', c.medsIncluded, 'Medication included', 'Medication paid separately (counted in total)')}
         ${incl('Estrogen blocker', c.aiIncluded, 'Estrogen blocker included', 'No estrogen blocker')}
         <li>${c.forms.length ? c.forms.map(f=>f[0].toUpperCase()+f.slice(1)).join(' · ') : 'Medication types not listed'}</li>
         <li>Start: ${y.upfront==null ? 'not published' : usd(y.upfront)}</li>
@@ -367,7 +367,7 @@ function calcOverpay(){
   }).join('');
 
   const labsTxt = c => c.clinicYear1Estimate ? 'labs and meds as the clinic counts them' :
-    c.labsIncluded===true ? 'labs included' : c.labsIncluded===false ? 'labs extra' : 'labs unclear';
+    c.labsIncluded===true ? 'labs included' : c.labsIncluded===false ? 'labs paid separately (counted)' : 'labs unclear';
   const picks = cheaperConf.concat(cheaperUnsure).slice(0,3).concat(ests.filter(r=>r.cost<mine).slice(0,1)).map(r=>`<div class="pick">
       <div><b>${r.c.name}</b> ${tags(r)}</div><div class="save">Save ${usd(mine-r.cost)}/yr</div>
       <div class="sub2">${usd(r.cost)} first year · ${labsTxt(r.c)} · ${r.c.commitment} ·
