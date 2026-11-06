@@ -70,6 +70,8 @@ def serves(c, st):
     s = c.get("states") or ""
     if re.search(r"not listed", s, re.I):
         return None
+    if re.match(r"all 50 states", s, re.I):
+        return None if st == "DC" else True
     if re.search(r"all except", s, re.I):
         return st not in re.split(r"except", s, flags=re.I)[1]
     return st in re.split(r",\s*", s)
@@ -87,6 +89,42 @@ def year_one(c):
     if c.get("labsIncluded") is None:
         total, est = total + ASSUME["labCost"] * ASSUME["labsPerYear"], True
     return total, est
+
+
+# Clinic-provided estimates: prices a clinic gave us in writing that aren't on its own site.
+# Shown with a label, never called the lowest, and dropped to "doesn't publish prices" after reconfirmBy.
+def is_clinic_est(c):
+    return c.get("sourceType") == "clinic-provided"
+
+
+def est_label(c):
+    return "Clinic-provided estimate (" + dt.date.fromisoformat(c["sourceDate"]).strftime("%b %Y") + ")"
+
+
+def expire_estimates(data, today):
+    """Move clinic-provided estimates past their reconfirmBy date into noPricing (same rule as checker and app.js)."""
+    keep = []
+    for c in data["clinics"]:
+        if is_clinic_est(c) and c.get("reconfirmBy") and c["reconfirmBy"] < today:
+            data.setdefault("noPricing", []).append({"name": c["name"], "url": c["url"], "checked": c["checked"],
+                "note": f"Its {fmt_date(c['sourceDate'])} price estimate wasn't re-confirmed by {fmt_date(c['reconfirmBy'])}"})
+        else:
+            keep.append(c)
+    data["clinics"] = keep
+    return data
+
+
+def dose_note(c):
+    r = c.get("doseRange")
+    if not r:
+        return ""
+    return (f'<span class="dose-note">{r["low"]["mgPerWeek"]}–{r["high"]["mgPerWeek"]} mg/week: '
+            f'{usd(r["low"]["year1"])}–{usd(r["high"]["year1"])} first year (shown at {r["modeledMgPerWeek"]} mg)</span>')
+
+
+def first_published(rows):
+    """The cheapest row whose price is on the clinic's own site: the only kind that can be called lowest."""
+    return next((r for r in rows if not is_clinic_est(r[2])), None)
 
 
 def is_trt(c):
@@ -315,9 +353,10 @@ def online_table(st, data, root):
         tags = "".join([
             "" if s else '<span class="tag warn">Check state</span>',
             "" if c.get("verified") else '<span class="tag warn">Unverified price</span>',
+            f'<span class="tag warn">{e(est_label(c))}</span>' if is_clinic_est(c) else "",
             '<span class="tag model">Estimate</span>' if est else ""])
         monthly = usd(c["monthly"]) + "/mo" if c.get("monthly") else e(c.get("monthlyLabel") or "—")
-        trs.append(f"""<tr><th scope="row"><a href="{e(c['url'])}" target="_blank" rel="noopener nofollow">{e(c['name'])}</a> {tags}</th>
+        trs.append(f"""<tr><th scope="row"><a href="{e(c['url'])}" target="_blank" rel="noopener nofollow">{e(c['name'])}</a> {tags}{dose_note(c)}</th>
         <td class="num" data-label="First year">{usd(cost)}</td><td data-label="Price">{monthly}</td><td data-label="Labs">{yn(c.get('labsIncluded'), 'Included', 'Extra')}</td>
         <td data-label="Medication">{yn(c.get('medsIncluded'), 'Included', 'Extra')}</td><td data-label="Contract">{e(c['commitment'])}</td></tr>""")
     return f"""
@@ -341,7 +380,9 @@ def online_lead(st, rows):
     if len(conf) == 1:
         lead = f"{e(conf[0][2]['name'])} is the only online clinic that confirms it treats patients in {name}; its first-year cost is about <b>{usd(conf[0][1])}</b>."
     elif conf:
-        lead = f"{len(conf)} online clinics confirm they treat patients in {name}; the lowest first-year cost is about <b>{usd(conf[0][1])}</b> at {e(conf[0][2]['name'])}."
+        low = first_published(conf)
+        lead = f"{len(conf)} online clinics confirm they treat patients in {name}" + (
+            f"; the lowest first-year cost is about <b>{usd(low[1])}</b> at {e(low[2]['name'])}." if low else ".")
     else:
         lead = f"No online clinic we track confirms it treats patients in {name}."
     unsure = len(rows) - len(conf)
@@ -357,7 +398,8 @@ def online_summary(st, data, root):
     if not rows:
         return ""
     items = "".join(f'<li><b>{e(c["name"])}</b> — about {usd(cost)} in the first year'
-                    f'{" (estimate)" if est else ""}</li>' for _, cost, c, s, est in conf)
+                    f'{" — " + e(est_label(c)) if is_clinic_est(c) else " (estimate)" if est else ""}</li>'
+                    for _, cost, c, s, est in conf)
     return f"""
     <section class="dir-section" aria-labelledby="online">
       <h2 id="online">Online TRT in {e(NAMES[st])}</h2>
@@ -407,13 +449,14 @@ def faq_block(items):
 
 def cost_answer(st, rows, chains_here):
     conf = [r for r in rows if r[0] == 0]
+    low, low_any = first_published(conf), first_published(rows)
     parts = []
-    if conf:
-        parts.append(f"Online clinics that confirm they serve {NAMES[st]} start at about {usd(conf[0][1])} for the first year "
-                     f"({e(conf[0][2]['name'])}), including startup fees.")
-    elif rows:
+    if low:
+        parts.append(f"Online clinics that confirm they serve {NAMES[st]} start at about {usd(low[1])} for the first year "
+                     f"({e(low[2]['name'])}), including startup fees.")
+    elif low_any:
         parts.append(f"Online clinics that may serve {NAMES[st]} (they don't publish their states) start at about "
-                     f"{usd(rows[0][1])} for the first year ({e(rows[0][2]['name'])}), including startup fees.")
+                     f"{usd(low_any[1])} for the first year ({e(low_any[2]['name'])}), including startup fees.")
     for ch in chains_here:
         if not ch["pricing"].startswith("Not published"):
             parts.append(f"In person, {e(ch['name'])} lists {e(ch['pricing'])}.")
@@ -425,6 +468,7 @@ def cost_answer(st, rows, chains_here):
 
 def online_answer(st, rows):
     conf = [r for r in rows if r[0] == 0]
+    conf.sort(key=lambda r: is_clinic_est(r[2]))   # name a clinic whose price is on its own site first
     if len(conf) == 1:
         return f"Yes. {e(conf[0][2]['name'])} confirms it treats patients in {NAMES[st]}."
     if conf:
@@ -444,7 +488,7 @@ def city_has_page(c, state_total):
 
 
 def main():
-    data = json.loads((ROOT / "data.json").read_text())
+    data = expire_estimates(json.loads((ROOT / "data.json").read_text()), dt.date.today().isoformat())
     chains = {c["id"]: c for c in data.get("inPerson", [])}
     rows = []
     for f in (ROOT / "clinics").glob("[0-9]*.json"):
@@ -494,8 +538,9 @@ def main():
             title = f"TRT in {display_name}, {st}: {len(crs)} Clinic Listings"
         if len(title) > 60:
             title = f"TRT in {display_name}, {st}"
-        estimate = " (est.)" if conf and (conf[0][4] or conf[0][2].get("clinicYear1Estimate")) else ""
-        price = f" Online TRT from {usd(conf[0][1])}/first year{estimate}." if conf else ""
+        low = first_published(conf)
+        estimate = " (est.)" if low and (low[4] or low[2].get("clinicYear1Estimate")) else ""
+        price = f" Online TRT from {usd(low[1])}/first year{estimate}." if low else ""
         desc = f"{len(crs)} clinic listings in {display_name}, {st}.{price} Compare sourced costs, addresses and phone numbers."
         if len(desc) > 155:
             desc = f"{len(crs)} clinic listings in {display_name}, {st}.{price} Compare sourced costs."
@@ -568,8 +613,9 @@ def main():
         conf = [r for r in rows_online if r[0] == 0]
         display_state = "Washington, DC" if st == "DC" else NAMES[st]
         title = f"TRT in {display_state}: Online Costs & Clinic Listings"
-        estimate = " (est.)" if conf and (conf[0][4] or conf[0][2].get("clinicYear1Estimate")) else ""
-        price = f" Online TRT from {usd(conf[0][1])}/first year{estimate}." if conf else ""
+        low = first_published(conf)
+        estimate = " (est.)" if low and (low[4] or low[2].get("clinicYear1Estimate")) else ""
+        price = f" Online TRT from {usd(low[1])}/first year{estimate}." if low else ""
         desc = f"{len(rs)} in-person clinic listings in {display_state}.{price} Compare sourced prices and locations."
         body = f"""
     <header class="dir-head">

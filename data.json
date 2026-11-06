@@ -705,6 +705,65 @@
         "Labs extra: $85 initial panel, $51 per follow-up panel (first year assumes 3 follow-ups = $238)",
         "Prices load in the page's script, so the weekly check can't read them automatically"
       ]
+    },
+    {
+      "id": "talon-wellness",
+      "name": "Talon Wellness",
+      "url": "https://www.talonwellness.com",
+      "sourceUrl": "https://docs.google.com/document/d/1LgKBKKZv6txO1-HHKZIKWMxQr58DwHmgSpRzAac_Gfg/mobilebasic",
+      "checked": "2026-11-06",
+      "verified": true,
+      "sourceType": "clinic-provided",
+      "sourceDate": "2026-11-06",
+      "reconfirmBy": "2027-02-04",
+      "model": "Pay per vial, no membership",
+      "monthly": null,
+      "monthlyLabel": "$61.47/mo avg",
+      "intakeFee": 0,
+      "labsIncluded": false,
+      "labFee": 198,
+      "medsIncluded": false,
+      "clinicYear1Estimate": 737.6,
+      "year1Breakdown": [
+        "$320 medication (4 vials × $80)",
+        "$198 labs (2 × $99)",
+        "$150 consults (2 × $75)",
+        "$60 shipping (4 orders × $15)",
+        "$9.60 card fee (3% of medication)"
+      ],
+      "startCost": 271.4,
+      "doseRange": {
+        "modeledMgPerWeek": 140,
+        "low": {
+          "mgPerWeek": 100,
+          "year1": 640.2
+        },
+        "high": {
+          "mgPerWeek": 200,
+          "year1": 887.4
+        }
+      },
+      "forms": [
+        "injection"
+      ],
+      "aiIncluded": null,
+      "hcg": "Not listed",
+      "commitment": "No membership or subscription; pay per vial",
+      "states": "All 50 states",
+      "highlights": [
+        "Testosterone cypionate 200 mg/mL, 10 mL vial: $80",
+        "No membership or intake fee",
+        "Starter injection supplies included",
+        "Consult $75 and basic labs $99, each at the start and every 6 months",
+        "$15 shipping per order"
+      ],
+      "watchOuts": [
+        "Prices are from a pricing document Talon gave us (Nov 6, 2026), not from its website; its website shows the $99 lab panel and $15 shipping but not the vial or consult price",
+        "Medication, labs, consults and shipping are paid separately; 3% card fee on medication and supplies",
+        "Extra syringes ($1 per IM set, $5 per 10 SQ) and other prescribed medications cost extra",
+        "Modeled at 140 mg/week; the clinic's own totals run $640 (100 mg/week) to $887 (200 mg/week)",
+        "Start: $75 consult + $99 labs + first $80 vial + $15 shipping + $2.40 card fee"
+      ]
     }
   ],
   "inPerson": [
@@ -898,12 +957,6 @@
       "name": "Cuda Health",
       "url": "https://www.cudahealth.com",
       "note": "Pay per vial, no membership (labs, then a consult); testosterone prices not published on its site",
-      "checked": "2026-11-04"
-    },
-    {
-      "name": "Talon Wellness",
-      "url": "https://www.talonwellness.com",
-      "note": "No membership or subscription; serves all 50 states. Testosterone price not published online (its shop lists enclomiphene from $73.50, $15 shipping)",
       "checked": "2026-11-04"
     },
     {
