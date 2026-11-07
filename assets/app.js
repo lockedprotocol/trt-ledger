@@ -91,13 +91,15 @@ function render(){
     .filter(r => !$('noContract').checked || NO_CONTRACT.test(r.c.commitment));
   const key=$('sort').value;
   list.sort((p,q)=> key==='name'?p.c.name.localeCompare(q.c.name): key==='upfront'?(p.y.upfront??1e9)-(q.y.upfront??1e9) : p.y.total-q.y.total);
-  // With a state chosen, clinics confirmed for it come first; ones that don't publish their states follow
+  // With a state chosen, clinics confirmed for it come first; ones that don't publish their states follow.
+  // Clinic-provided estimates always come last, in their own group, after every published price.
   const listsStates = c => !/not listed/i.test(c.states||'');
-  const conf = list.filter(r => r.serves === true && (st || listsStates(r.c))), unsure = list.filter(r => !conf.includes(r));
-  if (st) list = conf.concat(unsure);
+  const ests = list.filter(r => isClinicEst(r.c)), pubList = list.filter(r => !isClinicEst(r.c));
+  const conf = pubList.filter(r => r.serves === true && (st || listsStates(r.c))), unsure = pubList.filter(r => !conf.includes(r));
+  list = (st ? conf.concat(unsure) : pubList).concat(ests);
+  const nPub = list.length - ests.length;
   // "Lowest first-year cost" only goes to a clinic confirmed for the state whose price is on its own site
-  const pub = conf.filter(r => !isClinicEst(r.c));
-  const cheapest = pub.length ? Math.min(...pub.map(r=>r.y.total)) : null;
+  const cheapest = conf.length ? Math.min(...conf.map(r=>r.y.total)) : null;
 
   const openIds = [...document.querySelectorAll('#results details[open]')].map(d => d.closest('.card').id);
   $('countOnline').textContent = list.length;
@@ -108,11 +110,12 @@ function render(){
     const cls = i >= CAP ? ' extra' : '';
     if (st && i === 0 && conf.length) return `<h3 class="group-head${cls}">Confirmed for ${NAMES[st]} <span class="count">${conf.length}</span></h3>`;
     if (st && i === conf.length && unsure.length) return `<h3 class="group-head${cls}">Check your state <span class="count">${unsure.length}</span><span class="note">These clinics don't publish which states they serve. Ask before you sign up.</span></h3>`;
+    if (i === nPub && ests.length) return `<h3 class="group-head${cls}">Clinic-provided estimates (not yet published on the clinic's site) <span class="count">${ests.length}</span><span class="note">Prices the clinic gave us in writing. Listed after published prices and never called the lowest.</span></h3>`;
     return '';
   };
   $('results').innerHTML = list.length ? list.map(({c,y,serves}, i) => {
-    const best = !!st && cheapest !== null && pub.some(r => r.c === c) && y.total===cheapest && key==='y1';
-    const rank = st && i >= conf.length ? i - conf.length + 1 : i + 1;
+    const best = !!st && cheapest !== null && conf.some(r => r.c === c) && y.total===cheapest && key==='y1';
+    const rank = st && i >= conf.length ? i - conf.length + 1 : i + 1;   // estimates continue the numbering, so never #1
     return `${head(i)}<article class="card ${best?'best':''}${i>=CAP?' extra':''}" id="clinic-${c.id}">
       <div class="card-top">
         <div class="rank" aria-hidden="true">${rank}</div>
@@ -127,8 +130,8 @@ function render(){
           <span class="src">Checked ${fmtDate(c.checked)} · <a href="${c.sourceUrl}" target="_blank" rel="noopener">Source${ICON.ext}</a></span></div>
       </div>
       <ul class="inc" aria-label="What's included">
-        ${incl('Labs', c.labsIncluded, 'Labs included', 'Labs extra')}
-        ${incl('Medication', c.medsIncluded, 'Medication included', 'Medication extra')}
+        ${incl('Labs', c.labsIncluded, 'Labs included', 'Labs paid separately (counted in total)')}
+        ${incl('Medication', c.medsIncluded, 'Medication included', 'Medication paid separately (counted in total)')}
         ${incl('Estrogen blocker', c.aiIncluded, 'Estrogen blocker included', 'No estrogen blocker')}
         <li>${c.forms.length ? c.forms.map(f=>f[0].toUpperCase()+f.slice(1)).join(' · ') : 'Medication types not listed'}</li>
         <li>Start: ${y.upfront==null ? 'not published' : usd(y.upfront)}</li>
@@ -307,7 +310,9 @@ function calcOverpay(){
   }
   // Verdicts only come from clinics confirmed to serve the state and offer the chosen medication
   const sure = r => (!st || r.serves===true) && (!med || r.c.forms.includes(med));
-  const conf = all.filter(sure), unsure = all.filter(r=>!sure(r));
+  // Clinic-provided estimates sit in their own group after every published price
+  const ests = all.filter(r => isClinicEst(r.c)), pubAll = all.filter(r => !isClinicEst(r.c));
+  const conf = pubAll.filter(sure), unsure = pubAll.filter(r=>!sure(r));
   const where = st ? `confirmed to serve ${NAMES[st]}` : 'we track';
   const tags = r => [
     st && r.serves===null ? '<span class="tag warn">Check your state</span>' : '',
@@ -318,8 +323,8 @@ function calcOverpay(){
     r.y.estimated ? '<span class="tag model">Uses your assumptions</span>' : '',
     staleTag(r.c.checked)].join(' ');
   // "Cheapest" only counts prices on a clinic's own site; a cheaper clinic-provided estimate gets its own note
-  const best = conf.find(r => !isClinicEst(r.c)), save = best ? mine - best.cost : null;
-  const est = conf.find(r => isClinicEst(r.c) && (!best || r.cost < best.cost));
+  const best = conf[0], save = best ? mine - best.cost : null;
+  const est = ests.find(r => sure(r) && (!best || r.cost < best.cost));
   const estLine = est ? `<p class="note">${est.c.name} may cost less, about ${usd(est.cost)} a year, but that’s a clinic-provided estimate (${estMonth(est.c)}), not a price on its website, so we don’t count it as the cheapest.</p>` : '';
 
   let eyebrow, big, line;
@@ -345,23 +350,25 @@ function calcOverpay(){
   const cheaperConf = conf.filter(r=>r.cost<mine), cheaperUnsure = unsure.filter(r=>r.cost<mine);
   const rank = `${cheaperConf.length} of ${conf.length} clinics ${where} cost less than you pay.` +
     (unsure.length ? ` ${unsure.length} more can’t be confirmed${st ? ` for ${NAMES[st]}` : ''}${med ? ' or your medication' : ''}.` : '') +
+    (ests.length ? ` ${ests.length === 1 ? '1 more is a clinic-provided estimate' : ests.length + ' more are clinic-provided estimates'}, listed last.` : '') +
     (st ? '' : ' <a href="#top" data-focus="zip">Enter your ZIP or state</a> to only see clinics that can treat you.');
 
   // Emphasis chart: "You" in --hl, clinics in de-emphasis gray, sorted low to high
-  const items = all.map(r=>({name:r.c.name, v:r.cost, r})).concat([{name:'You now', v:mine, you:true}]).sort((p,q)=>p.v-q.v);
+  const items = pubAll.map(r=>({name:r.c.name, v:r.cost, r})).concat([{name:'You now', v:mine, you:true}]).sort((p,q)=>p.v-q.v)
+    .concat(ests.map(r=>({name:r.c.name, v:r.cost, r, est:true})));   // estimates last, after every published price
   const max = Math.max(...items.map(i=>i.v));
   const bars = items.map(i=>{
     const diff = i.you ? 'What you pay now, per year' :
-      `${usd(i.v)} est. first year · ${i.v<mine ? usd(mine-i.v)+' less than you' : i.v>mine ? usd(i.v-mine)+' more than you' : 'same as you'}${sure(i.r) ? '' : ' · not confirmed for your filters'}`;
-    return `<li class="barrow ${i.you?'you':!sure(i.r)?'unsure':''}">
-      <span class="nm">${i.name}${!i.you && !sure(i.r) ? ' <small>(unconfirmed)</small>' : ''}</span>
+      `${usd(i.v)} est. first year · ${i.v<mine ? usd(mine-i.v)+' less than you' : i.v>mine ? usd(i.v-mine)+' more than you' : 'same as you'}${i.est ? ' · clinic-provided estimate, not on its site' : sure(i.r) ? '' : ' · not confirmed for your filters'}`;
+    return `<li class="barrow ${i.you?'you':i.est||!sure(i.r)?'unsure':''}">
+      <span class="nm">${i.name}${i.est ? ' <small>(clinic estimate)</small>' : !i.you && !sure(i.r) ? ' <small>(unconfirmed)</small>' : ''}</span>
       <span class="track"><span class="bar" style="--r:${(i.v/max).toFixed(4)}"></span><span class="val">${usd(i.v)}</span></span>
       <span class="sr">${diff}</span><span class="tip" aria-hidden="true">${diff}</span></li>`;
   }).join('');
 
   const labsTxt = c => c.clinicYear1Estimate ? 'labs and meds as the clinic counts them' :
-    c.labsIncluded===true ? 'labs included' : c.labsIncluded===false ? 'labs extra' : 'labs unclear';
-  const picks = cheaperConf.concat(cheaperUnsure).slice(0,3).map(r=>`<div class="pick">
+    c.labsIncluded===true ? 'labs included' : c.labsIncluded===false ? 'labs paid separately (counted)' : 'labs unclear';
+  const picks = cheaperConf.concat(cheaperUnsure).slice(0,3).concat(ests.filter(r=>r.cost<mine).slice(0,1)).map(r=>`<div class="pick">
       <div><b>${r.c.name}</b> ${tags(r)}</div><div class="save">Save ${usd(mine-r.cost)}/yr</div>
       <div class="sub2">${usd(r.cost)} first year · ${labsTxt(r.c)} · ${r.c.commitment} ·
         <a href="#clinic-${r.c.id}" data-goto="${r.c.id}">Details</a> · <a href="${r.c.url}" target="_blank" rel="noopener nofollow">Visit${ICON.ext}</a></div>
@@ -373,7 +380,7 @@ function calcOverpay(){
     <p>${line}</p>
     ${estLine}${maybeLine}
     <p class="note">${rank}</p>
-    ${unsure.length ? '<p class="bars-key" aria-hidden="true"><span><i></i>Confirmed for your filters</span><span><i class="unsure"></i>Not confirmed</span></p>' : ''}
+    ${unsure.length || ests.length ? `<p class="bars-key" aria-hidden="true"><span><i></i>Confirmed for your filters</span><span><i class="unsure"></i>Not confirmed${ests.length ? ' or clinic estimate' : ''}</span></p>` : ''}
     <ul class="bars" aria-label="Yearly cost: you vs. each clinic">${bars}</ul>
     ${picks ? `<div class="picks">${picks}</div>` : ''}
     <p class="note" style="margin-top:12px">Clinic figures are first-year estimates that include published startup fees; unpublished intake fees are excluded.

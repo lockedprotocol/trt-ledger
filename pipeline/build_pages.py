@@ -329,7 +329,8 @@ def online_rows(st, data):
         if s is False:
             continue
         cost, est = year_one(c)
-        rows.append((0 if s else 1, cost, c, s, est))
+        # groups: 0 confirmed for the state, 1 check your state, 2 clinic-provided estimates (always last)
+        rows.append((2 if is_clinic_est(c) else 0 if s else 1, cost, c, s, est))
     rows.sort(key=lambda r: (r[0], r[1]))
     return rows
 
@@ -345,11 +346,14 @@ def online_table(st, data, root):
     yn = lambda v, y, n: y if v is True else n if v is False else "Not stated"
     trs = []
     n_conf = sum(1 for r in rows if r[0] == 0)
+    n_pub = sum(1 for r in rows if r[0] < 2)
     for i, (_, cost, c, s, est) in enumerate(rows):
+        if i == n_pub:
+            trs.append(f'<tr class="grp"><th colspan="6" scope="rowgroup">Clinic-provided estimates (not yet published on the clinic\'s site) <span class="count">{len(rows) - n_pub}</span><span class="note">Prices the clinic gave us in writing. Listed after published prices and never called the lowest.</span></th></tr>')
         if i == 0 and n_conf:
             trs.append(f'<tr class="grp"><th colspan="6" scope="rowgroup">Confirmed for {e(NAMES[st])} <span class="count">{n_conf}</span></th></tr>')
-        if i == n_conf and len(rows) > n_conf:
-            trs.append(f'<tr class="grp"><th colspan="6" scope="rowgroup">Check your state <span class="count">{len(rows) - n_conf}</span><span class="note">These clinics don\'t publish which states they serve.</span></th></tr>')
+        if i == n_conf and n_pub > n_conf:
+            trs.append(f'<tr class="grp"><th colspan="6" scope="rowgroup">Check your state <span class="count">{n_pub - n_conf}</span><span class="note">These clinics don\'t publish which states they serve.</span></th></tr>')
         tags = "".join([
             "" if s else '<span class="tag warn">Check state</span>',
             "" if c.get("verified") else '<span class="tag warn">Unverified price</span>',
@@ -357,8 +361,8 @@ def online_table(st, data, root):
             '<span class="tag model">Estimate</span>' if est else ""])
         monthly = usd(c["monthly"]) + "/mo" if c.get("monthly") else e(c.get("monthlyLabel") or "—")
         trs.append(f"""<tr><th scope="row"><a href="{e(c['url'])}" target="_blank" rel="noopener nofollow">{e(c['name'])}</a> {tags}{dose_note(c)}</th>
-        <td class="num" data-label="First year">{usd(cost)}</td><td data-label="Price">{monthly}</td><td data-label="Labs">{yn(c.get('labsIncluded'), 'Included', 'Extra')}</td>
-        <td data-label="Medication">{yn(c.get('medsIncluded'), 'Included', 'Extra')}</td><td data-label="Contract">{e(c['commitment'])}</td></tr>""")
+        <td class="num" data-label="First year">{usd(cost)}</td><td data-label="Price">{monthly}</td><td data-label="Labs">{yn(c.get('labsIncluded'), 'Included', 'Separate (in total)')}</td>
+        <td data-label="Medication">{yn(c.get('medsIncluded'), 'Included', 'Separate (in total)')}</td><td data-label="Contract">{e(c['commitment'])}</td></tr>""")
     return f"""
     <section class="dir-section" aria-labelledby="online">
       <h2 id="online">Online TRT clinics that serve {e(NAMES[st])}</h2>
@@ -385,9 +389,13 @@ def online_lead(st, rows):
             f"; the lowest first-year cost is about <b>{usd(low[1])}</b> at {e(low[2]['name'])}." if low else ".")
     else:
         lead = f"No online clinic we track confirms it treats patients in {name}."
-    unsure = len(rows) - len(conf)
+    unsure = sum(1 for r in rows if r[0] == 1)
+    n_est = sum(1 for r in rows if r[0] == 2)
     if unsure:
         lead += f" {plural(unsure, 'more clinic', 'more clinics')} don't publish which states they serve." if unsure > 1 else " 1 more clinic doesn't publish which states it serves."
+    if n_est:
+        lead += (" 1 more has a clinic-provided estimate, listed last." if n_est == 1
+                 else f" {n_est} more have clinic-provided estimates, listed last.")
     return lead
 
 
